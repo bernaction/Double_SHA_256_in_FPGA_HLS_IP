@@ -1,0 +1,333 @@
+\chapter{Projeto}\label{Sec:Projeto}
+
+Neste capítulo, é apresentado o projeto de implementação do trabalho que será desenvolvido no TCC III. 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Premissas e Visão Geral do Sistema}\label{sec:premissas}
+
+Neste trabalho, propõe-se a utilização de aceleração em hardware para a mineração de Bitcoin, explorando o algoritmo SHA-256 implementado em FPGA com a utilização de HLS. O objetivo é validar a eficiência e a viabilidade da mineração de criptomoedas em dispositivos de hardware reconfiguráveis.
+
+A \autoref{fig:visao_geral} ilustra a arquitetura proposta para a mineração de Bitcoin utilizando FPGA. No topo, o \textit{Node} representa a estrutura que registra todas as transações. O node interage diretamente com o Pool de Mineração, que organiza e distribui o trabalho de mineração entre diferentes participantes.
+
+
+\begin{figure}[H]
+    \centering
+    \caption{Visão geral do sistema de mineração em FPGA com aceleração de hardware executando um software minerador com acesso ao núcleo SHA-256.}
+    \fbox{
+        \includegraphics[width=0.8\textwidth]{projeto/visao_geral2.png}
+    }
+    \caption*{Fonte: O autor (2024).}
+    \label{fig:visao_geral}
+\end{figure}
+
+A parte inferior da figura é dividida entre o Hardware e o Software:
+
+Hardware (à esquerda): Um FPGA configurado para executar o algoritmo SHA-256, responsável pelo cálculo dos hashes necessários para a validação de blocos. A lógica programável do FPGA inclui um PLL para gerar os sinais de \textit{clock} e uma unidade dedicada ao cálculo do SHA-256.
+
+Software (à direita): Um sistema baseado em ARM, executando um sistema operacional Linux, que roda o software de mineração (\textit{fpga miner}). Esse software gerencia a comunicação com o FPGA e interage com o Pool de Mineração para receber e enviar os blocos validados.
+
+As setas indicam a comunicação entre os componentes:
+
+\begin{itemize}
+    \item O Node Blockchain interage com o Pool de Mineração para distribuir tarefas de mineração e validar blocos.
+    \item O Pool de Mineração fornece as tarefas ao FPGA via o software de mineração.
+    \item O FPGA processa os cálculos do SHA-256 e retorna os resultados ao software para validação e envio ao pool.
+\end{itemize}
+
+Esse sistema explora a aceleração por hardware (FPGA) e a integração com um software de controle, buscando otimizar a eficiência e a desempenho na mineração de Bitcoin.
+
+
+
+
+Hoje existem várias implementações de algoritmos de mineração de Bitcoin, incluindo para CPUs, GPUs, FPGAs e ASICs. Cada uma com seu programa e implementação diferentes, seja via software, seja via firmware. Este trabalho foca exclusivamente na implementação de mineração em FPGA, utilizando o SHA-256, devido ao objetivo inicial do trabalho. A arquitetura do sistema, incluindo as adaptações e configurações específicas para este projeto, está descrita na \autoref{sec:arq_software}.
+
+As principais premissas e delimitadores de escopo para o projeto são:
+
+\begin{itemize}
+    \item O trabalho irá se restringir a avaliar o algoritmo SHA-256 em operações por segundo em diferentes tecnologias de circuito e processador;
+    \item Não será proposto ou desenvolvido nenhum algoritmo novo de SHA-256 ou derivado do mesmo; 
+    \item O SHA-256 usado é baseado em implementações já disponibilizados na literatura; 
+    \item Os kits de prototipação que envolvem os testes serão os disponíveis em laboratórios de ensino e pesquisa ou adquiridos pelo aluno;
+    \item As linguagens de desenvolvimento se resumirão a C/C++ e VHDL;
+    \item Os dispositivos de processamento alvos serão de prateleira (do inglês Comercial Off-the-Shelf - COTS).
+    
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Análise de Requisitos}\label{sec:analise_requisitos}
+
+Dadas as premissas apresentadas na \autoref{sec:premissas}, foram elaborados os requisitos do projeto para descrever as principais características e especificações da implementação do algoritmo de mineração em SHA-256 utilizando FPGAs e HLS. 
+
+Nesta seção, são detalhados os requisitos funcionais e não funcionais, fornecendo uma base para a análise e implementação do sistema de mineração. Os requisitos funcionais e não funcionais são apresentados no \autoref{qua:Requisitos_funcionais} e no \autoref{qua:Requisitos_nao_funcionais}, respectivamente.
+
+\begin{quadro}[H]
+\caption{Requisitos funcionais do sistema de mineração em FPGA.}
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{|L{2.5cm}|L{12.6cm}|}
+\rowcolor[HTML]{EFEFEF}  
+\hline
+\textbf{Requisito} & \textbf{Descrição} \\ \hline
+\textbf{RF01} & O sistema deve utilizar o algoritmo SHA-256 para a mineração de Bitcoin, tendo como arquitetura de FPGA para acelerar o processamento.
+\\ \hline
+\textbf{RF02} & O sistema deve realizar operações de \textit{hashrate} para garantir a produtividade em uma \textit{pool} de mineração.
+\\ \hline
+\textbf{RF03} & O sistema deve permitir o monitoramento do consumo de energia e temperatura do FPGA durante a execução da mineração.
+\\ \hline
+\textbf{RF04} & O sistema deve exibir informações de desempenho em tempo real, como o \textit{hashrate} e o status da mineração.
+\\ \hline
+\end{tabular}
+\label{qua:Requisitos_funcionais}
+\caption*{Fonte: O autor (2024).}
+\end{quadro}
+
+
+\begin{quadro}[H]
+\small
+\caption{Requisitos não funcionais do sistema de mineração em FPGA.}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{|L{2.5cm}|L{12.6cm}|}
+\rowcolor[HTML]{EFEFEF} 
+\hline
+\textbf{Requisito} & \textbf{Descrição} 
+\\ \hline
+\textbf{RNF01} & O sistema deve ser implementado em um FPGA compatível com HLS, para facilitar o desenvolvimento e a síntese do algoritmo de mineração.
+\\ \hline
+
+\textbf{RNF02} & O ambiente de desenvolvimento e testes deve incluir uma infraestrutura para monitoramento de consumo energético e temperatura.
+\\ \hline
+
+\textbf{RNF03} & O desenvolvimento será realizado em ambiente Linux, utilizando ferramentas de desenvolvimento compatíveis com FPGA.
+\\ \hline
+
+\textbf{RNF04} & O sistema deverá operar com um consumo de energia otimizado, mantendo a eficiência energética durante a mineração.
+\\ \hline
+
+\textbf{RNF05} & O projeto será testado e validado em uma bancada de hardware que permita medir o desempenho e eficiência energética em condições controladas.
+\\ \hline
+
+\end{tabular}
+\label{qua:Requisitos_nao_funcionais}
+\caption*{Fonte: O autor (2024).}
+\end{quadro}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Arquitetura de Software}\label{sec:arq_software}
+
+Nesta seção, são apresentados os detalhes de implementação do sistema de mineração de Bitcoin em FPGA utilizando o algoritmo SHA-256.
+O diagrama apresentado na \autoref{fig:diagrama_sequencia} ilustra o fluxo de interação entre os componentes principais do sistema de mineração de Bitcoin utilizando FPGA e o algoritmo SHA-256. O processo é composto por diversas entidades que colaboram para garantir a validação das transações e a inclusão de blocos na blockchain. 
+
+\begin{figure}[H]
+    \centering
+    \caption{Diagrama de Sequência do processo de Mineração}
+    \includegraphics[width=1\linewidth]{projeto/diagrama_sequencia.png}
+    \caption*{Fonte: O autor (2024).}
+    \label{fig:diagrama_sequencia}
+\end{figure}
+
+\subsection{Node (Nó)}\label{subsec:node}
+
+Um nó de Bitcoin é um participante da rede que valida e propaga transações e blocos, mantendo uma cópia completa ou parcial da blockchain. Os nós desempenham um papel essencial na segurança e descentralização da rede, ao verificarem as transações e blocos conforme o protocolo do Bitcoin. Cada nó independente reforça a resistência da rede a ataques, garantindo que o sistema opere de maneira segura e confiável \cite{nakamoto2008bitcoin}.
+
+\subsection{Pool}\label{subsec:pool}
+
+Um \textit{pool} de mineração é uma colaboração de mineradores que unem seus recursos computacionais para aumentar a probabilidade de encontrar blocos e receber recompensas em redes de criptomoedas que utilizam o algoritmo de consenso Proof of Work (PoW), como o Bitcoin. Ao trabalhar em conjunto, os participantes compartilham proporcionalmente as recompensas obtidas, conforme a contribuição de cada um para o poder de processamento total do \textit{pool}. Essa abordagem é especialmente vantajosa para mineradores individuais, que, sozinhos, teriam chances significativamente menores de sucesso devido à alta dificuldade de mineração presente nas principais criptomoedas \cite{coinext2024pool}.
+
+\begin{quote}
+    Então “pool”, além de significar “piscina” em inglês, significa “agrupamento”, “conjunto”; e o “pool de mineração” consiste em um conjunto de nós — ou “nodes” — de computadores funcionando coletivamente na mineração, aumentando o poder computacional e as chances de obter maior sucesso na resolução dos cálculos \cite{coinext2024pool}.
+\end{quote}
+
+
+\subsection{Softwares de Mineração}\label{subsec:cgminer}
+
+\textbf{CGMiner}
+
+O CGMiner é um software de mineração de criptomoedas de código aberto, desenvolvido principalmente para mineração de Bitcoin e baseado em C. Este software é amplamente utilizado pela comunidade de mineração devido à sua flexibilidade, robustez e suporte a diversos dispositivos de mineração, como CPUs, GPUs, FPGAs e ASICs. CGMiner permite aos usuários configurar e monitorar seus dispositivos de mineração, ajustando parâmetros importantes como a frequência de operação e a intensidade, além de suportar algoritmos de mineração como o SHA-256, essencial para a mineração de Bitcoin. Com uma interface de linha de comando e suporte para \textit{pools} de mineração, o CGMiner oferece uma ampla gama de funcionalidades para mineradores que buscam maximizar seu desempenho e eficiência energética, especialmente quando executado em conjunto com hardware dedicado, como FPGAs e ASICs \cite{cgminer}.
+
+\textbf{Open-Source FPGA Bitcoin Miner}
+
+O \textit{Open-Source FPGA Bitcoin Miner} é uma solução de código aberto projetada especificamente para mineração de Bitcoin utilizando FPGAs. Desenvolvido com foco em desempenho e flexibilidade, este software fornece uma base modular para implementações personalizadas, permitindo que engenheiros e entusiastas otimizem a eficiência de seus projetos de mineração em hardware. O minerador é altamente configurável, suportando diversas arquiteturas de FPGA, além de oferecer suporte ao algoritmo SHA-256, utilizado no processo de mineração.
+
+Uma das principais vantagens do \textit{Open-Source FPGA Bitcoin Miner} é sua capacidade de personalização, permitindo ajustes específicos para maximizar a taxa de \textit{hash} (\textit{hashrate}) e minimizar o consumo energético. Este software é amplamente utilizado em projetos acadêmicos e industriais como referência para desenvolvimento de sistemas de mineração de criptomoedas baseados em FPGA \cite{OpenSourceFPGA2024}.
+
+
+\subsection{Sistema de Mineração}\label{subsec:sistema}
+
+O sistema de software é dividido nos seguintes módulos principais:
+
+\begin{itemize}
+    \item \textbf{Controlador de Mineração}: Implementado em C/C++, este módulo gerencia o processo de mineração, controlando o início, interrupção e verificação dos blocos processados.
+    \item \textbf{Algoritmo SHA-256}: Implementado em VHDL para o FPGA, este módulo realiza o cálculo dos \textit{hashes} necessários para validar os blocos na blockchain.
+    \item \textbf{Monitoramento de Desempenho}: Responsável por coletar e registrar dados de desempenho, como \textit{hashrate}, consumo de energia e temperatura do FPGA, para análise posterior.
+    \item \textbf{Interface de Monitoramento}: Permite a visualização das informações de desempenho em tempo real e a configuração de parâmetros, utilizando comunicação serial para interação com o FPGA.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Arquitetura de Hardware}\label{sec:arq_hardware}
+
+Nesta seção, são detalhados os aspectos do hardware utilizado para a implementação do sistema de mineração de Bitcoin em FPGA com o algoritmo SHA-256. A \autoref{sec:arq_hardware} apresenta o FPGA e discute suas características de reconfiguração e paralelismo que otimizam a taxa de \textit{hash}. A implementação do sistema é feita na ferramenta Vivado Design Suite, usando HLS para converter código em C/C++ para descrição em hardware, explorando o paralelismo e permitindo adaptações rápidas para aprimorar o desempenho e a eficiência energética do sistema.
+
+\subsection{HLS como ferramenta}
+
+O uso de High-Level Synthesis (HLS) é essencial para a implementação do algoritmo SHA-256 em FPGA, ao permitir que o desenvolvedor escreva o código em linguagens de alto nível, como C/C++, convertidas em descrição de hardware, como VHDL ou Verilog. Essa abordagem facilita a exploração de paralelismo e a otimização da arquitetura, reduzindo o tempo de desenvolvimento e simplificando a adaptação a novos requisitos de desempenho.
+
+A abordagem do uso de HLS para aceleração de códigos em C/C++, permite o desenvolvimento eficiente de funções complexas para FPGAs, possibilitando melhorias significativas no desempenho da mineração. Este código é uma adaptação baseada na implementação padrão do algoritmo SHA-256 descrito no documento \textit{FIPS PUB 180-4 (Federal Information Processing Standards Publication 180-4)} pelo \textit{NIST} \cite{nist_sha256}. Além disso, estruturas de código SHA-256 semelhantes são comuns em repositórios e recursos de código aberto, como o \cite{bcon_crypto_algorithms} e sites de documentação de algoritmos criptográficos, onde são disponibilizadas implementações de referência para estudo e desenvolvimento.
+
+Na Figura \ref{fig:diagrama_hls_rtl}, observa-se o fluxo de conversão de HLS para RTL (Register Transfer Level). A ferramenta HLS transforma o código em C/C++ em uma representação RTL, permitindo que a implementação do algoritmo seja sintetizada em hardware real no FPGA. Isso proporciona um desenvolvimento mais ágil e flexível para o projeto de descrição em hardware no FPGA.
+
+\begin{figure}[H]
+    \centering
+    \caption{Diagrama do fluxo de síntese entre HLS e RTL.}
+    \includegraphics[width=1\linewidth]{projeto/diagrama_Fluxo_hardware.png}
+
+    \caption*{Fonte: O autor (2024).}
+    \label{fig:diagrama_hls_rtl}
+\end{figure}
+
+
+
+\subsection{Diagrama de Hardware}\label{sec:hardware_diagram}
+
+A \autoref{fig:diagrama_hardware} ilustra a arquitetura proposta para o sistema de mineração, destacando as principais etapas do fluxo de dados e os componentes de hardware utilizados. O sistema é composto por um FPGA com recursos configuráveis, como a PLL para geração de \textit{clock}, FIFO para gerenciamento de dados e controladores digitais de lógica que orquestram o fluxo de dados necessário para o processamento do algoritmo SHA-256. Além disso, o FPGA é conectado ao HPS (Hard Processor System) através de um barramento AXI, que permite a comunicação entre os módulos de hardware e o processador ARM.
+
+No HPS, o software de mineração, incluindo o binário do Miner, é executado em um ambiente Linux, onde o processador ARM lida com tarefas de controle e gerenciamento do sistema. O HPS também fornece interfaces essenciais, como GPIO e \textit{Ethernet}, permitindo a integração do sistema com redes externas e dispositivos periféricos. Esse conjunto de componentes permite que o sistema combine o hardware dedicado do FPGA para a execução do algoritmo SHA-256, com a flexibilidade do software executado no HPS, garantindo assim um desempenho otimizado para a mineração de Bitcoin.
+
+\begin{figure}[H]
+    \caption{Diagrama dos detalhes lógicos do hardware de um FPGA e o núcleo SHA-256.}
+    \centering
+    \fbox{
+        \parbox{1\textwidth}{
+            \centering
+            \includegraphics[width=0.9\textwidth]{projeto/diagrama_hardware.png}}}
+        \caption*{Fonte: Adaptado de \cite{framework_digital_control_2020}.}
+        \label{fig:diagrama_hardware}
+\end{figure}
+
+
+\subsection{Arquitetura do Altera Cyclone V}\label{sec:hardware_arq}
+O FPGA utilizado neste projeto possui uma arquitetura com LUTs e Flip-Flops, essenciais para executar o algoritmo SHA-256 de maneira eficiente e paralela, maximizando o \textit{hashrate}. Blocos de memória e multiplicadores integrados também serão explorados para acelerar cálculos específicos e reduzir o consumo de energia. Sensores de temperatura e monitoramento de consumo serão integrados para garantir a operação segura e ajustes em tempo real, otimizando o desempenho e a viabilidade econômica do sistema \cite{vahid2001embedded}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Materiais e Métodos}\label{sec:materiais_metodos}
+
+Essa seção apresenta os materiais e métodos que serão utilizados na implementação do algoritmo de mineração que será executado dentro do FPGA, assim como as técnicas de aceleração em hardware.
+
+\subsection{Materiais}
+
+\textbf{Linguagem e Ferramentas}
+
+Para as implementações, serão utilizadas as linguagens de programação C/C++ e para a geração do hardware será usado o fluxo de desenvolvimento de High-Level Synthesis (HLS) da Intel.
+
+A principal ferramenta de desenvolvimento utilizada será a IDE Altera Quartus, que permite a síntese e a implementação de projetos para FPGA da família Intel. Essa IDE oferece recursos robustos para design, simulação e verificação, facilitando o processo de implementação de lógica digital em FPGAs e proporcionando uma análise aprofundada de desempenho e consumo de energia. Além disso, serão utilizadas as ferramentas de diagnóstico e monitoramento da Altera Quartus para avaliar a eficiência energética e o comportamento térmico do FPGA durante a mineração.
+
+\textbf{Dispositivo Alvo}
+
+O FPGA será da linha Altera Cyclone V, servirá como o dispositivo de processamento central, onde o algoritmo SHA-256 será implementado. Além do FPGA, um computador base será utilizado para realizar o desenvolvimento, síntese e configuração do algoritmo em C/C++ e VHDL, além de gerenciar o processo de monitoramento e coleta de dados em tempo real. 
+
+\textbf{Monitoramento Térmico}
+
+Para avaliar o desempenho térmico do FPGA durante a operação, será usada uma câmera térmica do tipo pistola, possibilitando o monitoramento visual da temperatura e garantindo que o sistema opere nos limites seguros, disponível na instituição.
+
+\textbf{Wattímetro}
+
+Também será utilizado um adaptador de tomada com medidor de consumo em watts, permitindo o acompanhamento em tempo real do consumo energético do sistema e a coleta de dados para análise de eficiência.
+
+Esse conjunto de materiais permitirá uma análise completa do desempenho do FPGA, desde a implementação do algoritmo até a avaliação de sua eficiência energética e comportamento térmico.
+
+
+\subsection{Métodos}
+
+Para avaliar o desempenho e a viabilidade do sistema de mineração em FPGA, são adotados métodos que analisam diversos aspectos essenciais para uma operação eficiente e sustentável. Esses métodos visam medir a capacidade de processamento do FPGA em termos de taxa de \textit{hash}, além de monitorar o consumo energético e a eficiência da operação. Também será realizada a análise térmica para garantir que o dispositivo opere em condições seguras, evitando o superaquecimento e preservando a integridade do hardware. A seguir, cada um desses métodos é descrito em detalhes.
+
+\textbf{Hashrate}
+
+O \textit{hashrate} é uma métrica que mede a quantidade de operações de \textit{hash} realizadas por segundo, sendo fundamental para avaliar o desempenho da mineração de Bitcoin. Uma taxa de \textit{hash} elevada indica uma maior capacidade de processamento do FPGA, melhorando a probabilidade de sucesso na validação de blocos e, consequentemente, a eficiência do sistema de mineração.
+
+\textbf{Consumo Energético}
+
+O consumo energético monitora a quantidade de energia utilizada pelo FPGA durante a operação de mineração. Esse método permite avaliar o impacto do sistema na infraestrutura elétrica, além de auxiliar na análise da viabilidade econômica da mineração. Um adaptador de tomada com medidor de consumo em watts será utilizado para coletar esses dados em tempo real, permitindo a comparação entre diferentes configurações de hardware e software.
+
+\textbf{Eficiência Energética}
+
+A eficiência energética é uma métrica derivada da relação entre a taxa de \textit{hashrate} e o consumo energético, expressa em \textit{Hash/Watt}. Essa medida permite avaliar a eficácia do sistema em realizar operações de mineração com o menor consumo de energia possível. A eficiência energética é fundamental para determinar o custo-benefício da operação, ao indicar o quão bem o sistema converte energia elétrica em trabalho computacional útil.
+
+\textbf{Temperatura de Operação}
+
+A temperatura de operação do FPGA será monitorada durante todo o processo de mineração para garantir que o dispositivo funcione em limites térmicos seguros. Uma câmera térmica será utilizada para visualizar e registrar a temperatura do hardware, prevenindo possíveis danos causados por superaquecimento. Esse método é essencial para avaliar a estabilidade do sistema e a necessidade de soluções de resfriamento adicionais.
+
+Esses métodos fornecem uma visão abrangente do desempenho do sistema, considerando tanto a eficácia na mineração quanto a eficiência energética e a estabilidade térmica, fundamentais para uma implementação sustentável e de alto desempenho.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Análise de Riscos} \label{sec:analise_riscos}
+
+No \autoref{Q:Analise_Riscos}, são listados alguns dos riscos mais relevantes para o desenvolvimento do projeto, bem como estratégias de resposta para mitigá-los. Essas ações preventivas e reativas não apenas fortalecem a capacidade de o projeto enfrentar imprevistos, mas também contribuem para um gerenciamento mais técnico do trabalho, aumentando a probabilidade de conclusão bem-sucedida nos prazos estipulados.
+
+\begin{quadro}[H]
+\caption{Análise de riscos do projeto.}
+\vspace{-6pt}
+\renewcommand{\arraystretch}{1.10}
+\begin{tabular}{|L{0.22\textwidth}|C{0.16\textwidth}|C{0.10\textwidth}|L{0.18\textwidth}|L{0.20\textwidth}|}
+\rowcolor[HTML]{EFEFEF}
+\hline
+
+\textbf{Risco} & \textbf{Probabilidade} & \textbf{Impacto} & \textbf{Gatilho} & \textbf{Plano de Contingência} 
+\\ \hline
+
+Falha na implementação do algoritmo SHA-256 & Médio & Alto & Problemas no código ou inconsistências nos testes de unidade & Realizar revisão detalhada do código, implementar testes e consultar documentação técnica
+\\ \hline
+
+Problemas na conversão de código HLS & Médio & Alto & Erros durante a conversão do código ou desempenho abaixo do esperado & Utilizar ferramentas de diagnóstico e debug da IDE, otimizar o código C/C++, mudar a ferramenta de HLS
+\\ \hline
+
+
+Superaquecimento do FPGA & Médio & Alto & Temperatura excedendo limites seguros durante a operação & Implementar sistema de resfriamento adequado, ativo ou passivo, monitorar temperatura constantemente e ajustar frequência de operação
+\\ \hline
+
+Indisponibilidade de ferramentas de desenvolvimento & Baixa & Médio & Ferramentas de desenvolvimento ou ambiente de simulação fora de operação & Ter um ambiente de backup local e versões alternativas de ferramentas configuradas
+\\ \hline
+
+\end{tabular}
+\label{Q:Analise_Riscos}
+\caption*{Fonte: O autor (2024).}
+\end{quadro}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Cronograma do TCC III} \label{sec:cronograma_tcc3}
+
+A seção tem o objetivo de apresentar o \autoref{Q:Cronograma}, que ilustra o cronograma com as atividades a serem realizadas ao longo do TCC III (tempo de execução é dividido em semanas de trabalho).
+
+
+\begin{quadro}[H]
+\caption{Cronograma de atividades do TCC III.}
+\renewcommand{\arraystretch}{1.10}
+\begin{tabular}{|L{0.38\textwidth}|C{0.09\textwidth}|C{0.09\textwidth}|C{0.09\textwidth}|C{0.09\textwidth}|C{0.09\textwidth}|C{0.09\textwidth}|}
+\rowcolor[HTML]{EFEFEF} 
+\hline
+\textbf{Atividades}& \textbf{02/2025}& \textbf{03/2025}& \textbf{04/2025}& \textbf{05/2025}& \textbf{06/2025}
+\\ \hline
+
+Implementação & XXXX & XXXX & XX - - & &
+\\ \hline
+Simulação & & XXXX & XXXX & &
+\\ \hline
+Verificação funcional & & XXXX & XXXX & XXXX & X - - -
+\\ \hline
+Benchmarking (hashrate) & & & & XXXX & X - - -
+\\ \hline
+Análise de Consumo & & & & - - - X & X - - -
+\\ \hline 
+Monografia & & XXXX & XXXX & XXXX & X - - -
+\\ \hline 
+
+\end{tabular}
+\label{Q:Cronograma}
+\caption*{Fonte: O autor (2024).}
+\end{quadro}
