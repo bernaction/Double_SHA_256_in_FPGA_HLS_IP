@@ -133,9 +133,3 @@ Observação: os endereços-base do IP variam por plataforma e dependem do Addre
 
 ## Referência / como citar
 Se você usar este trabalho como base, cite o TCC ou o paper (ver bibliografias em `tex/refs.bib` e `paper/refs.bib`).
-
----
-
-Se você quiser, eu também posso:
-- adicionar uma seção “Reprodução passo a passo” com prints do Vivado/Vitis (ex.: onde importar o XSA e onde ajustar o clock do PL),
-- ou criar um `docs/` com imagens PNG exportadas dos `.drawio` para o GitHub renderizar tudo inline.
