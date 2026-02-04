@@ -1,0 +1,176 @@
+{
+    "1": {
+        "name": "sha256_top_Pipeline_1",
+        "file": "sha256_top.c",
+        "fileloc": "0",
+        "instructions": "15",
+        "total_instructions": "15",
+        "calls": "",
+        "basicblocks": "4",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "3"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "2": {
+        "name": "sha256_final_Pipeline_VITIS_LOOP_106_2",
+        "file": "..\/src\/sha256.c",
+        "fileloc": "98",
+        "instructions": "31",
+        "total_instructions": "31",
+        "calls": "",
+        "basicblocks": "12",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "0": {
+        "name": "sha256_top",
+        "file": "sha256_top.c",
+        "fileloc": "4",
+        "instructions": "1444",
+        "total_instructions": "7452",
+        "calls": "1 4 3 5 4 5",
+        "basicblocks": "141",
+        "loads": {
+            "L": "334",
+            "T": "20"
+        },
+        "stores": {
+            "L": "484",
+            "T": "8"
+        },
+        "loops": {
+            "L": "2"
+        }
+    },
+    "3": {
+        "name": "sha256_top_Pipeline_VITIS_LOOP_52_4",
+        "file": "..\/src\/sha256_top.c",
+        "fileloc": "52",
+        "instructions": "271",
+        "total_instructions": "271",
+        "calls": "",
+        "basicblocks": "69",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "130"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "4": {
+        "name": "sha256_final",
+        "file": "..\/src\/sha256.c",
+        "fileloc": "97",
+        "instructions": "358",
+        "total_instructions": "2121",
+        "calls": "7 2 5 6 5",
+        "basicblocks": "68",
+        "loads": {
+            "L": "8"
+        }
+    },
+    "5": {
+        "name": "sha256_transform",
+        "file": "sha256.c",
+        "fileloc": "9",
+        "instructions": "227",
+        "total_instructions": "740",
+        "calls": "9 8",
+        "basicblocks": "1",
+        "loads": {
+            "L": "64"
+        },
+        "stores": {
+            "L": "8"
+        }
+    },
+    "6": {
+        "name": "sha256_final_Pipeline_VITIS_LOOP_111_3",
+        "file": "..\/src\/sha256.c",
+        "fileloc": "98",
+        "instructions": "126",
+        "total_instructions": "126",
+        "calls": "",
+        "basicblocks": "61",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "7": {
+        "name": "sha256_final_Pipeline_VITIS_LOOP_103_1",
+        "file": "..\/src\/sha256.c",
+        "fileloc": "98",
+        "instructions": "126",
+        "total_instructions": "126",
+        "calls": "",
+        "basicblocks": "61",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "8": {
+        "name": "sha256_transform_Pipeline_VITIS_LOOP_33_3",
+        "file": "..\/src\/sha256.c",
+        "fileloc": "10",
+        "instructions": "169",
+        "total_instructions": "169",
+        "calls": "",
+        "basicblocks": "4",
+        "loads": {
+            "G": "1",
+            "L": "11"
+        },
+        "stores": {
+            "L": "18"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "9": {
+        "name": "sha256_transform_Pipeline_VITIS_LOOP_19_2",
+        "file": "..\/src\/sha256.c",
+        "fileloc": "10",
+        "instructions": "344",
+        "total_instructions": "344",
+        "calls": "",
+        "basicblocks": "53",
+        "loads": {
+            "L": "95"
+        },
+        "stores": {
+            "L": "50"
+        },
+        "loops": {
+            "L": "1"
+        }
+    }
+}

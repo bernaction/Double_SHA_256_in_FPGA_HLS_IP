@@ -1,0 +1,35 @@
+D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c:958:2: warning: Added loop label VITIS_LOOP_14_1:   [xilinx-label-all-loops]
+ for (i = 0, j = 0; i < 16; ++i, j += 4) {
+ ^~~
+ VITIS_LOOP_14_1: 
+D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c:958:2: note: FIX-IT applied suggested code changes
+D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c:963:3: warning: Added loop label VITIS_LOOP_19_2:   [xilinx-label-all-loops]
+  for (; i < 64; ++i) {
+  ^~~
+  VITIS_LOOP_19_2: 
+D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c:963:3: note: FIX-IT applied suggested code changes
+D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c:977:3: warning: Added loop label VITIS_LOOP_33_3:   [xilinx-label-all-loops]
+  for (i = 0; i < 64; ++i) {
+  ^~~
+  VITIS_LOOP_33_3: 
+D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c:977:3: note: FIX-IT applied suggested code changes
+D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c:1021:3: warning: Added loop label VITIS_LOOP_77_1:   [xilinx-label-all-loops]
+  for (uint32_t i = 0; i < len; ++i) {
+  ^~~
+  VITIS_LOOP_77_1: 
+D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c:1021:3: note: FIX-IT applied suggested code changes
+D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c:1040:5: warning: Added loop label VITIS_LOOP_103_1:   [xilinx-label-all-loops]
+    while (i < 56) in_data[i++] = 0x00;
+    ^~~~~
+    VITIS_LOOP_103_1: 
+D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c:1040:5: note: FIX-IT applied suggested code changes
+D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c:1043:5: warning: Added loop label VITIS_LOOP_106_2:   [xilinx-label-all-loops]
+    while (i < 64) in_data[i++] = 0x00;
+    ^~~~~
+    VITIS_LOOP_106_2: 
+D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c:1043:5: note: FIX-IT applied suggested code changes
+D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c:1048:5: warning: Added loop label VITIS_LOOP_111_3:   [xilinx-label-all-loops]
+    for (j = 0; j < 56; j++) in_data[j] = 0;
+    ^~~
+    VITIS_LOOP_111_3: 
+D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c:1048:5: note: FIX-IT applied suggested code changes

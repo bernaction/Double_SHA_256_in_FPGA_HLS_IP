@@ -1,0 +1,20 @@
+15:10:47 DEBUG : Logs will be stored at 'D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_Baremetal/IDE.log'.
+15:10:51 INFO  : Launching XSCT server: xsct.bat -n  -interactive D:\Clouds\Dropbox\Vivado_Project\Final\Zedboard\Vitis_Baremetal\temp_xsdb_launch_script.tcl
+15:10:54 INFO  : XSCT server has started successfully.
+15:10:54 INFO  : plnx-install-location is set to ''
+15:10:54 INFO  : Successfully done setting XSCT server connection channel  
+15:10:54 INFO  : Successfully done setting workspace for the tool. 
+15:10:55 INFO  : Registering command handlers for Vitis TCF services
+15:10:56 INFO  : Successfully done query RDI_DATADIR 
+15:10:56 INFO  : Platform repository initialization has completed.
+15:20:42 INFO  : Result from executing command 'getProjects': sha256_top
+15:20:42 INFO  : Result from executing command 'getPlatforms': xilinx_zcu102_base_202420_1|B:/Xilinx/Vitis/2024.2/base_platforms/xilinx_zcu102_base_202420_1/xilinx_zcu102_base_202420_1.xpfm;xilinx_zcu102_base_dfx_202420_1|B:/Xilinx/Vitis/2024.2/base_platforms/xilinx_zcu102_base_dfx_202420_1/xilinx_zcu102_base_dfx_202420_1.xpfm;xilinx_zcu104_base_202420_1|B:/Xilinx/Vitis/2024.2/base_platforms/xilinx_zcu104_base_202420_1/xilinx_zcu104_base_202420_1.xpfm
+15:20:43 WARN  : An unexpected exception occurred in the module 'platform project logging'
+15:20:43 INFO  : Platform 'sha256_top' is added to custom repositories.
+15:20:52 INFO  : Platform 'sha256_top' is added to custom repositories.
+15:22:44 INFO  : Result from executing command 'getProjects': sha256_top
+15:22:44 INFO  : Result from executing command 'getPlatforms': sha256_top|D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_Baremetal/sha256_top/export/sha256_top/sha256_top.xpfm;xilinx_zcu102_base_202420_1|B:/Xilinx/Vitis/2024.2/base_platforms/xilinx_zcu102_base_202420_1/xilinx_zcu102_base_202420_1.xpfm;xilinx_zcu102_base_dfx_202420_1|B:/Xilinx/Vitis/2024.2/base_platforms/xilinx_zcu102_base_dfx_202420_1/xilinx_zcu102_base_dfx_202420_1.xpfm;xilinx_zcu104_base_202420_1|B:/Xilinx/Vitis/2024.2/base_platforms/xilinx_zcu104_base_202420_1/xilinx_zcu104_base_202420_1.xpfm
+15:22:45 INFO  : Checking for BSP changes to sync application flags for project 'sha256'...
+15:23:01 INFO  : Checking for BSP changes to sync application flags for project 'sha256'...
+15:28:33 INFO  : Checking for BSP changes to sync application flags for project 'sha256'...
+15:37:28 INFO  : Checking for BSP changes to sync application flags for project 'sha256'...

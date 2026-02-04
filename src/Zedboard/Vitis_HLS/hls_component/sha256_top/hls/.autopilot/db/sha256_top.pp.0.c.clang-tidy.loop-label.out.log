@@ -1,0 +1,25 @@
+D:\Clouds\Dropbox\Vivado_Project\Final\Zedboard\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256_top.pp.0.c:977:3: warning: Added loop label VITIS_LOOP_29_1:   [xilinx-label-all-loops]
+  for (int i = 0; i < 20; i++) {
+  ^~~
+  VITIS_LOOP_29_1: 
+D:\Clouds\Dropbox\Vivado_Project\Final\Zedboard\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256_top.pp.0.c:977:3: note: FIX-IT applied suggested code changes
+D:\Clouds\Dropbox\Vivado_Project\Final\Zedboard\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256_top.pp.0.c:986:3: warning: Added loop label VITIS_LOOP_38_2:   [xilinx-label-all-loops]
+  for (int i = 0; i < 32; i++) hash1[i] = 0;
+  ^~~
+  VITIS_LOOP_38_2: 
+D:\Clouds\Dropbox\Vivado_Project\Final\Zedboard\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256_top.pp.0.c:986:3: note: FIX-IT applied suggested code changes
+D:\Clouds\Dropbox\Vivado_Project\Final\Zedboard\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256_top.pp.0.c:987:3: warning: Added loop label VITIS_LOOP_39_3:   [xilinx-label-all-loops]
+  for (int i = 0; i < 32; i++) hash2[i] = 0;
+  ^~~
+  VITIS_LOOP_39_3: 
+D:\Clouds\Dropbox\Vivado_Project\Final\Zedboard\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256_top.pp.0.c:987:3: note: FIX-IT applied suggested code changes
+D:\Clouds\Dropbox\Vivado_Project\Final\Zedboard\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256_top.pp.0.c:1000:3: warning: Added loop label VITIS_LOOP_52_4:   [xilinx-label-all-loops]
+  for (int i = 0; i < 64; i++) in_data[i] = 0;
+  ^~~
+  VITIS_LOOP_52_4: 
+D:\Clouds\Dropbox\Vivado_Project\Final\Zedboard\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256_top.pp.0.c:1000:3: note: FIX-IT applied suggested code changes
+D:\Clouds\Dropbox\Vivado_Project\Final\Zedboard\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256_top.pp.0.c:1012:3: warning: Added loop label VITIS_LOOP_64_5:   [xilinx-label-all-loops]
+  for (int i = 0; i < 8; i++) {
+  ^~~
+  VITIS_LOOP_64_5: 
+D:\Clouds\Dropbox\Vivado_Project\Final\Zedboard\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256_top.pp.0.c:1012:3: note: FIX-IT applied suggested code changes

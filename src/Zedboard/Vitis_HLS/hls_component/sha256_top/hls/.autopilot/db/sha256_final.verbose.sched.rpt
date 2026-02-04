@@ -1,0 +1,581 @@
+
+
+================================================================
+== Vitis HLS Report for 'sha256_final'
+================================================================
+* Date:           Mon Jun  9 16:12:54 2025
+
+* Version:        2024.2 (Build 5238294 on Nov  8 2024)
+* Project:        sha256_top
+* Solution:       hls (Vivado IP Flow Target)
+* Product family: zynq
+* Target device:  xc7z020-clg484-1
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing: 
+    * Summary: 
+    +--------+----------+-----------+------------+
+    |  Clock |  Target  | Estimated | Uncertainty|
+    +--------+----------+-----------+------------+
+    |ap_clk  |  10.00 ns|  15.694 ns|     2.70 ns|
+    +--------+----------+-----------+------------+
+
++ Latency: 
+    * Summary: 
+    +---------+---------+----------+----------+-----+-----+---------+
+    |  Latency (cycles) |  Latency (absolute) |  Interval | Pipeline|
+    |   min   |   max   |    min   |    max   | min | max |   Type  |
+    +---------+---------+----------+----------+-----+-----+---------+
+    |        ?|        ?|         ?|         ?|    ?|    ?|       no|
+    +---------+---------+----------+----------+-----+-----+---------+
+
+    + Detail: 
+        * Instance: 
+        N/A
+
+        * Loop: 
+        N/A
+
+============================================================
++ Verbose Summary: Synthesis Manager
+============================================================
+InlineROM: 1
+ExposeGlobal: 0
+============================================================
++ Verbose Summary: CDFG Model
+============================================================
+IsTopModel: 0
+ResetActiveHigh: 1
+IsCombinational: 0
+IsDatapathOnly: 0
+HasWiredReturn: 1
+HasMFsm: 0
+HasVarLatency: 1
+IsPipeline: 0
+IsRtlPipelined: 0
+IsInstanceOverlapped: 0
+IsDontTouch: 0
+HasImplIP: 0
+IsGatedGlobalClock: 0
+
+
+============================================================
++ Verbose Summary: Schedule
+============================================================
+* Number of FSM states : 14
+* Pipeline : 0
+* Dataflow Pipeline: 0
+
+* FSM state transitions: 
+1 --> 2 
+2 --> 3 7 
+3 --> 4 
+4 --> 5 
+5 --> 6 
+6 --> 8 
+7 --> 6 
+8 --> 9 
+9 --> 10 
+10 --> 11 
+11 --> 12 
+12 --> 13 
+13 --> 14 
+14 --> 
+
+* FSM state operations: 
+
+State 1 <SV = 0> <Delay = 3.41>
+ST_1 : Operation 15 [1/1] (0.00ns)   --->   "%bitlen_0_1_val_read = read i32 @_ssdm_op_Read.ap_auto.i32, i32 %bitlen_0_1_val" [../src/sha256.c:97]   --->   Operation 15 'read' 'bitlen_0_1_val_read' <Predicate = true> <Delay = 0.00>
+ST_1 : Operation 16 [1/1] (0.00ns)   --->   "%bitlen_0_0_val_read = read i32 @_ssdm_op_Read.ap_auto.i32, i32 %bitlen_0_0_val" [../src/sha256.c:97]   --->   Operation 16 'read' 'bitlen_0_0_val_read' <Predicate = true> <Delay = 0.00>
+ST_1 : Operation 17 [1/1] (0.00ns)   --->   "%datalen_val_read = read i6 @_ssdm_op_Read.ap_auto.i6, i6 %datalen_val" [../src/sha256.c:97]   --->   Operation 17 'read' 'datalen_val_read' <Predicate = true> <Delay = 0.00>
+ST_1 : Operation 18 [1/1] (0.00ns)   --->   "%trunc_ln97 = trunc i6 %datalen_val_read" [../src/sha256.c:97]   --->   Operation 18 'trunc' 'trunc_ln97' <Predicate = true> <Delay = 0.00>
+ST_1 : Operation 19 [1/1] (0.00ns)   --->   "%state_addr = getelementptr i32 %state, i64 0, i64 0" [../src/sha256.c:97]   --->   Operation 19 'getelementptr' 'state_addr' <Predicate = true> <Delay = 0.00>
+ST_1 : Operation 20 [1/1] (1.82ns)   --->   "%icmp_ln101 = icmp_ult  i6 %datalen_val_read, i6 56" [../src/sha256.c:101]   --->   Operation 20 'icmp' 'icmp_ln101' <Predicate = true> <Delay = 1.82> <CoreInst = "Cmp">   --->   Core 9 'Cmp' <Latency = 0> <II = 1> <Delay = 1.82> <FuncUnit> <Opcode : 'seteq' 'setne' 'setle' 'setge' 'setlt' 'setgt'> <InPorts = 2> <OutPorts = 1>
+ST_1 : Operation 21 [1/1] (0.00ns)   --->   "%in_data_56_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_56" [../src/sha256.c:102]   --->   Operation 21 'read' 'in_data_56_read' <Predicate = true> <Delay = 0.00>
+ST_1 : Operation 22 [1/1] (1.82ns)   --->   "%switch_ln102 = switch i6 %datalen_val_read, void %arrayidx5.case.63, i6 0, void %arrayidx5.case.0, i6 1, void %arrayidx5.case.1, i6 2, void %arrayidx5.case.2, i6 3, void %arrayidx5.case.3, i6 4, void %arrayidx5.case.4, i6 5, void %arrayidx5.case.5, i6 6, void %arrayidx5.case.6, i6 7, void %arrayidx5.case.7, i6 8, void %arrayidx5.case.8, i6 9, void %arrayidx5.case.9, i6 10, void %arrayidx5.case.10, i6 11, void %arrayidx5.case.11, i6 12, void %arrayidx5.case.12, i6 13, void %arrayidx5.case.13, i6 14, void %arrayidx5.case.14, i6 15, void %arrayidx5.case.15, i6 16, void %arrayidx5.case.16, i6 17, void %arrayidx5.case.17, i6 18, void %arrayidx5.case.18, i6 19, void %arrayidx5.case.19, i6 20, void %arrayidx5.case.20, i6 21, void %arrayidx5.case.21, i6 22, void %arrayidx5.case.22, i6 23, void %arrayidx5.case.23, i6 24, void %arrayidx5.case.24, i6 25, void %arrayidx5.case.25, i6 26, void %arrayidx5.case.26, i6 27, void %arrayidx5.case.27, i6 28, void %arrayidx5.case.28, i6 29, void %arrayidx5.case.29, i6 30, void %arrayidx5.case.30, i6 31, void %arrayidx5.case.31, i6 32, void %arrayidx5.case.32, i6 33, void %arrayidx5.case.33, i6 34, void %arrayidx5.case.34, i6 35, void %arrayidx5.case.35, i6 36, void %arrayidx5.case.36, i6 37, void %arrayidx5.case.37, i6 38, void %arrayidx5.case.38, i6 39, void %arrayidx5.case.39, i6 40, void %arrayidx5.case.40, i6 41, void %arrayidx5.case.41, i6 42, void %arrayidx5.case.42, i6 43, void %arrayidx5.case.43, i6 44, void %arrayidx5.case.44, i6 45, void %arrayidx5.case.45, i6 46, void %arrayidx5.case.46, i6 47, void %arrayidx5.case.47, i6 48, void %arrayidx5.case.48, i6 49, void %arrayidx5.case.49, i6 50, void %arrayidx5.case.50, i6 51, void %arrayidx5.case.51, i6 52, void %arrayidx5.case.52, i6 53, void %arrayidx5.case.53, i6 54, void %arrayidx5.case.54, i6 55, void %arrayidx5.case.55, i6 56, void %arrayidx5.exit, i6 57, void %arrayidx5.case.57, i6 58, void %arrayidx5.case.58, i6 59, void %arrayidx5.case.59, i6 60, void %arrayidx5.case.60, i6 61, void %arrayidx5.case.61, i6 62, void %arrayidx5.case.62" [../src/sha256.c:102]   --->   Operation 22 'switch' 'switch_ln102' <Predicate = true> <Delay = 1.82>
+ST_1 : Operation 23 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_62, i8 128" [../src/sha256.c:102]   --->   Operation 23 'write' 'write_ln102' <Predicate = (datalen_val_read == 62)> <Delay = 0.00>
+ST_1 : Operation 24 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 24 'br' 'br_ln102' <Predicate = (datalen_val_read == 62)> <Delay = 1.58>
+ST_1 : Operation 25 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_61, i8 128" [../src/sha256.c:102]   --->   Operation 25 'write' 'write_ln102' <Predicate = (datalen_val_read == 61)> <Delay = 0.00>
+ST_1 : Operation 26 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 26 'br' 'br_ln102' <Predicate = (datalen_val_read == 61)> <Delay = 1.58>
+ST_1 : Operation 27 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_60, i8 128" [../src/sha256.c:102]   --->   Operation 27 'write' 'write_ln102' <Predicate = (datalen_val_read == 60)> <Delay = 0.00>
+ST_1 : Operation 28 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 28 'br' 'br_ln102' <Predicate = (datalen_val_read == 60)> <Delay = 1.58>
+ST_1 : Operation 29 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_59, i8 128" [../src/sha256.c:102]   --->   Operation 29 'write' 'write_ln102' <Predicate = (datalen_val_read == 59)> <Delay = 0.00>
+ST_1 : Operation 30 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 30 'br' 'br_ln102' <Predicate = (datalen_val_read == 59)> <Delay = 1.58>
+ST_1 : Operation 31 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_58, i8 128" [../src/sha256.c:102]   --->   Operation 31 'write' 'write_ln102' <Predicate = (datalen_val_read == 58)> <Delay = 0.00>
+ST_1 : Operation 32 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 32 'br' 'br_ln102' <Predicate = (datalen_val_read == 58)> <Delay = 1.58>
+ST_1 : Operation 33 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_57, i8 128" [../src/sha256.c:102]   --->   Operation 33 'write' 'write_ln102' <Predicate = (datalen_val_read == 57)> <Delay = 0.00>
+ST_1 : Operation 34 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 34 'br' 'br_ln102' <Predicate = (datalen_val_read == 57)> <Delay = 1.58>
+ST_1 : Operation 35 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_55, i8 128" [../src/sha256.c:102]   --->   Operation 35 'write' 'write_ln102' <Predicate = (datalen_val_read == 55)> <Delay = 0.00>
+ST_1 : Operation 36 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 36 'br' 'br_ln102' <Predicate = (datalen_val_read == 55)> <Delay = 1.58>
+ST_1 : Operation 37 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_54, i8 128" [../src/sha256.c:102]   --->   Operation 37 'write' 'write_ln102' <Predicate = (datalen_val_read == 54)> <Delay = 0.00>
+ST_1 : Operation 38 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 38 'br' 'br_ln102' <Predicate = (datalen_val_read == 54)> <Delay = 1.58>
+ST_1 : Operation 39 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_53, i8 128" [../src/sha256.c:102]   --->   Operation 39 'write' 'write_ln102' <Predicate = (datalen_val_read == 53)> <Delay = 0.00>
+ST_1 : Operation 40 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 40 'br' 'br_ln102' <Predicate = (datalen_val_read == 53)> <Delay = 1.58>
+ST_1 : Operation 41 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_52, i8 128" [../src/sha256.c:102]   --->   Operation 41 'write' 'write_ln102' <Predicate = (datalen_val_read == 52)> <Delay = 0.00>
+ST_1 : Operation 42 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 42 'br' 'br_ln102' <Predicate = (datalen_val_read == 52)> <Delay = 1.58>
+ST_1 : Operation 43 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_51, i8 128" [../src/sha256.c:102]   --->   Operation 43 'write' 'write_ln102' <Predicate = (datalen_val_read == 51)> <Delay = 0.00>
+ST_1 : Operation 44 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 44 'br' 'br_ln102' <Predicate = (datalen_val_read == 51)> <Delay = 1.58>
+ST_1 : Operation 45 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_50, i8 128" [../src/sha256.c:102]   --->   Operation 45 'write' 'write_ln102' <Predicate = (datalen_val_read == 50)> <Delay = 0.00>
+ST_1 : Operation 46 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 46 'br' 'br_ln102' <Predicate = (datalen_val_read == 50)> <Delay = 1.58>
+ST_1 : Operation 47 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_49, i8 128" [../src/sha256.c:102]   --->   Operation 47 'write' 'write_ln102' <Predicate = (datalen_val_read == 49)> <Delay = 0.00>
+ST_1 : Operation 48 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 48 'br' 'br_ln102' <Predicate = (datalen_val_read == 49)> <Delay = 1.58>
+ST_1 : Operation 49 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_48, i8 128" [../src/sha256.c:102]   --->   Operation 49 'write' 'write_ln102' <Predicate = (datalen_val_read == 48)> <Delay = 0.00>
+ST_1 : Operation 50 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 50 'br' 'br_ln102' <Predicate = (datalen_val_read == 48)> <Delay = 1.58>
+ST_1 : Operation 51 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_47, i8 128" [../src/sha256.c:102]   --->   Operation 51 'write' 'write_ln102' <Predicate = (datalen_val_read == 47)> <Delay = 0.00>
+ST_1 : Operation 52 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 52 'br' 'br_ln102' <Predicate = (datalen_val_read == 47)> <Delay = 1.58>
+ST_1 : Operation 53 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_46, i8 128" [../src/sha256.c:102]   --->   Operation 53 'write' 'write_ln102' <Predicate = (datalen_val_read == 46)> <Delay = 0.00>
+ST_1 : Operation 54 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 54 'br' 'br_ln102' <Predicate = (datalen_val_read == 46)> <Delay = 1.58>
+ST_1 : Operation 55 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_45, i8 128" [../src/sha256.c:102]   --->   Operation 55 'write' 'write_ln102' <Predicate = (datalen_val_read == 45)> <Delay = 0.00>
+ST_1 : Operation 56 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 56 'br' 'br_ln102' <Predicate = (datalen_val_read == 45)> <Delay = 1.58>
+ST_1 : Operation 57 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_44, i8 128" [../src/sha256.c:102]   --->   Operation 57 'write' 'write_ln102' <Predicate = (datalen_val_read == 44)> <Delay = 0.00>
+ST_1 : Operation 58 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 58 'br' 'br_ln102' <Predicate = (datalen_val_read == 44)> <Delay = 1.58>
+ST_1 : Operation 59 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_43, i8 128" [../src/sha256.c:102]   --->   Operation 59 'write' 'write_ln102' <Predicate = (datalen_val_read == 43)> <Delay = 0.00>
+ST_1 : Operation 60 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 60 'br' 'br_ln102' <Predicate = (datalen_val_read == 43)> <Delay = 1.58>
+ST_1 : Operation 61 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_42, i8 128" [../src/sha256.c:102]   --->   Operation 61 'write' 'write_ln102' <Predicate = (datalen_val_read == 42)> <Delay = 0.00>
+ST_1 : Operation 62 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 62 'br' 'br_ln102' <Predicate = (datalen_val_read == 42)> <Delay = 1.58>
+ST_1 : Operation 63 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_41, i8 128" [../src/sha256.c:102]   --->   Operation 63 'write' 'write_ln102' <Predicate = (datalen_val_read == 41)> <Delay = 0.00>
+ST_1 : Operation 64 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 64 'br' 'br_ln102' <Predicate = (datalen_val_read == 41)> <Delay = 1.58>
+ST_1 : Operation 65 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_40, i8 128" [../src/sha256.c:102]   --->   Operation 65 'write' 'write_ln102' <Predicate = (datalen_val_read == 40)> <Delay = 0.00>
+ST_1 : Operation 66 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 66 'br' 'br_ln102' <Predicate = (datalen_val_read == 40)> <Delay = 1.58>
+ST_1 : Operation 67 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_39, i8 128" [../src/sha256.c:102]   --->   Operation 67 'write' 'write_ln102' <Predicate = (datalen_val_read == 39)> <Delay = 0.00>
+ST_1 : Operation 68 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 68 'br' 'br_ln102' <Predicate = (datalen_val_read == 39)> <Delay = 1.58>
+ST_1 : Operation 69 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_38, i8 128" [../src/sha256.c:102]   --->   Operation 69 'write' 'write_ln102' <Predicate = (datalen_val_read == 38)> <Delay = 0.00>
+ST_1 : Operation 70 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 70 'br' 'br_ln102' <Predicate = (datalen_val_read == 38)> <Delay = 1.58>
+ST_1 : Operation 71 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_37, i8 128" [../src/sha256.c:102]   --->   Operation 71 'write' 'write_ln102' <Predicate = (datalen_val_read == 37)> <Delay = 0.00>
+ST_1 : Operation 72 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 72 'br' 'br_ln102' <Predicate = (datalen_val_read == 37)> <Delay = 1.58>
+ST_1 : Operation 73 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_36, i8 128" [../src/sha256.c:102]   --->   Operation 73 'write' 'write_ln102' <Predicate = (datalen_val_read == 36)> <Delay = 0.00>
+ST_1 : Operation 74 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 74 'br' 'br_ln102' <Predicate = (datalen_val_read == 36)> <Delay = 1.58>
+ST_1 : Operation 75 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_35, i8 128" [../src/sha256.c:102]   --->   Operation 75 'write' 'write_ln102' <Predicate = (datalen_val_read == 35)> <Delay = 0.00>
+ST_1 : Operation 76 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 76 'br' 'br_ln102' <Predicate = (datalen_val_read == 35)> <Delay = 1.58>
+ST_1 : Operation 77 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_34, i8 128" [../src/sha256.c:102]   --->   Operation 77 'write' 'write_ln102' <Predicate = (datalen_val_read == 34)> <Delay = 0.00>
+ST_1 : Operation 78 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 78 'br' 'br_ln102' <Predicate = (datalen_val_read == 34)> <Delay = 1.58>
+ST_1 : Operation 79 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_33, i8 128" [../src/sha256.c:102]   --->   Operation 79 'write' 'write_ln102' <Predicate = (datalen_val_read == 33)> <Delay = 0.00>
+ST_1 : Operation 80 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 80 'br' 'br_ln102' <Predicate = (datalen_val_read == 33)> <Delay = 1.58>
+ST_1 : Operation 81 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_32, i8 128" [../src/sha256.c:102]   --->   Operation 81 'write' 'write_ln102' <Predicate = (datalen_val_read == 32)> <Delay = 0.00>
+ST_1 : Operation 82 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 82 'br' 'br_ln102' <Predicate = (datalen_val_read == 32)> <Delay = 1.58>
+ST_1 : Operation 83 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_31, i8 128" [../src/sha256.c:102]   --->   Operation 83 'write' 'write_ln102' <Predicate = (datalen_val_read == 31)> <Delay = 0.00>
+ST_1 : Operation 84 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 84 'br' 'br_ln102' <Predicate = (datalen_val_read == 31)> <Delay = 1.58>
+ST_1 : Operation 85 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_30, i8 128" [../src/sha256.c:102]   --->   Operation 85 'write' 'write_ln102' <Predicate = (datalen_val_read == 30)> <Delay = 0.00>
+ST_1 : Operation 86 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 86 'br' 'br_ln102' <Predicate = (datalen_val_read == 30)> <Delay = 1.58>
+ST_1 : Operation 87 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_29, i8 128" [../src/sha256.c:102]   --->   Operation 87 'write' 'write_ln102' <Predicate = (datalen_val_read == 29)> <Delay = 0.00>
+ST_1 : Operation 88 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 88 'br' 'br_ln102' <Predicate = (datalen_val_read == 29)> <Delay = 1.58>
+ST_1 : Operation 89 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_28, i8 128" [../src/sha256.c:102]   --->   Operation 89 'write' 'write_ln102' <Predicate = (datalen_val_read == 28)> <Delay = 0.00>
+ST_1 : Operation 90 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 90 'br' 'br_ln102' <Predicate = (datalen_val_read == 28)> <Delay = 1.58>
+ST_1 : Operation 91 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_27, i8 128" [../src/sha256.c:102]   --->   Operation 91 'write' 'write_ln102' <Predicate = (datalen_val_read == 27)> <Delay = 0.00>
+ST_1 : Operation 92 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 92 'br' 'br_ln102' <Predicate = (datalen_val_read == 27)> <Delay = 1.58>
+ST_1 : Operation 93 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_26, i8 128" [../src/sha256.c:102]   --->   Operation 93 'write' 'write_ln102' <Predicate = (datalen_val_read == 26)> <Delay = 0.00>
+ST_1 : Operation 94 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 94 'br' 'br_ln102' <Predicate = (datalen_val_read == 26)> <Delay = 1.58>
+ST_1 : Operation 95 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_25, i8 128" [../src/sha256.c:102]   --->   Operation 95 'write' 'write_ln102' <Predicate = (datalen_val_read == 25)> <Delay = 0.00>
+ST_1 : Operation 96 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 96 'br' 'br_ln102' <Predicate = (datalen_val_read == 25)> <Delay = 1.58>
+ST_1 : Operation 97 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_24, i8 128" [../src/sha256.c:102]   --->   Operation 97 'write' 'write_ln102' <Predicate = (datalen_val_read == 24)> <Delay = 0.00>
+ST_1 : Operation 98 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 98 'br' 'br_ln102' <Predicate = (datalen_val_read == 24)> <Delay = 1.58>
+ST_1 : Operation 99 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_23, i8 128" [../src/sha256.c:102]   --->   Operation 99 'write' 'write_ln102' <Predicate = (datalen_val_read == 23)> <Delay = 0.00>
+ST_1 : Operation 100 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 100 'br' 'br_ln102' <Predicate = (datalen_val_read == 23)> <Delay = 1.58>
+ST_1 : Operation 101 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_22, i8 128" [../src/sha256.c:102]   --->   Operation 101 'write' 'write_ln102' <Predicate = (datalen_val_read == 22)> <Delay = 0.00>
+ST_1 : Operation 102 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 102 'br' 'br_ln102' <Predicate = (datalen_val_read == 22)> <Delay = 1.58>
+ST_1 : Operation 103 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_21, i8 128" [../src/sha256.c:102]   --->   Operation 103 'write' 'write_ln102' <Predicate = (datalen_val_read == 21)> <Delay = 0.00>
+ST_1 : Operation 104 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 104 'br' 'br_ln102' <Predicate = (datalen_val_read == 21)> <Delay = 1.58>
+ST_1 : Operation 105 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_20, i8 128" [../src/sha256.c:102]   --->   Operation 105 'write' 'write_ln102' <Predicate = (datalen_val_read == 20)> <Delay = 0.00>
+ST_1 : Operation 106 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 106 'br' 'br_ln102' <Predicate = (datalen_val_read == 20)> <Delay = 1.58>
+ST_1 : Operation 107 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_19, i8 128" [../src/sha256.c:102]   --->   Operation 107 'write' 'write_ln102' <Predicate = (datalen_val_read == 19)> <Delay = 0.00>
+ST_1 : Operation 108 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 108 'br' 'br_ln102' <Predicate = (datalen_val_read == 19)> <Delay = 1.58>
+ST_1 : Operation 109 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_18, i8 128" [../src/sha256.c:102]   --->   Operation 109 'write' 'write_ln102' <Predicate = (datalen_val_read == 18)> <Delay = 0.00>
+ST_1 : Operation 110 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 110 'br' 'br_ln102' <Predicate = (datalen_val_read == 18)> <Delay = 1.58>
+ST_1 : Operation 111 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_17, i8 128" [../src/sha256.c:102]   --->   Operation 111 'write' 'write_ln102' <Predicate = (datalen_val_read == 17)> <Delay = 0.00>
+ST_1 : Operation 112 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 112 'br' 'br_ln102' <Predicate = (datalen_val_read == 17)> <Delay = 1.58>
+ST_1 : Operation 113 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_16, i8 128" [../src/sha256.c:102]   --->   Operation 113 'write' 'write_ln102' <Predicate = (datalen_val_read == 16)> <Delay = 0.00>
+ST_1 : Operation 114 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 114 'br' 'br_ln102' <Predicate = (datalen_val_read == 16)> <Delay = 1.58>
+ST_1 : Operation 115 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_15, i8 128" [../src/sha256.c:102]   --->   Operation 115 'write' 'write_ln102' <Predicate = (datalen_val_read == 15)> <Delay = 0.00>
+ST_1 : Operation 116 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 116 'br' 'br_ln102' <Predicate = (datalen_val_read == 15)> <Delay = 1.58>
+ST_1 : Operation 117 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_14, i8 128" [../src/sha256.c:102]   --->   Operation 117 'write' 'write_ln102' <Predicate = (datalen_val_read == 14)> <Delay = 0.00>
+ST_1 : Operation 118 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 118 'br' 'br_ln102' <Predicate = (datalen_val_read == 14)> <Delay = 1.58>
+ST_1 : Operation 119 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_13, i8 128" [../src/sha256.c:102]   --->   Operation 119 'write' 'write_ln102' <Predicate = (datalen_val_read == 13)> <Delay = 0.00>
+ST_1 : Operation 120 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 120 'br' 'br_ln102' <Predicate = (datalen_val_read == 13)> <Delay = 1.58>
+ST_1 : Operation 121 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_12, i8 128" [../src/sha256.c:102]   --->   Operation 121 'write' 'write_ln102' <Predicate = (datalen_val_read == 12)> <Delay = 0.00>
+ST_1 : Operation 122 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 122 'br' 'br_ln102' <Predicate = (datalen_val_read == 12)> <Delay = 1.58>
+ST_1 : Operation 123 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_11, i8 128" [../src/sha256.c:102]   --->   Operation 123 'write' 'write_ln102' <Predicate = (datalen_val_read == 11)> <Delay = 0.00>
+ST_1 : Operation 124 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 124 'br' 'br_ln102' <Predicate = (datalen_val_read == 11)> <Delay = 1.58>
+ST_1 : Operation 125 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_10, i8 128" [../src/sha256.c:102]   --->   Operation 125 'write' 'write_ln102' <Predicate = (datalen_val_read == 10)> <Delay = 0.00>
+ST_1 : Operation 126 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 126 'br' 'br_ln102' <Predicate = (datalen_val_read == 10)> <Delay = 1.58>
+ST_1 : Operation 127 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_9, i8 128" [../src/sha256.c:102]   --->   Operation 127 'write' 'write_ln102' <Predicate = (datalen_val_read == 9)> <Delay = 0.00>
+ST_1 : Operation 128 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 128 'br' 'br_ln102' <Predicate = (datalen_val_read == 9)> <Delay = 1.58>
+ST_1 : Operation 129 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_8, i8 128" [../src/sha256.c:102]   --->   Operation 129 'write' 'write_ln102' <Predicate = (datalen_val_read == 8)> <Delay = 0.00>
+ST_1 : Operation 130 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 130 'br' 'br_ln102' <Predicate = (datalen_val_read == 8)> <Delay = 1.58>
+ST_1 : Operation 131 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_7, i8 128" [../src/sha256.c:102]   --->   Operation 131 'write' 'write_ln102' <Predicate = (datalen_val_read == 7)> <Delay = 0.00>
+ST_1 : Operation 132 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 132 'br' 'br_ln102' <Predicate = (datalen_val_read == 7)> <Delay = 1.58>
+ST_1 : Operation 133 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_6, i8 128" [../src/sha256.c:102]   --->   Operation 133 'write' 'write_ln102' <Predicate = (datalen_val_read == 6)> <Delay = 0.00>
+ST_1 : Operation 134 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 134 'br' 'br_ln102' <Predicate = (datalen_val_read == 6)> <Delay = 1.58>
+ST_1 : Operation 135 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_5, i8 128" [../src/sha256.c:102]   --->   Operation 135 'write' 'write_ln102' <Predicate = (datalen_val_read == 5)> <Delay = 0.00>
+ST_1 : Operation 136 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 136 'br' 'br_ln102' <Predicate = (datalen_val_read == 5)> <Delay = 1.58>
+ST_1 : Operation 137 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_4, i8 128" [../src/sha256.c:102]   --->   Operation 137 'write' 'write_ln102' <Predicate = (datalen_val_read == 4)> <Delay = 0.00>
+ST_1 : Operation 138 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 138 'br' 'br_ln102' <Predicate = (datalen_val_read == 4)> <Delay = 1.58>
+ST_1 : Operation 139 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_3, i8 128" [../src/sha256.c:102]   --->   Operation 139 'write' 'write_ln102' <Predicate = (datalen_val_read == 3)> <Delay = 0.00>
+ST_1 : Operation 140 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 140 'br' 'br_ln102' <Predicate = (datalen_val_read == 3)> <Delay = 1.58>
+ST_1 : Operation 141 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_2, i8 128" [../src/sha256.c:102]   --->   Operation 141 'write' 'write_ln102' <Predicate = (datalen_val_read == 2)> <Delay = 0.00>
+ST_1 : Operation 142 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 142 'br' 'br_ln102' <Predicate = (datalen_val_read == 2)> <Delay = 1.58>
+ST_1 : Operation 143 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_1, i8 128" [../src/sha256.c:102]   --->   Operation 143 'write' 'write_ln102' <Predicate = (datalen_val_read == 1)> <Delay = 0.00>
+ST_1 : Operation 144 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 144 'br' 'br_ln102' <Predicate = (datalen_val_read == 1)> <Delay = 1.58>
+ST_1 : Operation 145 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_0, i8 128" [../src/sha256.c:102]   --->   Operation 145 'write' 'write_ln102' <Predicate = (datalen_val_read == 0)> <Delay = 0.00>
+ST_1 : Operation 146 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 146 'br' 'br_ln102' <Predicate = (datalen_val_read == 0)> <Delay = 1.58>
+ST_1 : Operation 147 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_63, i8 128" [../src/sha256.c:102]   --->   Operation 147 'write' 'write_ln102' <Predicate = (datalen_val_read == 63)> <Delay = 0.00>
+ST_1 : Operation 148 [1/1] (1.58ns)   --->   "%br_ln102 = br void %arrayidx5.exit" [../src/sha256.c:102]   --->   Operation 148 'br' 'br_ln102' <Predicate = (datalen_val_read == 63)> <Delay = 1.58>
+
+State 2 <SV = 1> <Delay = 5.04>
+ST_2 : Operation 149 [1/1] (0.00ns)   --->   "%in_data_56_loc_0 = phi i8 %in_data_56_read, void %arrayidx5.case.63, i8 %in_data_56_read, void %arrayidx5.case.62, i8 %in_data_56_read, void %arrayidx5.case.61, i8 %in_data_56_read, void %arrayidx5.case.60, i8 %in_data_56_read, void %arrayidx5.case.59, i8 %in_data_56_read, void %arrayidx5.case.58, i8 %in_data_56_read, void %arrayidx5.case.57, i8 %in_data_56_read, void %arrayidx5.case.55, i8 %in_data_56_read, void %arrayidx5.case.54, i8 %in_data_56_read, void %arrayidx5.case.53, i8 %in_data_56_read, void %arrayidx5.case.52, i8 %in_data_56_read, void %arrayidx5.case.51, i8 %in_data_56_read, void %arrayidx5.case.50, i8 %in_data_56_read, void %arrayidx5.case.49, i8 %in_data_56_read, void %arrayidx5.case.48, i8 %in_data_56_read, void %arrayidx5.case.47, i8 %in_data_56_read, void %arrayidx5.case.46, i8 %in_data_56_read, void %arrayidx5.case.45, i8 %in_data_56_read, void %arrayidx5.case.44, i8 %in_data_56_read, void %arrayidx5.case.43, i8 %in_data_56_read, void %arrayidx5.case.42, i8 %in_data_56_read, void %arrayidx5.case.41, i8 %in_data_56_read, void %arrayidx5.case.40, i8 %in_data_56_read, void %arrayidx5.case.39, i8 %in_data_56_read, void %arrayidx5.case.38, i8 %in_data_56_read, void %arrayidx5.case.37, i8 %in_data_56_read, void %arrayidx5.case.36, i8 %in_data_56_read, void %arrayidx5.case.35, i8 %in_data_56_read, void %arrayidx5.case.34, i8 %in_data_56_read, void %arrayidx5.case.33, i8 %in_data_56_read, void %arrayidx5.case.32, i8 %in_data_56_read, void %arrayidx5.case.31, i8 %in_data_56_read, void %arrayidx5.case.30, i8 %in_data_56_read, void %arrayidx5.case.29, i8 %in_data_56_read, void %arrayidx5.case.28, i8 %in_data_56_read, void %arrayidx5.case.27, i8 %in_data_56_read, void %arrayidx5.case.26, i8 %in_data_56_read, void %arrayidx5.case.25, i8 %in_data_56_read, void %arrayidx5.case.24, i8 %in_data_56_read, void %arrayidx5.case.23, i8 %in_data_56_read, void %arrayidx5.case.22, i8 %in_data_56_read, void %arrayidx5.case.21, i8 %in_data_56_read, void %arrayidx5.case.20, i8 %in_data_56_read, void %arrayidx5.case.19, i8 %in_data_56_read, void %arrayidx5.case.18, i8 %in_data_56_read, void %arrayidx5.case.17, i8 %in_data_56_read, void %arrayidx5.case.16, i8 %in_data_56_read, void %arrayidx5.case.15, i8 %in_data_56_read, void %arrayidx5.case.14, i8 %in_data_56_read, void %arrayidx5.case.13, i8 %in_data_56_read, void %arrayidx5.case.12, i8 %in_data_56_read, void %arrayidx5.case.11, i8 %in_data_56_read, void %arrayidx5.case.10, i8 %in_data_56_read, void %arrayidx5.case.9, i8 %in_data_56_read, void %arrayidx5.case.8, i8 %in_data_56_read, void %arrayidx5.case.7, i8 %in_data_56_read, void %arrayidx5.case.6, i8 %in_data_56_read, void %arrayidx5.case.5, i8 %in_data_56_read, void %arrayidx5.case.4, i8 %in_data_56_read, void %arrayidx5.case.3, i8 %in_data_56_read, void %arrayidx5.case.2, i8 %in_data_56_read, void %arrayidx5.case.1, i8 %in_data_56_read, void %arrayidx5.case.0, i8 128, void %entry" [../src/sha256.c:102]   --->   Operation 149 'phi' 'in_data_56_loc_0' <Predicate = true> <Delay = 0.00>
+ST_2 : Operation 150 [1/1] (0.00ns)   --->   "%br_ln101 = br i1 %icmp_ln101, void %while.body10.preheader, void %while.body.preheader" [../src/sha256.c:101]   --->   Operation 150 'br' 'br_ln101' <Predicate = true> <Delay = 0.00>
+ST_2 : Operation 151 [1/1] (0.00ns)   --->   "%in_data_0_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_0"   --->   Operation 151 'read' 'in_data_0_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 152 [1/1] (0.00ns)   --->   "%in_data_1_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_1"   --->   Operation 152 'read' 'in_data_1_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 153 [1/1] (0.00ns)   --->   "%in_data_2_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_2"   --->   Operation 153 'read' 'in_data_2_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 154 [1/1] (0.00ns)   --->   "%in_data_3_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_3"   --->   Operation 154 'read' 'in_data_3_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 155 [1/1] (0.00ns)   --->   "%in_data_4_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_4"   --->   Operation 155 'read' 'in_data_4_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 156 [1/1] (0.00ns)   --->   "%in_data_5_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_5"   --->   Operation 156 'read' 'in_data_5_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 157 [1/1] (0.00ns)   --->   "%in_data_6_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_6"   --->   Operation 157 'read' 'in_data_6_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 158 [1/1] (0.00ns)   --->   "%in_data_7_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_7"   --->   Operation 158 'read' 'in_data_7_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 159 [1/1] (0.00ns)   --->   "%in_data_8_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_8"   --->   Operation 159 'read' 'in_data_8_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 160 [1/1] (0.00ns)   --->   "%in_data_9_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_9"   --->   Operation 160 'read' 'in_data_9_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 161 [1/1] (0.00ns)   --->   "%in_data_10_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_10"   --->   Operation 161 'read' 'in_data_10_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 162 [1/1] (0.00ns)   --->   "%in_data_11_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_11"   --->   Operation 162 'read' 'in_data_11_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 163 [1/1] (0.00ns)   --->   "%in_data_12_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_12"   --->   Operation 163 'read' 'in_data_12_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 164 [1/1] (0.00ns)   --->   "%in_data_13_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_13"   --->   Operation 164 'read' 'in_data_13_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 165 [1/1] (0.00ns)   --->   "%in_data_14_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_14"   --->   Operation 165 'read' 'in_data_14_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 166 [1/1] (0.00ns)   --->   "%in_data_15_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_15"   --->   Operation 166 'read' 'in_data_15_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 167 [1/1] (0.00ns)   --->   "%in_data_16_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_16"   --->   Operation 167 'read' 'in_data_16_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 168 [1/1] (0.00ns)   --->   "%in_data_17_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_17"   --->   Operation 168 'read' 'in_data_17_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 169 [1/1] (0.00ns)   --->   "%in_data_18_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_18"   --->   Operation 169 'read' 'in_data_18_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 170 [1/1] (0.00ns)   --->   "%in_data_19_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_19"   --->   Operation 170 'read' 'in_data_19_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 171 [1/1] (0.00ns)   --->   "%in_data_20_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_20"   --->   Operation 171 'read' 'in_data_20_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 172 [1/1] (0.00ns)   --->   "%in_data_21_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_21"   --->   Operation 172 'read' 'in_data_21_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 173 [1/1] (0.00ns)   --->   "%in_data_22_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_22"   --->   Operation 173 'read' 'in_data_22_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 174 [1/1] (0.00ns)   --->   "%in_data_23_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_23"   --->   Operation 174 'read' 'in_data_23_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 175 [1/1] (0.00ns)   --->   "%in_data_24_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_24"   --->   Operation 175 'read' 'in_data_24_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 176 [1/1] (0.00ns)   --->   "%in_data_25_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_25"   --->   Operation 176 'read' 'in_data_25_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 177 [1/1] (0.00ns)   --->   "%in_data_26_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_26"   --->   Operation 177 'read' 'in_data_26_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 178 [1/1] (0.00ns)   --->   "%in_data_27_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_27"   --->   Operation 178 'read' 'in_data_27_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 179 [1/1] (0.00ns)   --->   "%in_data_28_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_28"   --->   Operation 179 'read' 'in_data_28_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 180 [1/1] (0.00ns)   --->   "%in_data_29_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_29"   --->   Operation 180 'read' 'in_data_29_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 181 [1/1] (0.00ns)   --->   "%in_data_30_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_30"   --->   Operation 181 'read' 'in_data_30_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 182 [1/1] (0.00ns)   --->   "%in_data_31_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_31"   --->   Operation 182 'read' 'in_data_31_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 183 [1/1] (0.00ns)   --->   "%in_data_32_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_32"   --->   Operation 183 'read' 'in_data_32_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 184 [1/1] (0.00ns)   --->   "%in_data_33_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_33"   --->   Operation 184 'read' 'in_data_33_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 185 [1/1] (0.00ns)   --->   "%in_data_34_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_34"   --->   Operation 185 'read' 'in_data_34_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 186 [1/1] (0.00ns)   --->   "%in_data_35_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_35"   --->   Operation 186 'read' 'in_data_35_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 187 [1/1] (0.00ns)   --->   "%in_data_36_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_36"   --->   Operation 187 'read' 'in_data_36_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 188 [1/1] (0.00ns)   --->   "%in_data_37_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_37"   --->   Operation 188 'read' 'in_data_37_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 189 [1/1] (0.00ns)   --->   "%in_data_38_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_38"   --->   Operation 189 'read' 'in_data_38_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 190 [1/1] (0.00ns)   --->   "%in_data_39_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_39"   --->   Operation 190 'read' 'in_data_39_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 191 [1/1] (0.00ns)   --->   "%in_data_40_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_40"   --->   Operation 191 'read' 'in_data_40_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 192 [1/1] (0.00ns)   --->   "%in_data_41_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_41"   --->   Operation 192 'read' 'in_data_41_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 193 [1/1] (0.00ns)   --->   "%in_data_42_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_42"   --->   Operation 193 'read' 'in_data_42_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 194 [1/1] (0.00ns)   --->   "%in_data_43_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_43"   --->   Operation 194 'read' 'in_data_43_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 195 [1/1] (0.00ns)   --->   "%in_data_44_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_44"   --->   Operation 195 'read' 'in_data_44_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 196 [1/1] (0.00ns)   --->   "%in_data_45_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_45"   --->   Operation 196 'read' 'in_data_45_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 197 [1/1] (0.00ns)   --->   "%in_data_46_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_46"   --->   Operation 197 'read' 'in_data_46_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 198 [1/1] (0.00ns)   --->   "%in_data_47_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_47"   --->   Operation 198 'read' 'in_data_47_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 199 [1/1] (0.00ns)   --->   "%in_data_48_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_48"   --->   Operation 199 'read' 'in_data_48_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 200 [1/1] (0.00ns)   --->   "%in_data_49_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_49"   --->   Operation 200 'read' 'in_data_49_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 201 [1/1] (0.00ns)   --->   "%in_data_50_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_50"   --->   Operation 201 'read' 'in_data_50_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 202 [1/1] (0.00ns)   --->   "%in_data_51_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_51"   --->   Operation 202 'read' 'in_data_51_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 203 [1/1] (0.00ns)   --->   "%in_data_52_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_52"   --->   Operation 203 'read' 'in_data_52_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 204 [1/1] (0.00ns)   --->   "%in_data_53_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_53"   --->   Operation 204 'read' 'in_data_53_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 205 [1/1] (0.00ns)   --->   "%in_data_54_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_54"   --->   Operation 205 'read' 'in_data_54_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 206 [1/1] (0.00ns)   --->   "%in_data_55_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_55"   --->   Operation 206 'read' 'in_data_55_read' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+ST_2 : Operation 207 [2/2] (5.04ns)   --->   "%call_ln97 = call void @sha256_final_Pipeline_VITIS_LOOP_103_1, i6 %datalen_val_read, i8 %in_data_55, i8 %in_data_54, i8 %in_data_53, i8 %in_data_52, i8 %in_data_51, i8 %in_data_50, i8 %in_data_49, i8 %in_data_48, i8 %in_data_47, i8 %in_data_46, i8 %in_data_45, i8 %in_data_44, i8 %in_data_43, i8 %in_data_42, i8 %in_data_41, i8 %in_data_40, i8 %in_data_39, i8 %in_data_38, i8 %in_data_37, i8 %in_data_36, i8 %in_data_35, i8 %in_data_34, i8 %in_data_33, i8 %in_data_32, i8 %in_data_31, i8 %in_data_30, i8 %in_data_29, i8 %in_data_28, i8 %in_data_27, i8 %in_data_26, i8 %in_data_25, i8 %in_data_24, i8 %in_data_23, i8 %in_data_22, i8 %in_data_21, i8 %in_data_20, i8 %in_data_19, i8 %in_data_18, i8 %in_data_17, i8 %in_data_16, i8 %in_data_15, i8 %in_data_14, i8 %in_data_13, i8 %in_data_12, i8 %in_data_11, i8 %in_data_10, i8 %in_data_9, i8 %in_data_8, i8 %in_data_7, i8 %in_data_6, i8 %in_data_5, i8 %in_data_4, i8 %in_data_3, i8 %in_data_2, i8 %in_data_1" [../src/sha256.c:97]   --->   Operation 207 'call' 'call_ln97' <Predicate = (icmp_ln101)> <Delay = 5.04> <CoreType = "Generic">   --->   Generic Core
+
+State 3 <SV = 2> <Delay = 6.91>
+ST_3 : Operation 208 [2/2] (6.91ns)   --->   "%call_ln97 = call void @sha256_final_Pipeline_VITIS_LOOP_106_2, i4 %trunc_ln97, i8 %in_data_57, i8 %in_data_63, i8 %in_data_62, i8 %in_data_61, i8 %in_data_60, i8 %in_data_59, i8 %in_data_58" [../src/sha256.c:97]   --->   Operation 208 'call' 'call_ln97' <Predicate = true> <Delay = 6.91> <CoreType = "Generic">   --->   Generic Core
+ST_3 : Operation 209 [2/2] (0.00ns)   --->   "%call_ln0 = call void @sha256_final_Pipeline_VITIS_LOOP_111_3, i8 %in_data_0, i8 %in_data_55, i8 %in_data_54, i8 %in_data_53, i8 %in_data_52, i8 %in_data_51, i8 %in_data_50, i8 %in_data_49, i8 %in_data_48, i8 %in_data_47, i8 %in_data_46, i8 %in_data_45, i8 %in_data_44, i8 %in_data_43, i8 %in_data_42, i8 %in_data_41, i8 %in_data_40, i8 %in_data_39, i8 %in_data_38, i8 %in_data_37, i8 %in_data_36, i8 %in_data_35, i8 %in_data_34, i8 %in_data_33, i8 %in_data_32, i8 %in_data_31, i8 %in_data_30, i8 %in_data_29, i8 %in_data_28, i8 %in_data_27, i8 %in_data_26, i8 %in_data_25, i8 %in_data_24, i8 %in_data_23, i8 %in_data_22, i8 %in_data_21, i8 %in_data_20, i8 %in_data_19, i8 %in_data_18, i8 %in_data_17, i8 %in_data_16, i8 %in_data_15, i8 %in_data_14, i8 %in_data_13, i8 %in_data_12, i8 %in_data_11, i8 %in_data_10, i8 %in_data_9, i8 %in_data_8, i8 %in_data_7, i8 %in_data_6, i8 %in_data_5, i8 %in_data_4, i8 %in_data_3, i8 %in_data_2, i8 %in_data_1"   --->   Operation 209 'call' 'call_ln0' <Predicate = true> <Delay = 0.00> <CoreType = "Generic">   --->   Generic Core
+
+State 4 <SV = 3> <Delay = 6.91>
+ST_4 : Operation 210 [1/2] (6.91ns)   --->   "%call_ln97 = call void @sha256_final_Pipeline_VITIS_LOOP_106_2, i4 %trunc_ln97, i8 %in_data_57, i8 %in_data_63, i8 %in_data_62, i8 %in_data_61, i8 %in_data_60, i8 %in_data_59, i8 %in_data_58" [../src/sha256.c:97]   --->   Operation 210 'call' 'call_ln97' <Predicate = true> <Delay = 6.91> <CoreType = "Generic">   --->   Generic Core
+ST_4 : Operation 211 [1/2] (5.00ns)   --->   "%call_ln0 = call void @sha256_final_Pipeline_VITIS_LOOP_111_3, i8 %in_data_0, i8 %in_data_55, i8 %in_data_54, i8 %in_data_53, i8 %in_data_52, i8 %in_data_51, i8 %in_data_50, i8 %in_data_49, i8 %in_data_48, i8 %in_data_47, i8 %in_data_46, i8 %in_data_45, i8 %in_data_44, i8 %in_data_43, i8 %in_data_42, i8 %in_data_41, i8 %in_data_40, i8 %in_data_39, i8 %in_data_38, i8 %in_data_37, i8 %in_data_36, i8 %in_data_35, i8 %in_data_34, i8 %in_data_33, i8 %in_data_32, i8 %in_data_31, i8 %in_data_30, i8 %in_data_29, i8 %in_data_28, i8 %in_data_27, i8 %in_data_26, i8 %in_data_25, i8 %in_data_24, i8 %in_data_23, i8 %in_data_22, i8 %in_data_21, i8 %in_data_20, i8 %in_data_19, i8 %in_data_18, i8 %in_data_17, i8 %in_data_16, i8 %in_data_15, i8 %in_data_14, i8 %in_data_13, i8 %in_data_12, i8 %in_data_11, i8 %in_data_10, i8 %in_data_9, i8 %in_data_8, i8 %in_data_7, i8 %in_data_6, i8 %in_data_5, i8 %in_data_4, i8 %in_data_3, i8 %in_data_2, i8 %in_data_1"   --->   Operation 211 'call' 'call_ln0' <Predicate = true> <Delay = 5.00> <CoreType = "Generic">   --->   Generic Core
+
+State 5 <SV = 4> <Delay = 4.17>
+ST_5 : Operation 212 [1/1] (0.00ns)   --->   "%in_data_57_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_57"   --->   Operation 212 'read' 'in_data_57_read' <Predicate = true> <Delay = 0.00>
+ST_5 : Operation 213 [1/1] (0.00ns)   --->   "%in_data_58_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_58"   --->   Operation 213 'read' 'in_data_58_read' <Predicate = true> <Delay = 0.00>
+ST_5 : Operation 214 [1/1] (0.00ns)   --->   "%in_data_59_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_59"   --->   Operation 214 'read' 'in_data_59_read' <Predicate = true> <Delay = 0.00>
+ST_5 : Operation 215 [1/1] (0.00ns)   --->   "%in_data_60_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_60"   --->   Operation 215 'read' 'in_data_60_read' <Predicate = true> <Delay = 0.00>
+ST_5 : Operation 216 [1/1] (0.00ns)   --->   "%in_data_61_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_61"   --->   Operation 216 'read' 'in_data_61_read' <Predicate = true> <Delay = 0.00>
+ST_5 : Operation 217 [1/1] (0.00ns)   --->   "%in_data_62_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_62"   --->   Operation 217 'read' 'in_data_62_read' <Predicate = true> <Delay = 0.00>
+ST_5 : Operation 218 [1/1] (0.00ns)   --->   "%in_data_63_read = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_63"   --->   Operation 218 'read' 'in_data_63_read' <Predicate = true> <Delay = 0.00>
+ST_5 : Operation 219 [2/2] (4.17ns)   --->   "%call_ln108 = call void @sha256_transform, i32 %state, i8 %in_data_0_read, i8 %in_data_1_read, i8 %in_data_2_read, i8 %in_data_3_read, i8 %in_data_4_read, i8 %in_data_5_read, i8 %in_data_6_read, i8 %in_data_7_read, i8 %in_data_8_read, i8 %in_data_9_read, i8 %in_data_10_read, i8 %in_data_11_read, i8 %in_data_12_read, i8 %in_data_13_read, i8 %in_data_14_read, i8 %in_data_15_read, i8 %in_data_16_read, i8 %in_data_17_read, i8 %in_data_18_read, i8 %in_data_19_read, i8 %in_data_20_read, i8 %in_data_21_read, i8 %in_data_22_read, i8 %in_data_23_read, i8 %in_data_24_read, i8 %in_data_25_read, i8 %in_data_26_read, i8 %in_data_27_read, i8 %in_data_28_read, i8 %in_data_29_read, i8 %in_data_30_read, i8 %in_data_31_read, i8 %in_data_32_read, i8 %in_data_33_read, i8 %in_data_34_read, i8 %in_data_35_read, i8 %in_data_36_read, i8 %in_data_37_read, i8 %in_data_38_read, i8 %in_data_39_read, i8 %in_data_40_read, i8 %in_data_41_read, i8 %in_data_42_read, i8 %in_data_43_read, i8 %in_data_44_read, i8 %in_data_45_read, i8 %in_data_46_read, i8 %in_data_47_read, i8 %in_data_48_read, i8 %in_data_49_read, i8 %in_data_50_read, i8 %in_data_51_read, i8 %in_data_52_read, i8 %in_data_53_read, i8 %in_data_54_read, i8 %in_data_55_read, i8 %in_data_56_loc_0, i8 %in_data_57_read, i8 %in_data_58_read, i8 %in_data_59_read, i8 %in_data_60_read, i8 %in_data_61_read, i8 %in_data_62_read, i8 %in_data_63_read, i32 %k" [../src/sha256.c:108]   --->   Operation 219 'call' 'call_ln108' <Predicate = true> <Delay = 4.17> <CoreType = "Generic">   --->   Generic Core
+
+State 6 <SV = 5> <Delay = 0.00>
+ST_6 : Operation 220 [1/2] (0.00ns)   --->   "%call_ln108 = call void @sha256_transform, i32 %state, i8 %in_data_0_read, i8 %in_data_1_read, i8 %in_data_2_read, i8 %in_data_3_read, i8 %in_data_4_read, i8 %in_data_5_read, i8 %in_data_6_read, i8 %in_data_7_read, i8 %in_data_8_read, i8 %in_data_9_read, i8 %in_data_10_read, i8 %in_data_11_read, i8 %in_data_12_read, i8 %in_data_13_read, i8 %in_data_14_read, i8 %in_data_15_read, i8 %in_data_16_read, i8 %in_data_17_read, i8 %in_data_18_read, i8 %in_data_19_read, i8 %in_data_20_read, i8 %in_data_21_read, i8 %in_data_22_read, i8 %in_data_23_read, i8 %in_data_24_read, i8 %in_data_25_read, i8 %in_data_26_read, i8 %in_data_27_read, i8 %in_data_28_read, i8 %in_data_29_read, i8 %in_data_30_read, i8 %in_data_31_read, i8 %in_data_32_read, i8 %in_data_33_read, i8 %in_data_34_read, i8 %in_data_35_read, i8 %in_data_36_read, i8 %in_data_37_read, i8 %in_data_38_read, i8 %in_data_39_read, i8 %in_data_40_read, i8 %in_data_41_read, i8 %in_data_42_read, i8 %in_data_43_read, i8 %in_data_44_read, i8 %in_data_45_read, i8 %in_data_46_read, i8 %in_data_47_read, i8 %in_data_48_read, i8 %in_data_49_read, i8 %in_data_50_read, i8 %in_data_51_read, i8 %in_data_52_read, i8 %in_data_53_read, i8 %in_data_54_read, i8 %in_data_55_read, i8 %in_data_56_loc_0, i8 %in_data_57_read, i8 %in_data_58_read, i8 %in_data_59_read, i8 %in_data_60_read, i8 %in_data_61_read, i8 %in_data_62_read, i8 %in_data_63_read, i32 %k" [../src/sha256.c:108]   --->   Operation 220 'call' 'call_ln108' <Predicate = (!icmp_ln101)> <Delay = 0.00> <CoreType = "Generic">   --->   Generic Core
+ST_6 : Operation 221 [1/1] (0.00ns)   --->   "%br_ln0 = br void %if.end"   --->   Operation 221 'br' 'br_ln0' <Predicate = (!icmp_ln101)> <Delay = 0.00>
+
+State 7 <SV = 2> <Delay = 5.04>
+ST_7 : Operation 222 [1/2] (5.04ns)   --->   "%call_ln97 = call void @sha256_final_Pipeline_VITIS_LOOP_103_1, i6 %datalen_val_read, i8 %in_data_55, i8 %in_data_54, i8 %in_data_53, i8 %in_data_52, i8 %in_data_51, i8 %in_data_50, i8 %in_data_49, i8 %in_data_48, i8 %in_data_47, i8 %in_data_46, i8 %in_data_45, i8 %in_data_44, i8 %in_data_43, i8 %in_data_42, i8 %in_data_41, i8 %in_data_40, i8 %in_data_39, i8 %in_data_38, i8 %in_data_37, i8 %in_data_36, i8 %in_data_35, i8 %in_data_34, i8 %in_data_33, i8 %in_data_32, i8 %in_data_31, i8 %in_data_30, i8 %in_data_29, i8 %in_data_28, i8 %in_data_27, i8 %in_data_26, i8 %in_data_25, i8 %in_data_24, i8 %in_data_23, i8 %in_data_22, i8 %in_data_21, i8 %in_data_20, i8 %in_data_19, i8 %in_data_18, i8 %in_data_17, i8 %in_data_16, i8 %in_data_15, i8 %in_data_14, i8 %in_data_13, i8 %in_data_12, i8 %in_data_11, i8 %in_data_10, i8 %in_data_9, i8 %in_data_8, i8 %in_data_7, i8 %in_data_6, i8 %in_data_5, i8 %in_data_4, i8 %in_data_3, i8 %in_data_2, i8 %in_data_1" [../src/sha256.c:97]   --->   Operation 222 'call' 'call_ln97' <Predicate = true> <Delay = 5.04> <CoreType = "Generic">   --->   Generic Core
+ST_7 : Operation 223 [1/1] (0.00ns)   --->   "%br_ln0 = br void %if.end"   --->   Operation 223 'br' 'br_ln0' <Predicate = true> <Delay = 0.00>
+
+State 8 <SV = 6> <Delay = 4.17>
+ST_8 : Operation 224 [1/1] (0.00ns)   --->   "%trunc_ln114 = trunc i32 %bitlen_0_0_val_read" [../src/sha256.c:114]   --->   Operation 224 'trunc' 'trunc_ln114' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 225 [1/1] (0.00ns)   --->   "%trunc_ln6 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %bitlen_0_0_val_read, i32 8, i32 15" [../src/sha256.c:115]   --->   Operation 225 'partselect' 'trunc_ln6' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 226 [1/1] (0.00ns)   --->   "%trunc_ln7 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %bitlen_0_0_val_read, i32 16, i32 23" [../src/sha256.c:116]   --->   Operation 226 'partselect' 'trunc_ln7' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 227 [1/1] (0.00ns)   --->   "%trunc_ln8 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %bitlen_0_0_val_read, i32 24, i32 31" [../src/sha256.c:117]   --->   Operation 227 'partselect' 'trunc_ln8' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 228 [1/1] (0.00ns)   --->   "%trunc_ln118 = trunc i32 %bitlen_0_1_val_read" [../src/sha256.c:118]   --->   Operation 228 'trunc' 'trunc_ln118' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 229 [1/1] (0.00ns)   --->   "%trunc_ln = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %bitlen_0_1_val_read, i32 8, i32 15" [../src/sha256.c:119]   --->   Operation 229 'partselect' 'trunc_ln' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 230 [1/1] (0.00ns)   --->   "%trunc_ln1 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %bitlen_0_1_val_read, i32 16, i32 23" [../src/sha256.c:120]   --->   Operation 230 'partselect' 'trunc_ln1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 231 [1/1] (0.00ns)   --->   "%trunc_ln2 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %bitlen_0_1_val_read, i32 24, i32 31" [../src/sha256.c:121]   --->   Operation 231 'partselect' 'trunc_ln2' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 232 [1/1] (0.00ns)   --->   "%write_ln114 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_63, i8 %trunc_ln114" [../src/sha256.c:114]   --->   Operation 232 'write' 'write_ln114' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 233 [1/1] (0.00ns)   --->   "%write_ln115 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_62, i8 %trunc_ln6" [../src/sha256.c:115]   --->   Operation 233 'write' 'write_ln115' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 234 [1/1] (0.00ns)   --->   "%write_ln116 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_61, i8 %trunc_ln7" [../src/sha256.c:116]   --->   Operation 234 'write' 'write_ln116' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 235 [1/1] (0.00ns)   --->   "%write_ln117 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_60, i8 %trunc_ln8" [../src/sha256.c:117]   --->   Operation 235 'write' 'write_ln117' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 236 [1/1] (0.00ns)   --->   "%write_ln118 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_59, i8 %trunc_ln118" [../src/sha256.c:118]   --->   Operation 236 'write' 'write_ln118' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 237 [1/1] (0.00ns)   --->   "%write_ln119 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_58, i8 %trunc_ln" [../src/sha256.c:119]   --->   Operation 237 'write' 'write_ln119' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 238 [1/1] (0.00ns)   --->   "%write_ln120 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_57, i8 %trunc_ln1" [../src/sha256.c:120]   --->   Operation 238 'write' 'write_ln120' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 239 [1/1] (0.00ns)   --->   "%in_data_0_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_0"   --->   Operation 239 'read' 'in_data_0_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 240 [1/1] (0.00ns)   --->   "%in_data_1_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_1"   --->   Operation 240 'read' 'in_data_1_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 241 [1/1] (0.00ns)   --->   "%in_data_2_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_2"   --->   Operation 241 'read' 'in_data_2_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 242 [1/1] (0.00ns)   --->   "%in_data_3_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_3"   --->   Operation 242 'read' 'in_data_3_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 243 [1/1] (0.00ns)   --->   "%in_data_4_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_4"   --->   Operation 243 'read' 'in_data_4_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 244 [1/1] (0.00ns)   --->   "%in_data_5_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_5"   --->   Operation 244 'read' 'in_data_5_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 245 [1/1] (0.00ns)   --->   "%in_data_6_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_6"   --->   Operation 245 'read' 'in_data_6_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 246 [1/1] (0.00ns)   --->   "%in_data_7_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_7"   --->   Operation 246 'read' 'in_data_7_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 247 [1/1] (0.00ns)   --->   "%in_data_8_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_8"   --->   Operation 247 'read' 'in_data_8_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 248 [1/1] (0.00ns)   --->   "%in_data_9_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_9"   --->   Operation 248 'read' 'in_data_9_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 249 [1/1] (0.00ns)   --->   "%in_data_10_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_10"   --->   Operation 249 'read' 'in_data_10_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 250 [1/1] (0.00ns)   --->   "%in_data_11_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_11"   --->   Operation 250 'read' 'in_data_11_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 251 [1/1] (0.00ns)   --->   "%in_data_12_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_12"   --->   Operation 251 'read' 'in_data_12_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 252 [1/1] (0.00ns)   --->   "%in_data_13_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_13"   --->   Operation 252 'read' 'in_data_13_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 253 [1/1] (0.00ns)   --->   "%in_data_14_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_14"   --->   Operation 253 'read' 'in_data_14_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 254 [1/1] (0.00ns)   --->   "%in_data_15_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_15"   --->   Operation 254 'read' 'in_data_15_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 255 [1/1] (0.00ns)   --->   "%in_data_16_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_16"   --->   Operation 255 'read' 'in_data_16_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 256 [1/1] (0.00ns)   --->   "%in_data_17_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_17"   --->   Operation 256 'read' 'in_data_17_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 257 [1/1] (0.00ns)   --->   "%in_data_18_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_18"   --->   Operation 257 'read' 'in_data_18_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 258 [1/1] (0.00ns)   --->   "%in_data_19_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_19"   --->   Operation 258 'read' 'in_data_19_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 259 [1/1] (0.00ns)   --->   "%in_data_20_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_20"   --->   Operation 259 'read' 'in_data_20_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 260 [1/1] (0.00ns)   --->   "%in_data_21_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_21"   --->   Operation 260 'read' 'in_data_21_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 261 [1/1] (0.00ns)   --->   "%in_data_22_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_22"   --->   Operation 261 'read' 'in_data_22_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 262 [1/1] (0.00ns)   --->   "%in_data_23_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_23"   --->   Operation 262 'read' 'in_data_23_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 263 [1/1] (0.00ns)   --->   "%in_data_24_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_24"   --->   Operation 263 'read' 'in_data_24_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 264 [1/1] (0.00ns)   --->   "%in_data_25_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_25"   --->   Operation 264 'read' 'in_data_25_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 265 [1/1] (0.00ns)   --->   "%in_data_26_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_26"   --->   Operation 265 'read' 'in_data_26_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 266 [1/1] (0.00ns)   --->   "%in_data_27_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_27"   --->   Operation 266 'read' 'in_data_27_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 267 [1/1] (0.00ns)   --->   "%in_data_28_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_28"   --->   Operation 267 'read' 'in_data_28_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 268 [1/1] (0.00ns)   --->   "%in_data_29_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_29"   --->   Operation 268 'read' 'in_data_29_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 269 [1/1] (0.00ns)   --->   "%in_data_30_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_30"   --->   Operation 269 'read' 'in_data_30_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 270 [1/1] (0.00ns)   --->   "%in_data_31_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_31"   --->   Operation 270 'read' 'in_data_31_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 271 [1/1] (0.00ns)   --->   "%in_data_32_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_32"   --->   Operation 271 'read' 'in_data_32_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 272 [1/1] (0.00ns)   --->   "%in_data_33_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_33"   --->   Operation 272 'read' 'in_data_33_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 273 [1/1] (0.00ns)   --->   "%in_data_34_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_34"   --->   Operation 273 'read' 'in_data_34_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 274 [1/1] (0.00ns)   --->   "%in_data_35_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_35"   --->   Operation 274 'read' 'in_data_35_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 275 [1/1] (0.00ns)   --->   "%in_data_36_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_36"   --->   Operation 275 'read' 'in_data_36_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 276 [1/1] (0.00ns)   --->   "%in_data_37_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_37"   --->   Operation 276 'read' 'in_data_37_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 277 [1/1] (0.00ns)   --->   "%in_data_38_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_38"   --->   Operation 277 'read' 'in_data_38_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 278 [1/1] (0.00ns)   --->   "%in_data_39_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_39"   --->   Operation 278 'read' 'in_data_39_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 279 [1/1] (0.00ns)   --->   "%in_data_40_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_40"   --->   Operation 279 'read' 'in_data_40_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 280 [1/1] (0.00ns)   --->   "%in_data_41_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_41"   --->   Operation 280 'read' 'in_data_41_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 281 [1/1] (0.00ns)   --->   "%in_data_42_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_42"   --->   Operation 281 'read' 'in_data_42_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 282 [1/1] (0.00ns)   --->   "%in_data_43_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_43"   --->   Operation 282 'read' 'in_data_43_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 283 [1/1] (0.00ns)   --->   "%in_data_44_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_44"   --->   Operation 283 'read' 'in_data_44_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 284 [1/1] (0.00ns)   --->   "%in_data_45_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_45"   --->   Operation 284 'read' 'in_data_45_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 285 [1/1] (0.00ns)   --->   "%in_data_46_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_46"   --->   Operation 285 'read' 'in_data_46_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 286 [1/1] (0.00ns)   --->   "%in_data_47_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_47"   --->   Operation 286 'read' 'in_data_47_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 287 [1/1] (0.00ns)   --->   "%in_data_48_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_48"   --->   Operation 287 'read' 'in_data_48_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 288 [1/1] (0.00ns)   --->   "%in_data_49_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_49"   --->   Operation 288 'read' 'in_data_49_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 289 [1/1] (0.00ns)   --->   "%in_data_50_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_50"   --->   Operation 289 'read' 'in_data_50_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 290 [1/1] (0.00ns)   --->   "%in_data_51_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_51"   --->   Operation 290 'read' 'in_data_51_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 291 [1/1] (0.00ns)   --->   "%in_data_52_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_52"   --->   Operation 291 'read' 'in_data_52_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 292 [1/1] (0.00ns)   --->   "%in_data_53_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_53"   --->   Operation 292 'read' 'in_data_53_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 293 [1/1] (0.00ns)   --->   "%in_data_54_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_54"   --->   Operation 293 'read' 'in_data_54_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 294 [1/1] (0.00ns)   --->   "%in_data_55_read_1 = read i8 @_ssdm_op_Read.ap_auto.i8P0A, i8 %in_data_55"   --->   Operation 294 'read' 'in_data_55_read_1' <Predicate = true> <Delay = 0.00>
+ST_8 : Operation 295 [2/2] (4.17ns)   --->   "%call_ln123 = call void @sha256_transform, i32 %state, i8 %in_data_0_read_1, i8 %in_data_1_read_1, i8 %in_data_2_read_1, i8 %in_data_3_read_1, i8 %in_data_4_read_1, i8 %in_data_5_read_1, i8 %in_data_6_read_1, i8 %in_data_7_read_1, i8 %in_data_8_read_1, i8 %in_data_9_read_1, i8 %in_data_10_read_1, i8 %in_data_11_read_1, i8 %in_data_12_read_1, i8 %in_data_13_read_1, i8 %in_data_14_read_1, i8 %in_data_15_read_1, i8 %in_data_16_read_1, i8 %in_data_17_read_1, i8 %in_data_18_read_1, i8 %in_data_19_read_1, i8 %in_data_20_read_1, i8 %in_data_21_read_1, i8 %in_data_22_read_1, i8 %in_data_23_read_1, i8 %in_data_24_read_1, i8 %in_data_25_read_1, i8 %in_data_26_read_1, i8 %in_data_27_read_1, i8 %in_data_28_read_1, i8 %in_data_29_read_1, i8 %in_data_30_read_1, i8 %in_data_31_read_1, i8 %in_data_32_read_1, i8 %in_data_33_read_1, i8 %in_data_34_read_1, i8 %in_data_35_read_1, i8 %in_data_36_read_1, i8 %in_data_37_read_1, i8 %in_data_38_read_1, i8 %in_data_39_read_1, i8 %in_data_40_read_1, i8 %in_data_41_read_1, i8 %in_data_42_read_1, i8 %in_data_43_read_1, i8 %in_data_44_read_1, i8 %in_data_45_read_1, i8 %in_data_46_read_1, i8 %in_data_47_read_1, i8 %in_data_48_read_1, i8 %in_data_49_read_1, i8 %in_data_50_read_1, i8 %in_data_51_read_1, i8 %in_data_52_read_1, i8 %in_data_53_read_1, i8 %in_data_54_read_1, i8 %in_data_55_read_1, i8 %trunc_ln2, i8 %trunc_ln1, i8 %trunc_ln, i8 %trunc_ln118, i8 %trunc_ln8, i8 %trunc_ln7, i8 %trunc_ln6, i8 %trunc_ln114, i32 %k" [../src/sha256.c:123]   --->   Operation 295 'call' 'call_ln123' <Predicate = true> <Delay = 4.17> <CoreType = "Generic">   --->   Generic Core
+ST_8 : Operation 296 [1/1] (0.00ns)   --->   "%write_ln102 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_56, i8 %trunc_ln2" [../src/sha256.c:102]   --->   Operation 296 'write' 'write_ln102' <Predicate = true> <Delay = 0.00>
+
+State 9 <SV = 7> <Delay = 0.00>
+ST_9 : Operation 297 [1/2] (0.00ns)   --->   "%call_ln123 = call void @sha256_transform, i32 %state, i8 %in_data_0_read_1, i8 %in_data_1_read_1, i8 %in_data_2_read_1, i8 %in_data_3_read_1, i8 %in_data_4_read_1, i8 %in_data_5_read_1, i8 %in_data_6_read_1, i8 %in_data_7_read_1, i8 %in_data_8_read_1, i8 %in_data_9_read_1, i8 %in_data_10_read_1, i8 %in_data_11_read_1, i8 %in_data_12_read_1, i8 %in_data_13_read_1, i8 %in_data_14_read_1, i8 %in_data_15_read_1, i8 %in_data_16_read_1, i8 %in_data_17_read_1, i8 %in_data_18_read_1, i8 %in_data_19_read_1, i8 %in_data_20_read_1, i8 %in_data_21_read_1, i8 %in_data_22_read_1, i8 %in_data_23_read_1, i8 %in_data_24_read_1, i8 %in_data_25_read_1, i8 %in_data_26_read_1, i8 %in_data_27_read_1, i8 %in_data_28_read_1, i8 %in_data_29_read_1, i8 %in_data_30_read_1, i8 %in_data_31_read_1, i8 %in_data_32_read_1, i8 %in_data_33_read_1, i8 %in_data_34_read_1, i8 %in_data_35_read_1, i8 %in_data_36_read_1, i8 %in_data_37_read_1, i8 %in_data_38_read_1, i8 %in_data_39_read_1, i8 %in_data_40_read_1, i8 %in_data_41_read_1, i8 %in_data_42_read_1, i8 %in_data_43_read_1, i8 %in_data_44_read_1, i8 %in_data_45_read_1, i8 %in_data_46_read_1, i8 %in_data_47_read_1, i8 %in_data_48_read_1, i8 %in_data_49_read_1, i8 %in_data_50_read_1, i8 %in_data_51_read_1, i8 %in_data_52_read_1, i8 %in_data_53_read_1, i8 %in_data_54_read_1, i8 %in_data_55_read_1, i8 %trunc_ln2, i8 %trunc_ln1, i8 %trunc_ln, i8 %trunc_ln118, i8 %trunc_ln8, i8 %trunc_ln7, i8 %trunc_ln6, i8 %trunc_ln114, i32 %k" [../src/sha256.c:123]   --->   Operation 297 'call' 'call_ln123' <Predicate = true> <Delay = 0.00> <CoreType = "Generic">   --->   Generic Core
+
+State 10 <SV = 8> <Delay = 2.32>
+ST_10 : Operation 298 [2/2] (2.32ns)   --->   "%state_load = load i3 %state_addr" [../src/sha256.c:97]   --->   Operation 298 'load' 'state_load' <Predicate = true> <Delay = 2.32> <CoreInst = "RAM">   --->   Core 81 'RAM' <Latency = 1> <II = 1> <Delay = 2.32> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 32> <Depth = 8> <RAM>
+ST_10 : Operation 299 [1/1] (0.00ns)   --->   "%state_addr_15 = getelementptr i32 %state, i64 0, i64 1"   --->   Operation 299 'getelementptr' 'state_addr_15' <Predicate = true> <Delay = 0.00>
+ST_10 : Operation 300 [2/2] (2.32ns)   --->   "%state_load_1 = load i3 %state_addr_15"   --->   Operation 300 'load' 'state_load_1' <Predicate = true> <Delay = 2.32> <CoreInst = "RAM">   --->   Core 81 'RAM' <Latency = 1> <II = 1> <Delay = 2.32> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 32> <Depth = 8> <RAM>
+
+State 11 <SV = 9> <Delay = 2.32>
+ST_11 : Operation 301 [1/2] ( I:2.32ns O:2.32ns )   --->   "%state_load = load i3 %state_addr" [../src/sha256.c:97]   --->   Operation 301 'load' 'state_load' <Predicate = true> <Delay = 2.32> <CoreInst = "RAM">   --->   Core 81 'RAM' <Latency = 1> <II = 1> <Delay = 2.32> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 32> <Depth = 8> <RAM>
+ST_11 : Operation 302 [1/2] ( I:2.32ns O:2.32ns )   --->   "%state_load_1 = load i3 %state_addr_15"   --->   Operation 302 'load' 'state_load_1' <Predicate = true> <Delay = 2.32> <CoreInst = "RAM">   --->   Core 81 'RAM' <Latency = 1> <II = 1> <Delay = 2.32> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 32> <Depth = 8> <RAM>
+ST_11 : Operation 303 [1/1] (0.00ns)   --->   "%state_addr_16 = getelementptr i32 %state, i64 0, i64 2"   --->   Operation 303 'getelementptr' 'state_addr_16' <Predicate = true> <Delay = 0.00>
+ST_11 : Operation 304 [2/2] (2.32ns)   --->   "%state_load_2 = load i3 %state_addr_16"   --->   Operation 304 'load' 'state_load_2' <Predicate = true> <Delay = 2.32> <CoreInst = "RAM">   --->   Core 81 'RAM' <Latency = 1> <II = 1> <Delay = 2.32> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 32> <Depth = 8> <RAM>
+ST_11 : Operation 305 [1/1] (0.00ns)   --->   "%state_addr_17 = getelementptr i32 %state, i64 0, i64 3"   --->   Operation 305 'getelementptr' 'state_addr_17' <Predicate = true> <Delay = 0.00>
+ST_11 : Operation 306 [2/2] (2.32ns)   --->   "%state_load_3 = load i3 %state_addr_17"   --->   Operation 306 'load' 'state_load_3' <Predicate = true> <Delay = 2.32> <CoreInst = "RAM">   --->   Core 81 'RAM' <Latency = 1> <II = 1> <Delay = 2.32> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 32> <Depth = 8> <RAM>
+ST_11 : Operation 307 [1/1] (0.00ns)   --->   "%trunc_ln3 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load, i32 24, i32 31" [../src/sha256.c:129]   --->   Operation 307 'partselect' 'trunc_ln3' <Predicate = true> <Delay = 0.00>
+ST_11 : Operation 308 [1/1] (0.00ns)   --->   "%trunc_ln4 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_1, i32 24, i32 31" [../src/sha256.c:130]   --->   Operation 308 'partselect' 'trunc_ln4' <Predicate = true> <Delay = 0.00>
+ST_11 : Operation 309 [1/1] (0.00ns)   --->   "%trunc_ln129_1 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load, i32 16, i32 23" [../src/sha256.c:129]   --->   Operation 309 'partselect' 'trunc_ln129_1' <Predicate = true> <Delay = 0.00>
+ST_11 : Operation 310 [1/1] (0.00ns)   --->   "%trunc_ln130_1 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_1, i32 16, i32 23" [../src/sha256.c:130]   --->   Operation 310 'partselect' 'trunc_ln130_1' <Predicate = true> <Delay = 0.00>
+ST_11 : Operation 311 [1/1] (0.00ns)   --->   "%trunc_ln129_2 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load, i32 8, i32 15" [../src/sha256.c:129]   --->   Operation 311 'partselect' 'trunc_ln129_2' <Predicate = true> <Delay = 0.00>
+ST_11 : Operation 312 [1/1] (0.00ns)   --->   "%trunc_ln130_2 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_1, i32 8, i32 15" [../src/sha256.c:130]   --->   Operation 312 'partselect' 'trunc_ln130_2' <Predicate = true> <Delay = 0.00>
+ST_11 : Operation 313 [1/1] (0.00ns)   --->   "%trunc_ln129 = trunc i32 %state_load" [../src/sha256.c:129]   --->   Operation 313 'trunc' 'trunc_ln129' <Predicate = true> <Delay = 0.00>
+ST_11 : Operation 314 [1/1] (0.00ns)   --->   "%trunc_ln130 = trunc i32 %state_load_1" [../src/sha256.c:130]   --->   Operation 314 'trunc' 'trunc_ln130' <Predicate = true> <Delay = 0.00>
+
+State 12 <SV = 10> <Delay = 2.32>
+ST_12 : Operation 315 [1/2] ( I:2.32ns O:2.32ns )   --->   "%state_load_2 = load i3 %state_addr_16"   --->   Operation 315 'load' 'state_load_2' <Predicate = true> <Delay = 2.32> <CoreInst = "RAM">   --->   Core 81 'RAM' <Latency = 1> <II = 1> <Delay = 2.32> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 32> <Depth = 8> <RAM>
+ST_12 : Operation 316 [1/2] ( I:2.32ns O:2.32ns )   --->   "%state_load_3 = load i3 %state_addr_17"   --->   Operation 316 'load' 'state_load_3' <Predicate = true> <Delay = 2.32> <CoreInst = "RAM">   --->   Core 81 'RAM' <Latency = 1> <II = 1> <Delay = 2.32> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 32> <Depth = 8> <RAM>
+ST_12 : Operation 317 [1/1] (0.00ns)   --->   "%state_addr_18 = getelementptr i32 %state, i64 0, i64 4"   --->   Operation 317 'getelementptr' 'state_addr_18' <Predicate = true> <Delay = 0.00>
+ST_12 : Operation 318 [2/2] (2.32ns)   --->   "%state_load_4 = load i3 %state_addr_18"   --->   Operation 318 'load' 'state_load_4' <Predicate = true> <Delay = 2.32> <CoreInst = "RAM">   --->   Core 81 'RAM' <Latency = 1> <II = 1> <Delay = 2.32> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 32> <Depth = 8> <RAM>
+ST_12 : Operation 319 [1/1] (0.00ns)   --->   "%state_addr_19 = getelementptr i32 %state, i64 0, i64 5"   --->   Operation 319 'getelementptr' 'state_addr_19' <Predicate = true> <Delay = 0.00>
+ST_12 : Operation 320 [2/2] (2.32ns)   --->   "%state_load_5 = load i3 %state_addr_19"   --->   Operation 320 'load' 'state_load_5' <Predicate = true> <Delay = 2.32> <CoreInst = "RAM">   --->   Core 81 'RAM' <Latency = 1> <II = 1> <Delay = 2.32> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 32> <Depth = 8> <RAM>
+ST_12 : Operation 321 [1/1] (0.00ns)   --->   "%trunc_ln5 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_2, i32 24, i32 31" [../src/sha256.c:131]   --->   Operation 321 'partselect' 'trunc_ln5' <Predicate = true> <Delay = 0.00>
+ST_12 : Operation 322 [1/1] (0.00ns)   --->   "%trunc_ln9 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_3, i32 24, i32 31" [../src/sha256.c:132]   --->   Operation 322 'partselect' 'trunc_ln9' <Predicate = true> <Delay = 0.00>
+ST_12 : Operation 323 [1/1] (0.00ns)   --->   "%trunc_ln131_1 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_2, i32 16, i32 23" [../src/sha256.c:131]   --->   Operation 323 'partselect' 'trunc_ln131_1' <Predicate = true> <Delay = 0.00>
+ST_12 : Operation 324 [1/1] (0.00ns)   --->   "%trunc_ln132_1 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_3, i32 16, i32 23" [../src/sha256.c:132]   --->   Operation 324 'partselect' 'trunc_ln132_1' <Predicate = true> <Delay = 0.00>
+ST_12 : Operation 325 [1/1] (0.00ns)   --->   "%trunc_ln131_2 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_2, i32 8, i32 15" [../src/sha256.c:131]   --->   Operation 325 'partselect' 'trunc_ln131_2' <Predicate = true> <Delay = 0.00>
+ST_12 : Operation 326 [1/1] (0.00ns)   --->   "%trunc_ln132_2 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_3, i32 8, i32 15" [../src/sha256.c:132]   --->   Operation 326 'partselect' 'trunc_ln132_2' <Predicate = true> <Delay = 0.00>
+ST_12 : Operation 327 [1/1] (0.00ns)   --->   "%trunc_ln131 = trunc i32 %state_load_2" [../src/sha256.c:131]   --->   Operation 327 'trunc' 'trunc_ln131' <Predicate = true> <Delay = 0.00>
+ST_12 : Operation 328 [1/1] (0.00ns)   --->   "%trunc_ln132 = trunc i32 %state_load_3" [../src/sha256.c:132]   --->   Operation 328 'trunc' 'trunc_ln132' <Predicate = true> <Delay = 0.00>
+
+State 13 <SV = 11> <Delay = 2.32>
+ST_13 : Operation 329 [1/2] ( I:2.32ns O:2.32ns )   --->   "%state_load_4 = load i3 %state_addr_18"   --->   Operation 329 'load' 'state_load_4' <Predicate = true> <Delay = 2.32> <CoreInst = "RAM">   --->   Core 81 'RAM' <Latency = 1> <II = 1> <Delay = 2.32> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 32> <Depth = 8> <RAM>
+ST_13 : Operation 330 [1/2] ( I:2.32ns O:2.32ns )   --->   "%state_load_5 = load i3 %state_addr_19"   --->   Operation 330 'load' 'state_load_5' <Predicate = true> <Delay = 2.32> <CoreInst = "RAM">   --->   Core 81 'RAM' <Latency = 1> <II = 1> <Delay = 2.32> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 32> <Depth = 8> <RAM>
+ST_13 : Operation 331 [1/1] (0.00ns)   --->   "%state_addr_20 = getelementptr i32 %state, i64 0, i64 6"   --->   Operation 331 'getelementptr' 'state_addr_20' <Predicate = true> <Delay = 0.00>
+ST_13 : Operation 332 [2/2] (2.32ns)   --->   "%state_load_6 = load i3 %state_addr_20"   --->   Operation 332 'load' 'state_load_6' <Predicate = true> <Delay = 2.32> <CoreInst = "RAM">   --->   Core 81 'RAM' <Latency = 1> <II = 1> <Delay = 2.32> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 32> <Depth = 8> <RAM>
+ST_13 : Operation 333 [1/1] (0.00ns)   --->   "%state_addr_21 = getelementptr i32 %state, i64 0, i64 7"   --->   Operation 333 'getelementptr' 'state_addr_21' <Predicate = true> <Delay = 0.00>
+ST_13 : Operation 334 [2/2] (2.32ns)   --->   "%state_load_7 = load i3 %state_addr_21"   --->   Operation 334 'load' 'state_load_7' <Predicate = true> <Delay = 2.32> <CoreInst = "RAM">   --->   Core 81 'RAM' <Latency = 1> <II = 1> <Delay = 2.32> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 32> <Depth = 8> <RAM>
+ST_13 : Operation 335 [1/1] (0.00ns)   --->   "%trunc_ln10 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_4, i32 24, i32 31" [../src/sha256.c:133]   --->   Operation 335 'partselect' 'trunc_ln10' <Predicate = true> <Delay = 0.00>
+ST_13 : Operation 336 [1/1] (0.00ns)   --->   "%trunc_ln11 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_5, i32 24, i32 31" [../src/sha256.c:134]   --->   Operation 336 'partselect' 'trunc_ln11' <Predicate = true> <Delay = 0.00>
+ST_13 : Operation 337 [1/1] (0.00ns)   --->   "%trunc_ln133_1 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_4, i32 16, i32 23" [../src/sha256.c:133]   --->   Operation 337 'partselect' 'trunc_ln133_1' <Predicate = true> <Delay = 0.00>
+ST_13 : Operation 338 [1/1] (0.00ns)   --->   "%trunc_ln134_1 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_5, i32 16, i32 23" [../src/sha256.c:134]   --->   Operation 338 'partselect' 'trunc_ln134_1' <Predicate = true> <Delay = 0.00>
+ST_13 : Operation 339 [1/1] (0.00ns)   --->   "%trunc_ln133_2 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_4, i32 8, i32 15" [../src/sha256.c:133]   --->   Operation 339 'partselect' 'trunc_ln133_2' <Predicate = true> <Delay = 0.00>
+ST_13 : Operation 340 [1/1] (0.00ns)   --->   "%trunc_ln134_2 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_5, i32 8, i32 15" [../src/sha256.c:134]   --->   Operation 340 'partselect' 'trunc_ln134_2' <Predicate = true> <Delay = 0.00>
+ST_13 : Operation 341 [1/1] (0.00ns)   --->   "%trunc_ln133 = trunc i32 %state_load_4" [../src/sha256.c:133]   --->   Operation 341 'trunc' 'trunc_ln133' <Predicate = true> <Delay = 0.00>
+ST_13 : Operation 342 [1/1] (0.00ns)   --->   "%trunc_ln134 = trunc i32 %state_load_5" [../src/sha256.c:134]   --->   Operation 342 'trunc' 'trunc_ln134' <Predicate = true> <Delay = 0.00>
+
+State 14 <SV = 12> <Delay = 2.32>
+ST_14 : Operation 343 [1/2] ( I:2.32ns O:2.32ns )   --->   "%state_load_6 = load i3 %state_addr_20"   --->   Operation 343 'load' 'state_load_6' <Predicate = true> <Delay = 2.32> <CoreInst = "RAM">   --->   Core 81 'RAM' <Latency = 1> <II = 1> <Delay = 2.32> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 32> <Depth = 8> <RAM>
+ST_14 : Operation 344 [1/2] ( I:2.32ns O:2.32ns )   --->   "%state_load_7 = load i3 %state_addr_21"   --->   Operation 344 'load' 'state_load_7' <Predicate = true> <Delay = 2.32> <CoreInst = "RAM">   --->   Core 81 'RAM' <Latency = 1> <II = 1> <Delay = 2.32> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 32> <Depth = 8> <RAM>
+ST_14 : Operation 345 [1/1] (0.00ns)   --->   "%trunc_ln12 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_6, i32 24, i32 31" [../src/sha256.c:135]   --->   Operation 345 'partselect' 'trunc_ln12' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 346 [1/1] (0.00ns)   --->   "%trunc_ln13 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_7, i32 24, i32 31" [../src/sha256.c:136]   --->   Operation 346 'partselect' 'trunc_ln13' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 347 [1/1] (0.00ns)   --->   "%trunc_ln135_1 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_6, i32 16, i32 23" [../src/sha256.c:135]   --->   Operation 347 'partselect' 'trunc_ln135_1' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 348 [1/1] (0.00ns)   --->   "%trunc_ln136_1 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_7, i32 16, i32 23" [../src/sha256.c:136]   --->   Operation 348 'partselect' 'trunc_ln136_1' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 349 [1/1] (0.00ns)   --->   "%trunc_ln135_2 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_6, i32 8, i32 15" [../src/sha256.c:135]   --->   Operation 349 'partselect' 'trunc_ln135_2' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 350 [1/1] (0.00ns)   --->   "%trunc_ln136_2 = partselect i8 @_ssdm_op_PartSelect.i8.i32.i32.i32, i32 %state_load_7, i32 8, i32 15" [../src/sha256.c:136]   --->   Operation 350 'partselect' 'trunc_ln136_2' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 351 [1/1] (0.00ns)   --->   "%trunc_ln135 = trunc i32 %state_load_6" [../src/sha256.c:135]   --->   Operation 351 'trunc' 'trunc_ln135' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 352 [1/1] (0.00ns)   --->   "%trunc_ln136 = trunc i32 %state_load_7" [../src/sha256.c:136]   --->   Operation 352 'trunc' 'trunc_ln136' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 353 [1/1] (0.00ns)   --->   "%mrv = insertvalue i256 <undef>, i8 %trunc_ln3" [../src/sha256.c:138]   --->   Operation 353 'insertvalue' 'mrv' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 354 [1/1] (0.00ns)   --->   "%mrv_1 = insertvalue i256 %mrv, i8 %trunc_ln129_1" [../src/sha256.c:138]   --->   Operation 354 'insertvalue' 'mrv_1' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 355 [1/1] (0.00ns)   --->   "%mrv_2 = insertvalue i256 %mrv_1, i8 %trunc_ln129_2" [../src/sha256.c:138]   --->   Operation 355 'insertvalue' 'mrv_2' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 356 [1/1] (0.00ns)   --->   "%mrv_3 = insertvalue i256 %mrv_2, i8 %trunc_ln129" [../src/sha256.c:138]   --->   Operation 356 'insertvalue' 'mrv_3' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 357 [1/1] (0.00ns)   --->   "%mrv_4 = insertvalue i256 %mrv_3, i8 %trunc_ln4" [../src/sha256.c:138]   --->   Operation 357 'insertvalue' 'mrv_4' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 358 [1/1] (0.00ns)   --->   "%mrv_5 = insertvalue i256 %mrv_4, i8 %trunc_ln130_1" [../src/sha256.c:138]   --->   Operation 358 'insertvalue' 'mrv_5' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 359 [1/1] (0.00ns)   --->   "%mrv_6 = insertvalue i256 %mrv_5, i8 %trunc_ln130_2" [../src/sha256.c:138]   --->   Operation 359 'insertvalue' 'mrv_6' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 360 [1/1] (0.00ns)   --->   "%mrv_7 = insertvalue i256 %mrv_6, i8 %trunc_ln130" [../src/sha256.c:138]   --->   Operation 360 'insertvalue' 'mrv_7' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 361 [1/1] (0.00ns)   --->   "%mrv_8 = insertvalue i256 %mrv_7, i8 %trunc_ln5" [../src/sha256.c:138]   --->   Operation 361 'insertvalue' 'mrv_8' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 362 [1/1] (0.00ns)   --->   "%mrv_9 = insertvalue i256 %mrv_8, i8 %trunc_ln131_1" [../src/sha256.c:138]   --->   Operation 362 'insertvalue' 'mrv_9' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 363 [1/1] (0.00ns)   --->   "%mrv_s = insertvalue i256 %mrv_9, i8 %trunc_ln131_2" [../src/sha256.c:138]   --->   Operation 363 'insertvalue' 'mrv_s' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 364 [1/1] (0.00ns)   --->   "%mrv_10 = insertvalue i256 %mrv_s, i8 %trunc_ln131" [../src/sha256.c:138]   --->   Operation 364 'insertvalue' 'mrv_10' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 365 [1/1] (0.00ns)   --->   "%mrv_11 = insertvalue i256 %mrv_10, i8 %trunc_ln9" [../src/sha256.c:138]   --->   Operation 365 'insertvalue' 'mrv_11' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 366 [1/1] (0.00ns)   --->   "%mrv_12 = insertvalue i256 %mrv_11, i8 %trunc_ln132_1" [../src/sha256.c:138]   --->   Operation 366 'insertvalue' 'mrv_12' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 367 [1/1] (0.00ns)   --->   "%mrv_13 = insertvalue i256 %mrv_12, i8 %trunc_ln132_2" [../src/sha256.c:138]   --->   Operation 367 'insertvalue' 'mrv_13' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 368 [1/1] (0.00ns)   --->   "%mrv_14 = insertvalue i256 %mrv_13, i8 %trunc_ln132" [../src/sha256.c:138]   --->   Operation 368 'insertvalue' 'mrv_14' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 369 [1/1] (0.00ns)   --->   "%mrv_15 = insertvalue i256 %mrv_14, i8 %trunc_ln10" [../src/sha256.c:138]   --->   Operation 369 'insertvalue' 'mrv_15' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 370 [1/1] (0.00ns)   --->   "%mrv_16 = insertvalue i256 %mrv_15, i8 %trunc_ln133_1" [../src/sha256.c:138]   --->   Operation 370 'insertvalue' 'mrv_16' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 371 [1/1] (0.00ns)   --->   "%mrv_17 = insertvalue i256 %mrv_16, i8 %trunc_ln133_2" [../src/sha256.c:138]   --->   Operation 371 'insertvalue' 'mrv_17' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 372 [1/1] (0.00ns)   --->   "%mrv_18 = insertvalue i256 %mrv_17, i8 %trunc_ln133" [../src/sha256.c:138]   --->   Operation 372 'insertvalue' 'mrv_18' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 373 [1/1] (0.00ns)   --->   "%mrv_19 = insertvalue i256 %mrv_18, i8 %trunc_ln11" [../src/sha256.c:138]   --->   Operation 373 'insertvalue' 'mrv_19' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 374 [1/1] (0.00ns)   --->   "%mrv_20 = insertvalue i256 %mrv_19, i8 %trunc_ln134_1" [../src/sha256.c:138]   --->   Operation 374 'insertvalue' 'mrv_20' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 375 [1/1] (0.00ns)   --->   "%mrv_21 = insertvalue i256 %mrv_20, i8 %trunc_ln134_2" [../src/sha256.c:138]   --->   Operation 375 'insertvalue' 'mrv_21' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 376 [1/1] (0.00ns)   --->   "%mrv_22 = insertvalue i256 %mrv_21, i8 %trunc_ln134" [../src/sha256.c:138]   --->   Operation 376 'insertvalue' 'mrv_22' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 377 [1/1] (0.00ns)   --->   "%mrv_23 = insertvalue i256 %mrv_22, i8 %trunc_ln12" [../src/sha256.c:138]   --->   Operation 377 'insertvalue' 'mrv_23' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 378 [1/1] (0.00ns)   --->   "%mrv_24 = insertvalue i256 %mrv_23, i8 %trunc_ln135_1" [../src/sha256.c:138]   --->   Operation 378 'insertvalue' 'mrv_24' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 379 [1/1] (0.00ns)   --->   "%mrv_25 = insertvalue i256 %mrv_24, i8 %trunc_ln135_2" [../src/sha256.c:138]   --->   Operation 379 'insertvalue' 'mrv_25' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 380 [1/1] (0.00ns)   --->   "%mrv_26 = insertvalue i256 %mrv_25, i8 %trunc_ln135" [../src/sha256.c:138]   --->   Operation 380 'insertvalue' 'mrv_26' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 381 [1/1] (0.00ns)   --->   "%mrv_27 = insertvalue i256 %mrv_26, i8 %trunc_ln13" [../src/sha256.c:138]   --->   Operation 381 'insertvalue' 'mrv_27' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 382 [1/1] (0.00ns)   --->   "%mrv_28 = insertvalue i256 %mrv_27, i8 %trunc_ln136_1" [../src/sha256.c:138]   --->   Operation 382 'insertvalue' 'mrv_28' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 383 [1/1] (0.00ns)   --->   "%mrv_29 = insertvalue i256 %mrv_28, i8 %trunc_ln136_2" [../src/sha256.c:138]   --->   Operation 383 'insertvalue' 'mrv_29' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 384 [1/1] (0.00ns)   --->   "%mrv_30 = insertvalue i256 %mrv_29, i8 %trunc_ln136" [../src/sha256.c:138]   --->   Operation 384 'insertvalue' 'mrv_30' <Predicate = true> <Delay = 0.00>
+ST_14 : Operation 385 [1/1] (0.00ns)   --->   "%ret_ln138 = ret i256 %mrv_30" [../src/sha256.c:138]   --->   Operation 385 'ret' 'ret_ln138' <Predicate = true> <Delay = 0.00>
+
+
+============================================================
++ Verbose Summary: Timing violations
+============================================================
+Target clock period: 10.000ns, clock uncertainty: 2.700ns.
+
+ <State 1>: 3.413ns
+The critical path consists of the following:
+	wire read operation ('datalen_val_read', ../src/sha256.c:97) on port 'datalen_val' (../src/sha256.c:97) [72]  (0.000 ns)
+	'icmp' operation 1 bit ('icmp_ln101', ../src/sha256.c:101) [75]  (1.825 ns)
+	blocking operation 1.588 ns on control path)
+
+ <State 2>: 5.046ns
+The critical path consists of the following:
+	'call' operation 0 bit ('call_ln97', ../src/sha256.c:97) to 'sha256_final_Pipeline_VITIS_LOOP_103_1' [339]  (5.046 ns)
+
+ <State 3>: 6.916ns
+The critical path consists of the following:
+	'call' operation 0 bit ('call_ln97', ../src/sha256.c:97) to 'sha256_final_Pipeline_VITIS_LOOP_106_2' [271]  (6.916 ns)
+
+ <State 4>: 6.916ns
+The critical path consists of the following:
+	'call' operation 0 bit ('call_ln97', ../src/sha256.c:97) to 'sha256_final_Pipeline_VITIS_LOOP_106_2' [271]  (6.916 ns)
+
+ <State 5>: 4.175ns
+The critical path consists of the following:
+	wire read operation ('in_data_57_read') on port 'in_data_57' [328]  (0.000 ns)
+	'call' operation 0 bit ('call_ln108', ../src/sha256.c:108) to 'sha256_transform' [335]  (4.175 ns)
+
+ <State 6>: 0.000ns
+The critical path consists of the following:
+
+ <State 7>: 5.046ns
+The critical path consists of the following:
+	'call' operation 0 bit ('call_ln97', ../src/sha256.c:97) to 'sha256_final_Pipeline_VITIS_LOOP_103_1' [339]  (5.046 ns)
+
+ <State 8>: 4.175ns
+The critical path consists of the following:
+	'call' operation 0 bit ('call_ln123', ../src/sha256.c:123) to 'sha256_transform' [413]  (4.175 ns)
+
+ <State 9>: 0.000ns
+The critical path consists of the following:
+
+ <State 10>: 2.322ns
+The critical path consists of the following:
+	'getelementptr' operation 3 bit ('state_addr_15') [415]  (0.000 ns)
+	'load' operation 32 bit ('state_load_1') on array 'state' [416]  (2.322 ns)
+
+ <State 11>: 2.322ns
+The critical path consists of the following:
+	'load' operation 32 bit ('state_load', ../src/sha256.c:97) on array 'state' [414]  (2.322 ns)
+
+ <State 12>: 2.322ns
+The critical path consists of the following:
+	'load' operation 32 bit ('state_load_2') on array 'state' [418]  (2.322 ns)
+
+ <State 13>: 2.322ns
+The critical path consists of the following:
+	'load' operation 32 bit ('state_load_4') on array 'state' [422]  (2.322 ns)
+
+ <State 14>: 2.322ns
+The critical path consists of the following:
+	'load' operation 32 bit ('state_load_6') on array 'state' [426]  (2.322 ns)
+
+
+============================================================
++ Verbose Summary: Binding
+============================================================
+N/A
+* FSMD analyzer results:
+  - Output states:
+ - Input state : 
+  - Chain level:
+	State 1
+	State 2
+	State 3
+	State 4
+	State 5
+	State 6
+	State 7
+	State 8
+	State 9
+	State 10
+	State 11
+	State 12
+	State 13
+	State 14
+
+
+============================================================
++ Verbose Summary: Datapath Resource usage 
+============================================================
+N/A

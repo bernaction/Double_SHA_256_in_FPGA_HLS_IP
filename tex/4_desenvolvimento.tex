@@ -1,0 +1,488 @@
+\chapter{Desenvolvimento}\label{sec:Desenvolvimento}
+Neste capítulo, foi apresentado o desenvolvimento do trabalho conforme os objetivos propostos.
+
+\section{Visão Geral do Sistema}
+
+O sistema desenvolvido visou validar o funcionamento correto do algoritmo Double SHA-256 implementado em hardware, utilizando as plataformas FPGA ZedBoard e ZCU104. Para isso, foi construída uma cadeia de etapas que permite obter um bloco real da blockchain do Bitcoin, processar seus dados de cabeçalho e compará-los entre as versões em software e hardware.
+
+O processo se inicia com a execução de um script em Python, que se conecta à API pública do serviço \textit{mempool.space}. Essa ferramenta é utilizada como fonte prática e acessível de dados reais da blockchain, embora outras soluções, como um nó completo do Bitcoin, também pudessem ser utilizadas. O script extrai os campos necessários e reconstrói o cabeçalho de 80 bytes no formato exigido para o cálculo do Double SHA-256.
+
+O cabeçalho obtido é então transferido para o processador ARM presente nas plataformas ZCU104 (com Cortex-A53) ou ZedBoard (com Cortex-A9). A comparação é realizada em duas frentes: (1) via software em C executado diretamente no processador, que calcula o hash completo como referência, e (2) via envio do cabeçalho para a lógica programável do FPGA, onde o mesmo cálculo é realizado por meio de um IP desenvolvido em HLS. Durante a fase inicial do projeto, também foi avaliado um núcleo em VHDL baseado em um projeto open-source, mas a versão final utilizou exclusivamente o IP gerado via HLS, por oferecer maior flexibilidade e integração ao fluxo de desenvolvimento.
+
+
+Por fim, os resultados de software e hardware são comparados, validando a correção da implementação em hardware. O sistema também mede o tempo de execução e calcula a estimativa do hashrate de cada abordagem implementada, permitindo a análise de desempenho entre as plataformas e métodos empregados.
+
+\section{Desenvolvimento do Núcleo SHA-256 em HLS}\label{sec:hls_sha256}
+
+Visando validar o cálculo do algoritmo \textit{Double SHA-256} diretamente em hardware, foi desenvolvido um núcleo utilizando a ferramenta Vitis Unified IDE 2024, por meio da abordagem de High-Level Synthesis (HLS) utilizando a linguagem C preferencialmente. Diferentemente de implementações típicas de mineradores que iteram o \textit{nonce}, o foco deste trabalho é validar blocos reais da blockchain do Bitcoin, cujo cabeçalho completo já possui um \textit{nonce} conhecido.
+
+Para isso, o núcleo recebe diretamente o \textbf{cabeçalho completo} de 80 bytes como entrada, no formato esperado pela rede Bitcoin. O processamento realiza o cálculo do hash duplo SHA-256, retornando o \textbf{hash final (hash2)} como resultado. Não há comparação com um alvo (\textit{target}) nem controle de sucesso de mineração, pois o objetivo é validar se o algoritmo implementado gera o mesmo hash que um nó completo da rede.
+
+O projeto foi organizado em três arquivos principais:
+
+\begin{itemize}
+    \item \textbf{sha256.h}: fornece as constantes, estruturas e protótipos utilizados no algoritmo.
+    \item \textbf{sha256.c}: contém a implementação do algoritmo SHA-256 padrão, incluindo as operações de rotação, expansão de mensagens e compressão.
+    \item \textbf{sha256\_top.c}: função de entrada sintetizável no HLS, chamada \texttt{sha256\_top()}, responsável por receber o cabeçalho, executar os dois SHA-256 em sequência e devolver o hash2 de 32 bytes.
+\end{itemize}
+
+A seguir, são apresentados os arquivos desenvolvidos para compor o núcleo HLS responsável pelo cálculo do algoritmo \textit{Double SHA-256}. Esses arquivos foram escritos em C e utilizados na ferramenta Vitis Unified IDE para gerar o IP sintetizável.
+
+\subsection*{Arquivo sha256.h}
+
+Este arquivo contém as definições essenciais para a implementação do algoritmo SHA-256, incluindo:
+\begin{itemize}
+    \item Tipos auxiliares (\texttt{uchar}, \texttt{uint});
+    \item Macros para rotação e operações lógicas;
+    \item Constantes fixas conforme o padrão SHA-256 (FIPS PUB 180-4);
+    \item Declarações das funções principais e do IP sintetizável em HLS.
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Macros de rotação e funções lógicas:}
+\begin{lstlisting}[language=C]
+#define ROTLEFT(a,b) ((a << b) | (a >> (32 - b)))
+#define ROTRIGHT(a,b) ((a >> b) | (a << (32 - b)))
+
+#define CH(x,y,z)  (((x) & (y)) ^ (~(x) & (z)))
+#define MAJ(x,y,z) (((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)))
+#define EP0(x) (ROTRIGHT(x,2) ^ ROTRIGHT(x,13) ^ ROTRIGHT(x,22))
+#define EP1(x) (ROTRIGHT(x,6) ^ ROTRIGHT(x,11) ^ ROTRIGHT(x,25))
+\end{lstlisting}
+
+Estas macros representam as operações fundamentais do algoritmo SHA-256, como as funções de escolha (\texttt{CH}) e maioria (\texttt{MAJ}), além das expansões (\texttt{EP0}, \texttt{EP1}) utilizadas nos ciclos de compressão.
+
+\vspace{0.5em}
+\textbf{Constantes do algoritmo:}
+\begin{lstlisting}[language=C]
+static const uint k[64] = {
+  0x428a2f98, 0x71374491, ..., 0xc67178f2
+};
+\end{lstlisting}
+
+O vetor \texttt{k[64]} contém os valores constantes utilizados em cada uma das 64 iterações do algoritmo de compressão SHA-256.
+
+\vspace{0.5em}
+\textbf{Declaração das funções:}
+\begin{lstlisting}[language=C]
+void sha256_transform(uint state[8], const uchar data[64]);
+void sha256_init(uint state[8]);
+void sha256_update(...);
+void sha256_final(...);
+\end{lstlisting}
+
+Estas funções compõem o ciclo completo do algoritmo:
+\begin{itemize}
+    \item \texttt{init}: inicializa o vetor de estado.
+    \item \texttt{update}: alimenta o buffer com os dados do bloco.
+    \item \texttt{transform}: executa os 64 ciclos de compressão.
+    \item \texttt{final}: aplica o padding e finaliza o digest.
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Função sintetizável para o IP:}
+\begin{lstlisting}[language=C]
+void sha256_top(uint32_t *header, uint32_t *hash_result, volatile bool *ap_busy_out);
+\end{lstlisting}
+
+Essa função encapsula a execução completa do algoritmo SHA-256 duplo e é o ponto de entrada do IP sintetizado via HLS. Ela é acionada com o cabeçalho de bloco Bitcoin e retorna o hash final, além de sinalizar sua ocupação via \texttt{ap\_busy\_out}.
+
+\vspace{0.5em}
+O código completo está disponível no \autoref{apendice:sha256_h}.
+
+
+\subsection*{Arquivo sha256.c}
+
+Este arquivo contém a implementação completa do algoritmo SHA-256, dividido em funções conforme a especificação FIPS PUB 180-4. O código foi adaptado para síntese em HLS, com uso de diretivas \texttt{\#pragma HLS} que otimizam paralelismo, uso de buffers e desempenho na FPGA.
+
+\vspace{1em}
+\textbf{Exemplo de uma das funções:}
+\begin{lstlisting}[language=C]
+void sha256_init(uint state[8]) {
+  #pragma HLS inline
+  state[0] = 0x6a09e667;
+  state[1] = 0xbb67ae85;
+  state[2] = 0x3c6ef372;
+  state[3] = 0xa54ff53a;
+  state[4] = 0x510e527f;
+  state[5] = 0x9b05688c;
+  state[6] = 0x1f83d9ab;
+  state[7] = 0x5be0cd19;
+}
+\end{lstlisting}
+
+Esta função é sempre chamada no início de cada rodada SHA-256 para configurar o vetor de estado inicial. O uso da diretiva \texttt{\#pragma HLS inline} instrui o compilador a inseri-la diretamente, otimizando a execução em hardware.
+
+As funções centrais implementadas são:
+
+\begin{itemize}
+  \item \texttt{sha256\_init}: inicializa o vetor de estado com os valores fixos definidos na especificação do SHA-256.
+  \item \texttt{sha256\_update}: recebe os dados do cabeçalho Bitcoin (80 bytes) e armazena em um buffer de 64 bytes, chamando \texttt{sha256\_transform} a cada bloco completo. Também acumula o comprimento total dos dados processados.
+  \item \texttt{sha256\_transform}: executa os 64 ciclos principais de compressão do algoritmo SHA-256, processando os dados em 64 palavras de 32 bits e atualizando o vetor de estado. Esta função é fortemente paralelizada com diretivas \texttt{HLS}.
+  \item \texttt{sha256\_final}: aplica o \textit{padding}, realiza a última rodada de compressão e converte o vetor de estado final para um hash de 256 bits (32 bytes) em formato \textit{big endian}.
+\end{itemize}
+
+Estas funções são utilizadas tanto na versão em software (execução no processador ARM) quanto na versão sintetizável para FPGA, compondo o núcleo lógico do algoritmo Double SHA-256.
+
+O código-fonte completo encontra-se no \autoref{apendice:sha256_c}.
+
+
+
+\textbf{Diretivas de Otimização HLS}
+
+Durante a implementação do algoritmo SHA-256, foram utilizadas diretivas \texttt{\#pragma HLS} para otimizar o código C visando exclusivamente a síntese em hardware. Essas diretivas são interpretadas pelo Vitis HLS para gerar arquiteturas otimizadas no FPGA. A seguir, descrevemos as diretivas aplicadas:
+
+\begin{itemize}
+    \item \texttt{\#pragma HLS ARRAY\_PARTITION variable=data complete dim=1}
+    \begin{itemize}
+        \item Essa diretiva aplica \textbf{particionamento completo} ao \textit{array} \texttt{data[]} na primeira dimensão. O objetivo é permitir acesso paralelo a todos os elementos do \textit{array} durante a execução do \textit{loop}. No contexto do SHA-256, isso acelera a leitura dos dados de entrada para a expansão de palavras.
+    \end{itemize}
+    \item \texttt{\#pragma HLS ARRAY\_PARTITION variable=m complete dim=1}
+    \begin{itemize}
+        \item Similar à diretiva anterior, esta aplica particionamento completo ao \textit{array} \texttt{m[]}, que armazena as 64 palavras expandidas a partir dos dados de entrada. Como cada uma dessas palavras é usada em diferentes iterações dos ciclos do algoritmo, o acesso paralelo é essencial para evitar gargalos de leitura.
+    \end{itemize}
+    \item \texttt{\#pragma HLS UNROLL}
+    \begin{itemize}
+        \item Utilizada dentro de um laço, essa diretiva solicita ao HLS que desenrole completamente o loop, gerando cópias explícitas do corpo da iteração. No caso específico:
+        \texttt{for (i = 0, j = 0; i < 16; ++i, j += 4)} essa diretiva permite converter os 16 ciclos de leitura do \textit{array} \texttt{data[]} em hardware paralelo, melhorando a latência.
+    \end{itemize}
+    \item \texttt{\#pragma HLS PIPELINE II=1}
+    \begin{itemize}
+        \item Essa diretiva é usada em \textit{loops} com dependência mínima entre iterações. O parâmetro \texttt{II=1} (Intervalo de Iniciação) força o HLS a iniciar uma nova iteração do \textit{loop} a cada ciclo de \textit{clock}, maximizando o \textit{throughput}. É aplicada, por exemplo:
+        \begin{itemize}
+            \item Na expansão das palavras SHA (\texttt{for (; i < 64; ++i)}) e
+            \item Nos 64 rounds principais do SHA-256.
+        \end{itemize}
+        \item Isso garante que o pipeline seja denso e contínuo, aumentando o desempenho computacional no FPGA.
+    \end{itemize}
+    \item \texttt{\#pragma HLS inline}
+    \begin{itemize}
+        \item Utilizada na função \texttt{sha256\_init()}, essa diretiva instrui o HLS a embutir a função no local onde é chamada, eliminando a sobrecarga de chamada de função. Isso é útil para funções pequenas e chamadas frequentes.
+    \end{itemize}
+    \item \texttt{\#pragma HLS UNROLL}
+    \begin{itemize}
+        \item Aplicada no \textit{loop} que converte os registros de 32 bits para \textit{bytes} no \textit{digest} final. Ao desenrolar completamente esse laço, a geração do hash final se torna paralela, reduzindo a latência de saída.
+    \end{itemize}
+\end{itemize}
+
+Essas diretivas foram aplicadas de forma estratégica para equilibrar desempenho (baixa latência e alto \textit{throughput}) com o consumo de recursos (LUTs e FFs).
+
+As diretivas HLS, como já explicadas anteriormente, foram estrategicamente posicionadas nas funções críticas, como \texttt{sha256\_transform} e \texttt{sha256\_final}, para permitir paralelismo interno (desenrolamento de laços) e pipelining eficiente, melhorando a taxa de execução e viabilizando alto desempenho na implementação em hardware.
+
+Este código representa a base funcional que será chamada pela função \texttt{sha256\_top}, responsável por controlar a interface AXI e organizar a chamada sequencial dos blocos lógicos. No próximo trecho, será apresentado o código da \texttt{sha256\_top}, que encapsula o processo completo em uma única operação acionável pelo hardware.
+
+
+\subsection*{Arquivo sha256\_top.c}
+
+O arquivo \texttt{sha256\_top.c} representa o núcleo de processamento do IP HLS criado para o FPGA, sendo responsável por executar o algoritmo Double SHA-256 diretamente no hardware a partir de um bloco de 80 bytes (header completo do Bitcoin). A função realiza duas rodadas consecutivas de SHA-256, como definido na mineração de Bitcoin, retornando o hash final no formato \texttt{uint32\_t[8]}.
+
+\vspace{0.5em}
+\textbf{Cabeçalho e Interfaces do IP:}
+\begin{lstlisting}[language=C]
+#include "sha256.h"
+
+void sha256_top(
+  uint32_t header[20],       // 80 bytes = 20 palavras
+  uint32_t hash_result[8],   // 32 bytes = 8 palavras
+  volatile bool *ap_busy_out // true computando, false ocioso
+){
+  #pragma HLS INTERFACE s_axilite port=header       bundle=control offset=0x100
+  #pragma HLS INTERFACE s_axilite port=hash_result  bundle=control offset=0x200
+  #pragma HLS INTERFACE s_axilite port=return       bundle=control
+  #pragma HLS INTERFACE ap_none    port=ap_busy_out
+\end{lstlisting}
+
+As interfaces \texttt{s\_axilite} permitem comunicação entre o processador ARM e o IP via barramento AXI4-Lite. O vetor \texttt{header[20]} carrega o bloco a ser processado, enquanto \texttt{hash\_result[8]} recebe a saída. O sinal \texttt{ap\_busy\_out} indica se o IP está ativo.
+
+A primeira rodada usa como entrada o cabeçalho Bitcoin, gerando o \texttt{hash1}. A segunda rodada aplica SHA-256 sobre o \texttt{hash1}, produzindo o \texttt{hash2} final, que é convertido para 8 palavras de 32 bits no formato \textit{big-endian}, compatível com a maioria das pools de mineração.
+
+\vspace{0.5em}
+\textbf{Preparação e Primeira Rodada de SHA-256:}
+\begin{lstlisting}[language=C]
+  for (int i = 0; i < 32; i++) hash1[i] = 0;
+  for (int i = 0; i < 32; i++) hash2[i] = 0;
+  
+  uchar in_data[64] = {0};
+  uint datalen = 0;
+  uint bitlen[2] = {0};
+  uint state[8] = {0};
+
+  // SHA256 ROUND 1
+  sha256_init(state);
+  sha256_update(in_data, &datalen, bitlen, header_bytes, 80, state);
+  sha256_final(in_data, &datalen, bitlen, state, hash1);
+\end{lstlisting}
+
+Zera os vetores de trabalho e executa a primeira rodada do SHA-256 no cabeçalho convertido. A função utiliza os métodos previamente comentados no arquivo \texttt{sha256.c}, produzindo o \texttt{hash1}.
+
+\vspace{0.5em}
+\textbf{Segunda Rodada de SHA-256:}
+\begin{lstlisting}[language=C]
+  for (int i = 0; i < 64; i++) in_data[i] = 0;
+  datalen = 0;
+  bitlen[0] = 0;
+  bitlen[1] = 0;
+
+  // SHA256 ROUND 2
+  sha256_init(state);
+  sha256_update(in_data, &datalen, bitlen, hash1, 32, state);
+  sha256_final(in_data, &datalen, bitlen, state, hash2);
+\end{lstlisting}
+
+Executa o segundo SHA-256 sobre o \texttt{hash1}, como requerido no processo de mineração do Bitcoin. O resultado é armazenado em \texttt{hash2}.
+
+\vspace{0.5em}
+\textbf{Conversão para formato final e encerramento:}
+\begin{lstlisting}[language=C]
+  for (int i = 0; i < 8; i++) {
+    #pragma HLS UNROLL
+    hash_result[i] = ((uint32_t)hash2[i*4 + 3] << 24) |
+                     ((uint32_t)hash2[i*4 + 2] << 16) |
+                     ((uint32_t)hash2[i*4 + 1] << 8)  |
+                     ((uint32_t)hash2[i*4 + 0]);              
+  }
+
+  *ap_busy_out = false;  // Desativa o sinal de ocupado
+}
+\end{lstlisting}
+
+Converte o hash final de 32 bytes (\texttt{hash2}) para um vetor de 8 palavras de 32 bits no formato big-endian, conforme exigido pelas pools de mineração e verificação de share. Por fim, o IP sinaliza que concluiu a operação.
+
+A versão completa do código-fonte encontra-se no \autoref{apendice:sha256_top_c}.
+
+
+
+\textbf{Diretivas de Otimização HLS}
+
+\begin{itemize}
+\item \texttt{\#pragma HLS INTERFACE s\_axilite}: Define que os parâmetros \texttt{header}, \texttt{hash\_result} e o sinal de retorno da função sejam acessíveis via interface AXI4-Lite, possibilitando controle a partir do processador ARM ou outro mestre AXI.
+\begin{itemize}
+\item \texttt{offset=0x100} e \texttt{offset=0x200} garantem que os registradores de controle ocupem endereços distintos e pré definidos.
+\end{itemize}
+
+\item \texttt{\#pragma HLS INTERFACE ap\_none port=ap\_busy\_out}: Essa diretiva indica que o sinal \texttt{ap\_busy\_out} é uma saída sem protocolo (não está conectado à interface AXI), podendo ser lido diretamente como um pino lógico.
+
+\item \texttt{\#pragma HLS ARRAY\_PARTITION complete dim=1}: Usada nos vetores internos \texttt{hash1}, \texttt{hash2} e \texttt{header\_bytes}, permite acesso paralelo completo a todos os seus elementos, essencial para maximizar o desempenho durante as conversões e cópias.
+
+\item \texttt{\#pragma HLS DEPENDENCE variable=header inter false} e, o mesmo para \texttt{hash\_result}: Declaram ao HLS que não existem dependências entre iterações (\textit{inter-iteration dependencies}) nos acessos a esses vetores, o que permite ao compilador aplicar otimizações mais agressivas.
+
+\item \texttt{\#pragma HLS UNROLL}: Presente nos laços de conversão do \texttt{header} e na montagem do resultado final, permite paralelismo total, convertendo laços iterativos em lógica combinacional, reduzindo o tempo total de execução da função.
+\end{itemize}
+
+O bloco \texttt{sha256\_top}, ilustrado no fluxograma da \autoref{fig:fluxo_sha256_top}, representa a função principal que realiza o cálculo completo do \textit{Double SHA-256}. Ele recebe como entrada um cabeçalho de 80 bytes (dividido em 20 palavras de 32 bits), realiza duas passagens consecutivas do algoritmo SHA-256 — conforme a especificação do Bitcoin — e retorna o hash final de 256 bits. 
+
+\begin{figure}[H]
+    \caption{Fluxograma da função \texttt{sha256\_top} representando o fluxo interno do algoritmo Double SHA-256 implementado em HLS.}
+    \centering
+    \includegraphics[width=1\textwidth]{4_desenvolvimento/fluxograma_sha256_top.png}
+    \caption*{Fonte: O Autor (2025).}
+    \label{fig:fluxo_sha256_top}
+\end{figure}
+
+Todo o processo é sequencial, com inicialização, preparo das variáveis internas, e conversão dos dados entre formatos \texttt{uint32\_t} e bytes para garantir compatibilidade com o algoritmo padrão. O fluxo foi projetado para garantir desempenho consistente e saída determinística, sendo a base para validação de blocos reais da blockchain.
+
+\section{Desenvolvimento do Contador de Ciclos}\label{sec:cycle_counter}
+Para medir com precisão o tempo de execução do bloco \texttt{sha256\_top} no hardware, foi desenvolvido um componente em RTL chamado \texttt{cycle\_counter}, descrito em VHDL. Este componente atua como um contador de clock dedicado, sendo sensível ao sinal \texttt{ap\_busy\_out} proveniente do bloco HLS. O objetivo é contar exatamente quantos ciclos de clock o IP leva para processar uma entrada completa de 80 bytes e produzir o hash final.
+
+\subsection*{Arquivo cycle\_counter.vhdl}
+
+
+Um componente auxiliar chamado \texttt{cycle\_counter.vhdl} foi implementado para medir com precisão o número de ciclos de clock consumidos pelo IP SHA-256 durante sua execução. Esse contador detecta o início e o fim da operação por meio do sinal \texttt{ap\_busy} e armazena o valor final em um registrador interno, que pode ser lido pelo processador via barramento. Este contador inicia sua contagem com a transição do sinal \texttt{ap\_busy\_in} de '0' para '1', e encerra quando esse sinal retorna a '0'. O valor final fica disponível para leitura por um processador ou lógica externa via registrador interno. 
+
+Esse contador foi integrado ao \textit{Block Design} tanto da ZCU104 quanto da ZedBoard, compartilhando o mesmo sinal de ocupação (\texttt{ap\_busy}) do IP HLS. Seu uso permitiu a medição precisa do tempo de execução, fundamental para estimar o \textit{hashrate} real das plataformas. Em implementações comerciais, esse bloco seria omitido para reduzir recursos, mas em ambiente acadêmico ele é essencial para a análise temporal do sistema.
+
+O código completo encontra-se no \autoref{apendice:cycle_counter}.
+
+
+
+\section{Desenvolvimento do Código em Ambiente Baremetal}\label{sec:main_baremetal}
+O arquivo \texttt{main.c} foi desenvolvido em ambiente baremetal, ou seja, sem a utilização de um sistema operacional, permitindo que o código seja executado diretamente sobre o hardware da plataforma embarcada. Foi utilizada a IDE \textit{Vitis Classic} da AMD-Xilinx para compilar e carregar o programa. Esse código é responsável por inicializar o processador, configurar os periféricos mapeados na memória e realizar os testes de desempenho e validação funcional do IP \texttt{sha256\_top} gerado pelo Vitis HLS.
+
+
+\subsection*{Arquivo main.c}
+
+Este arquivo define o programa principal em C que é executado no processador ARM do SoC (Processing System - PS) em modo bare-metal. Ele realiza a comparação entre duas execuções do algoritmo Double SHA-256: uma em software puro (CPU) e outra utilizando o IP HLS sintetizado no FPGA (PL). 
+
+\vspace{0.5em}
+\textbf{Mapeamento de registradores e variáveis:}
+\begin{lstlisting}[language=C]
+#define SHA256_BASE       	0xA0000000  // Endereco base do IP
+#define GPIO_BASE           0xA0010000  // GPIO para leitura de ciclos
+
+#define REG_HEADER_BASE     (SHA256_BASE + 0x100)
+#define REG_RESULT_BASE     (SHA256_BASE + 0x200)
+#define REG_CONTROL         (SHA256_BASE + 0x00)
+#define CYCLE_COUNT_READ    (GPIO_BASE + 0x0)
+\end{lstlisting}
+
+Os valores definidos nas macros \texttt{\#define SHA256\_BASE} e \texttt{\#define GPIO\_BASE} variam de acordo com a plataforma utilizada e são atribuídos com base no endereço base dos periféricos conectados via barramento AXI no Vivado. Essas informações podem ser visualizadas no \textit{Address Editor} do Vivado, conforme ilustrado na \autoref{fig:addrmap_zcu104} e \autoref{fig:addrmap_zedboard}.
+
+\begin{figure}[H]
+ \centering
+  \caption{Mapeamento de endereços na plataforma ZCU104 (Zynq UltraScale+)}
+ \includegraphics[width=0.85\textwidth]{4_desenvolvimento/zcu104/address_map.png}
+    \caption*{Fonte: O Autor (2025}
+ \label{fig:addrmap_zcu104}
+\end{figure}
+
+\begin{figure}[H]
+ \centering
+  \caption{Mapeamento de endereços na plataforma ZedBoard (Zynq-7000)}
+ \includegraphics[width=0.85\textwidth]{4_desenvolvimento/zedboard/address_map.png}
+\caption*{Fonte: O Autor (2025}
+ \label{fig:addrmap_zedboard}
+\end{figure}
+
+Com base nesses endereços, o software em C define corretamente os registradores utilizados para comunicação entre o processador e o IP SHA-256 no FPGA, bem como o acesso ao contador de ciclos implementado via AXI GPIO.
+
+
+\vspace{0.5em}
+\textbf{Função \texttt{PS\_Mining}:}
+\begin{lstlisting}[language=C]
+void PS_Mining(const char *header_hex, const char *hash_real){
+  // converte o header e executa o Double SHA em C puro
+  sha256_top(header, hash_result);
+}
+\end{lstlisting}
+
+Executa o algoritmo em software, diretamente sobre o processador ARM, usando a mesma lógica implementada em C, sem aceleração em hardware.
+
+\vspace{0.5em}
+\textbf{Função \texttt{IP\_Mining}:}
+\begin{lstlisting}[language=C]
+void IP_Mining(const char *header_hex, const char *hash_real){
+  // escreve nos registradores do IP e le o resultado
+  Xil_Out32(REG_CONTROL, 0x01);  // start
+  while ((Xil_In32(REG_CONTROL) & 0x2) == 0);  // espera done
+}
+\end{lstlisting}
+
+Executa o algoritmo no FPGA. O processador envia o cabeçalho via AXI, aciona o sinal \texttt{ap\_start}, aguarda o sinal \texttt{ap\_done} e lê o resultado final e o tempo de execução.
+
+\vspace{0.5em}
+\textbf{Função \texttt{resultados()}:}
+
+Compara os hashes gerados por CPU e FPGA com o hash real do bloco Bitcoin, calcula o tempo de execução (em ns) e estima o \textit{hashrate} de cada execução.
+
+Além disso, calcula o ganho de aceleração proporcionado pelo FPGA:
+
+\begin{equation}
+  \text{ganho} = \frac{\text{tempo CPU}}{\text{tempo FPGA}}
+\end{equation}
+\addEquacao{Cálculo do ganho}{6}
+
+O código completo com a lógica de entrada de dados, conversão dos headers, exibição no terminal e chamadas às funções \texttt{PS\_Mining} e \texttt{IP\_Mining} estão disponíveis no \autoref{apendice:main_c}.
+
+
+
+
+\section{Integração no Vivado} \label{sec:vivado}
+
+Nesta seção, são descritos os projetos desenvolvidos no Vivado para as duas plataformas utilizadas: ZedBoard (baseada em Zynq-7000) e ZCU104 (baseada em Zynq UltraScale+). Em ambos os casos, o objetivo foi integrar o IP \texttt{sha256\_top} com o processador ARM respectivamente, junto com o bloco \texttt{cycle\_counter} desenvolvido em VHDL para monitoramento do tempo de execução. As diferenças entre as arquiteturas foram consideradas no mapeamento de endereços e geração do \texttt{bitstream} final.
+
+
+\subsection*{Projeto para a Plataforma ZedBoard} \label{subsec:zedboard}
+
+A plataforma ZedBoard é baseada na arquitetura Zynq-7000, que incorpora um processador ARM Cortex-A9 de 32 bits e lógica programável da família Artix-7. Essa plataforma, apesar de menos potente que a ZCU104, foi utilizada com sucesso para validar a portabilidade do projeto e comprovar que o IP desenvolvido em HLS é compatível com diferentes gerações do SoC Zynq.
+
+O projeto foi adaptado no Vivado para utilizar os canais AXI gerais disponíveis no Zynq-7000 (GP0) e realizar a comunicação entre o processador ARM e os IPs conectados na PL. O bloco \texttt{sha256\_top} e o contador de ciclos \texttt{cycle\_counter} foram conectados da mesma forma, respeitando os endereços mapeados para essa plataforma.
+
+\begin{figure}[H]
+ \centering
+ \caption{Diagrama de blocos desenvolvido no Vivado para a ZedBoard}
+ \includegraphics[width=0.95\textwidth]{4_desenvolvimento/zedboard/block_diagram.png}
+ \label{fig:block_diagram_zed}
+ \caption*{Fonte: O Autor (2025)}
+\end{figure}
+
+Como pode ser observado na \autoref{fig:block_diagram_zed}, a estrutura geral do projeto é mantida, incluindo os seguintes blocos:
+\begin{itemize}
+  \item \textbf{Zynq-7000 Processing System}: Responsável por executar o software baremetal e controlar os periféricos conectados à PL por meio da interface AXI GP.
+  \item \textbf{sha256\_top\_0}: IP desenvolvido em HLS responsável por realizar o cálculo do Double SHA-256.
+  \item \textbf{cycle\_counter\_0}: Módulo RTL em VHDL que contabiliza os ciclos de clock durante a execução do IP.
+  \item \textbf{axi\_gpio\_0}: Permite a leitura do valor do contador de ciclos diretamente pelo processador.
+  \item \textbf{AXI Interconnect}: Realiza o roteamento dos sinais AXI entre os blocos da PL e o sistema de processamento.
+\end{itemize}
+
+Apesar da limitação de recursos e desempenho em relação à ZCU104, a implementação na ZedBoard foi bem-sucedida, servindo como prova de conceito para demonstrar a portabilidade do IP entre plataformas de diferentes gerações do SoC Zynq.
+
+A arquitetura interna do Zynq-7000, ilustrada a seguir, apresenta os caminhos de interconexão entre o processador (PS) e a lógica programável (PL), evidenciando o fluxo dos sinais AXI utilizados na comunicação com os blocos implementados no projeto.
+
+
+\subsection*{Projeto para a Plataforma ZCU104}\label{subsec:zcu104}
+
+A arquitetura do Zynq UltraScale+, ilustrada na sequência, apresenta de forma mais detalhada os canais AXI utilizados para comunicação entre os blocos da PL e o subsistema de processamento, destacando o uso dos canais HPM (High Performance Master) e HP (High Performance Slave), que garantem maior largura de banda em relação à geração anterior.
+
+\begin{figure}[H]
+ \centering
+ \caption{Diagrama de blocos desenvolvido no Vivado}
+ \includegraphics[width=0.95\textwidth]{4_desenvolvimento/zcu104/block_diagram.png}
+ \label{fig:block_diagram}
+ \caption*{Fonte: O Autor (2025)}
+\end{figure}
+
+A \autoref{fig:block_diagram} mostra a conexão entre os principais módulos:
+\begin{itemize}
+  \item \textbf{Zynq MPSoC (Processing System)}: Responsável por executar o código baremetal, inicializar os periféricos e enviar o cabeçalho para o IP.
+  \item \textbf{sha256\_top\_0}: IP desenvolvido em HLS que realiza o processamento completo do Double SHA-256.
+  \item \textbf{cycle\_counter\_0}: Bloco RTL em VHDL desenvolvido para contar os ciclos de clock durante a execução do IP, baseado no sinal \texttt{ap\_busy\_out}.
+  \item \textbf{axi\_gpio\_0}: Usado para expor o valor do contador de ciclos para leitura pelo processador.
+  \item \textbf{SmartConnect}: Interconexão AXI entre os blocos PL e PS.
+\end{itemize}
+
+A seguir, o diagrama de blocos interno do Zynq UltraScale+ PS ilustra como os sinais e buses AXI são roteados para a lógica programável (PL), permitindo a comunicação eficiente entre o software e o IP em hardware.
+
+
+\section{Extração de Dados da Blockchain com Python} \label{subsec:python_header}
+
+Para validar o IP \texttt{sha256\_top} com dados reais da rede Bitcoin, foi desenvolvido um script em Python capaz de consultar blocos confirmados através da API pública \texttt{mempool.space}. O script utiliza a biblioteca \texttt{requests} para realizar as chamadas HTTP e a biblioteca \texttt{hashlib} para calcular os hashes em software, permitindo verificar se o resultado gerado pelo IP corresponde ao esperado.
+
+\subsection*{Arquivo mempool.py}
+\label{sec:mempool_py}
+
+Este script em Python é responsável por extrair, formatar e validar os campos necessários para construir o \texttt{block header} de um bloco real da blockchain do Bitcoin. A montagem segue a ordem padrão exigida pelo protocolo:
+
+\begin{center}
+\texttt{header} = \texttt{version} + \texttt{prev\_hash} + \texttt{merkle\_root} + \texttt{timestamp} + \texttt{bits} + \texttt{nonce}
+\end{center}
+
+\vspace{0.5em}
+\textbf{Trecho da função de montagem:}
+\begin{lstlisting}[language=Python]
+version     = b["version"]
+prev_hash   = b["prev_hash"]
+merkle_root = b["merkle_root"]
+timestamp   = b["timestamp"]
+bits        = b["bits"]
+nonce       = b["nonce"]
+
+header = version + prev_hash + merkle_root + timestamp + bits + nonce
+\end{lstlisting}
+
+Cada campo é obtido da API pública do \texttt{mempool.space} e convertido para o formato \textit{little-endian}, conforme exigido pelo protocolo Bitcoin e pela entrada do sistema implementado em C/FPGA. O header gerado possui exatamente 80 bytes.
+
+\vspace{1em}
+\textbf{Lógica da função \texttt{mempool()}:}
+\begin{itemize}
+  \item Consulta um bloco real da blockchain pela altura (\texttt{height});
+  \item Extrai e converte os campos relevantes (\texttt{version}, \texttt{prev\_hash}, \texttt{merkle\_root}, \texttt{timestamp}, \texttt{bits} e \texttt{nonce});
+  \item Concatena os campos na ordem correta para formar o header;
+  \item Calcula localmente o Double SHA-256 para verificar se o hash final bate com o valor registrado pela rede;
+  \item Exibe os dados no terminal para validação.
+\end{itemize}
+
+O código-fonte completo está disponível no \autoref{apendice:mempool_py}.
+
+
+
+A seguir, é exibido o resultado da execução do script Python no terminal, demonstrando a montagem do bloco de cabeçalho (header) e a validação do hash duplo conforme o protocolo do Bitcoin.
+
+\begin{figure}[H]
+    \centering
+    \caption{Saída do código em Python.}
+    \includegraphics[width=1\linewidth]{4_desenvolvimento/mempool.png}
+    \caption*{Fonte: O Autor (2025).}
+    \label{fig:enter-label}
+\end{figure}
+
+Esse header é impresso em formato hexadecimal (little-endian) e posteriormente utilizado como entrada no sistema embarcado via UART ou escrita direta em registradores, conforme descrito nas seções anteriores. Com isso, é possível realizar testes reais no IP de mineração, comparando os resultados com o hash esperado de blocos reais da blockchain do Bitcoin.

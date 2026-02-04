@@ -1,0 +1,40 @@
+[
+  {
+    "directory": "D:\\Clouds\\Dropbox\\Vivado_Project\\Final\\ZCU104\\Vitis_HLS\\hls_component",
+    "arguments": [
+      "B:\\Xilinx\\Vitis\\2024.2\\vcxx\\libexec\\clang++.exe",
+      "--sysroot=B:\\Xilinx\\Vitis\\2024.2\\tps\\mingw\\10.0.0\\win64.o\\nt",
+      "-fhls",
+      "-hls-syn-headers-dir=B:\\Xilinx\\Vitis\\2024.2\\common\\technology\\autopilot",
+      "-fhlstoplevel=sha256_top",
+      "-c",
+      "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/src/sha256_top.c"
+    ],
+    "file": "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/src/sha256_top.c"
+  },
+  {
+    "directory": "D:\\Clouds\\Dropbox\\Vivado_Project\\Final\\ZCU104\\Vitis_HLS\\hls_component",
+    "arguments": [
+      "B:\\Xilinx\\Vitis\\2024.2\\vcxx\\libexec\\clang++.exe",
+      "--sysroot=B:\\Xilinx\\Vitis\\2024.2\\tps\\mingw\\10.0.0\\win64.o\\nt",
+      "-fhls",
+      "-hls-syn-headers-dir=B:\\Xilinx\\Vitis\\2024.2\\common\\technology\\autopilot",
+      "-fhlstoplevel=sha256_top",
+      "-c",
+      "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/src/sha256.c"
+    ],
+    "file": "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/src/sha256.c"
+  },
+  {
+    "directory": "D:\\Clouds\\Dropbox\\Vivado_Project\\Final\\ZCU104\\Vitis_HLS\\hls_component",
+    "arguments": [
+      "B:\\Xilinx\\Vitis\\2024.2\\vcxx\\libexec\\clang++.exe",
+      "--sysroot=B:\\Xilinx\\Vitis\\2024.2\\tps\\mingw\\10.0.0\\win64.o\\nt",
+      "-fhls-tb",
+      "-hls-sim-headers-dir=B:\\Xilinx\\Vitis\\2024.2\\include",
+      "-c",
+      "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/src/sha256_test.c"
+    ],
+    "file": "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/src/sha256_test.c"
+  }
+]

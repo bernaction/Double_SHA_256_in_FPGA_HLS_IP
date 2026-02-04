@@ -1,0 +1,56 @@
+<design_size title="Design Size Report">
+    <item name="Total Instructions per Compilation Phase">
+        <table>
+            <keys size="4">Phase, Step, Instructions, Description</keys>
+            <column name="Compile/Link">, 2308, After all functions are compiled and linked into a single design</column>
+            <column name="">, , </column>
+            <column name="Unroll/Inline">, , After user unroll and inline pragmas are applied</column>
+            <column name="">(1) unroll, 4451, user unroll pragmas are applied</column>
+            <column name="">(2) simplification, 3840, simplification of applied user unroll pragmas</column>
+            <column name="">(3) inline, 3797, user inline pragmas are applied</column>
+            <column name="">(4) simplification, 3792, simplification of applied user inline pragmas</column>
+            <column name="">, , </column>
+            <column name="Array/Struct">, , After user array partition and struct aggregate/disaggregate pragmas are applied</column>
+            <column name="">(1) array partition, 9095, user array partition pragmas are applied</column>
+            <column name="">(2) simplification, 8025, simplification of applied user array partition &amp; struct aggregate/disaggregate pragmas</column>
+            <column name="">(3) aggregate/disaggregate , 8025, user struct aggregate/disaggregate pragmas are applied</column>
+            <column name="">(4) array reshape, 8025, apply array reshape pragmas</column>
+            <column name="">(5) access patterns, 8855, array access pattern optmizations</column>
+            <column name="">, , </column>
+            <column name="Performance">, , After transformations are applied to meet performance pragma targets</column>
+            <column name="">(1) loop simplification, 8650, loop and instruction simplification</column>
+            <column name="">(2) parallelization, 7995, loops are unrolled or pipelined to meet performance targets</column>
+            <column name="">(3) array partition, 7993, arrays are partitioned to meet performance targets</column>
+            <column name="">(4) simplification, 7983, simplification of design after performance transformations</column>
+            <column name="">, , </column>
+            <column name="HW Transforms">, , After hardware transfomations</column>
+            <column name="">(1) lowering, 7892, initial conversion to HW specific instructions</column>
+            <column name="">(2) optimizations, 7969, high level synthesis optimizations</column>
+        </table>
+    </item>
+    <item name="Instructions per Function for each Compilation Phase">
+        <hiertable>
+            <header size="7" col0="Function" col1="Location" col2="Compile/Link" col3="Unroll/Inline" col4="Array/Struct" col5="Performance" col6="HW Transforms"/>
+            <rows>
+                <row id="0" col0="sha256_top" col1="sha256_top.c:4" col2="2308" col3="3792" col4="8855" col5="7983" col6="7969">
+                    <row id="4" col0="sha256_init" col1="sha256.c:59" col2="34" col2_disp="  34 (2 calls)" col3="" col4="" col5="" col6=""/>
+                    <row id="3" col0="sha256_update" col1="sha256.c:76" col2="642" col2_disp=" 642 (2 calls)" col3="" col4="" col5="" col6="">
+                        <row id="2" col0="sha256_transform" col1="sha256.c:9" col2="528" col2_disp=" 528 (2 calls)" col3="" col4="" col5="" col6=""/>
+                    </row>
+                    <row id="1" col0="sha256_final" col1="sha256.c:97" col2="1434" col2_disp="1,434 (2 calls)" col3="2212" col3_disp="2,212 (2 calls)" col4="5110" col4_disp="5,110 (2 calls)" col5="4918" col5_disp="4,918 (2 calls)" col6="4896" col6_disp="4,896 (2 calls)">
+                        <row id="2" col0="sha256_transform" col1="sha256.c:9" col2="1056" col2_disp="1,056 (4 calls)" col3="1792" col3_disp="1,792 (4 calls)" col4="3384" col4_disp="3,384 (4 calls)" col5="2968" col5_disp="2,968 (4 calls)" col6="2932" col6_disp="2,932 (4 calls)"/>
+                    </row>
+                    <row id="2" col0="sha256_transform" col1="sha256.c:9" col2="" col3="896" col3_disp=" 896 (2 calls)" col4="1692" col4_disp="1,692 (2 calls)" col5="1484" col5_disp="1,484 (2 calls)" col6="1466" col6_disp="1,466 (2 calls)"/>
+                </row>
+            </rows>
+            <notes/>
+        </hiertable>
+    </item>
+    <item name="Design Size Message Settings">
+        <table>
+            <keys size="3">Message Setting, Value, Description</keys>
+            <column name="config_compile -design_size_maximum_warning">100000, Show a warning when total design instructions exceeds this value</column>
+        </table>
+    </item>
+</design_size>
+

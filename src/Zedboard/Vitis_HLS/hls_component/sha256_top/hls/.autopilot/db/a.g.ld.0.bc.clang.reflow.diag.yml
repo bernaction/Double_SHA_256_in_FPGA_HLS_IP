@@ -1,0 +1,531 @@
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: ../src/sha256.c, Line: 82, Column: 7 }
+Function:        sha256_update
+Args:            
+  - Callee:          sha256_transform
+    DebugLoc:        { File: ../src/sha256.c, Line: 9, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          sha256_update
+    DebugLoc:        { File: ../src/sha256.c, Line: 76, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: ../src/sha256.c, Line: 108, Column: 5 }
+Function:        sha256_final
+Args:            
+  - Callee:          sha256_transform
+    DebugLoc:        { File: ../src/sha256.c, Line: 9, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          sha256_final
+    DebugLoc:        { File: ../src/sha256.c, Line: 97, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Passed
+Pass:            inline
+Name:            AlwaysInline
+DebugLoc:        { File: ../src/sha256_top.c, Line: 48, Column: 3 }
+Function:        sha256_top
+Args:            
+  - String:          'Inlining function '''
+  - Callee:          sha256_init
+    DebugLoc:        { File: ../src/sha256.c, Line: 59, Column: 0 }
+  - String:          ''' into '''
+  - Caller:          sha256_top
+    DebugLoc:        { File: ../src/sha256_top.c, Line: 8, Column: 0 }
+  - String:          ''''
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: ../src/sha256_top.c, Line: 60, Column: 3 }
+Function:        sha256_top
+Args:            
+  - Callee:          sha256_final
+    DebugLoc:        { File: ../src/sha256.c, Line: 97, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          sha256_top
+    DebugLoc:        { File: ../src/sha256_top.c, Line: 8, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: ../src/sha256_top.c, Line: 49, Column: 3 }
+Function:        sha256_top
+Args:            
+  - Callee:          sha256_update
+    DebugLoc:        { File: ../src/sha256.c, Line: 76, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          sha256_top
+    DebugLoc:        { File: ../src/sha256_top.c, Line: 8, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: ../src/sha256_top.c, Line: 8, Column: 0 }
+Function:        sha256_top
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_64_5
+  - String:          ''' ('
+  - LoopLoc:         '../src/sha256_top.c:64:20'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          sha256_top
+  - String:          ''' completely with a factor of '
+  - Factor:          '8'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: ../src/sha256_top.c, Line: 8, Column: 0 }
+Function:        sha256_top
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_29_1
+  - String:          ''' ('
+  - LoopLoc:         '../src/sha256_top.c:29:20'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          sha256_top
+  - String:          ''' completely with a factor of '
+  - Factor:          '20'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: ../src/sha256.c, Line: 97, Column: 0 }
+Function:        sha256_final
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        sha256_final_final_loop
+  - String:          ''' ('
+  - LoopLoc:         '../src/sha256.c:127:3'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          sha256_final
+  - String:          ''' completely with a factor of '
+  - Factor:          '4'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: ../src/sha256.c, Line: 9, Column: 0 }
+Function:        sha256_transform
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_14_1
+  - String:          ''' ('
+  - LoopLoc:         '../src/sha256.c:14:19'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          sha256_transform
+  - String:          ''' completely with a factor of '
+  - Factor:          '16'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: ../src/sha256.c, Line: 82, Column: 7 }
+Function:        sha256_update
+Args:            
+  - Callee:          sha256_transform
+    DebugLoc:        { File: ../src/sha256.c, Line: 9, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          sha256_update
+    DebugLoc:        { File: ../src/sha256.c, Line: 76, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: ../src/sha256.c, Line: 108, Column: 5 }
+Function:        sha256_final
+Args:            
+  - Callee:          sha256_transform
+    DebugLoc:        { File: ../src/sha256.c, Line: 9, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          sha256_final
+    DebugLoc:        { File: ../src/sha256.c, Line: 97, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: ../src/sha256_top.c, Line: 49, Column: 3 }
+Function:        sha256_top
+Args:            
+  - Callee:          sha256_update
+    DebugLoc:        { File: ../src/sha256.c, Line: 76, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          sha256_top
+    DebugLoc:        { File: ../src/sha256_top.c, Line: 8, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: ../src/sha256_top.c, Line: 50, Column: 3 }
+Function:        sha256_top
+Args:            
+  - Callee:          sha256_final
+    DebugLoc:        { File: ../src/sha256.c, Line: 97, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          sha256_top
+    DebugLoc:        { File: ../src/sha256_top.c, Line: 8, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+Function:        apatb_sha256_top_ir
+Args:            
+  - Callee:          sha256_top
+    DebugLoc:        { File: ../src/sha256_top.c, Line: 8, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          apatb_sha256_top_ir
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Passed
+Pass:            reflow-inliner
+Name:            Inline
+DebugLoc:        { File: ../src/sha256_top.c, Line: 8, Column: 0 }
+Function:        sha256_top
+Args:            
+  - String:          'Inlining function '''
+  - Callee:          sha256_update
+    DebugLoc:        { File: ../src/sha256.c, Line: 76, Column: 0 }
+  - String:          ''' into '''
+  - Caller:          sha256_top
+    DebugLoc:        { File: ../src/sha256_top.c, Line: 8, Column: 0 }
+  - String:          ''''
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: ../src/sha256.c, Line: 10, Column: 50 }
+Function:        sha256_transform
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          m
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '1'
+  - String:          .
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: ../src/sha256_top.c, Line: 15, Column: 16 }
+Function:        sha256_top
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          hash1
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '1'
+  - String:          .
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: ../src/sha256_top.c, Line: 16, Column: 17 }
+Function:        sha256_top
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          hash2
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '1'
+  - String:          .
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: ../src/sha256_top.c, Line: 17, Column: 17 }
+Function:        sha256_top
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          header_bytes
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '1'
+  - String:          .
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: ../src/sha256_top.c, Line: 41, Column: 17 }
+Function:        sha256_top
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          in_data
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '1'
+  - String:          .
+...
+--- !Failure
+Pass:            reflow-occurrence-analysis
+Name:            CouldNotAnalyzeBBInfo
+DebugLoc:        { File: ../src/sha256.c, Line: 82, Column: 7 }
+Function:        sha256_top
+Args:            
+  - String:          'Could not analyze occurrence information for '''
+  - BBName:          if.then.i50
+  - String:          ''' living in '''
+  - LoopName:        VITIS_LOOP_77_1
+  - String:          '''('
+  - LoopLoc:         '../src/sha256.c:77:20'
+  - String:          ') .'
+...
+--- !Failure
+Pass:            reflow-occurrence-analysis
+Name:            CouldNotAnalyzeBBInfo
+DebugLoc:        { File: ../src/sha256.c, Line: 82, Column: 7 }
+Function:        sha256_top
+Args:            
+  - String:          'Could not analyze occurrence information for '''
+  - BBName:          if.then.i
+  - String:          ''' living in '''
+  - LoopName:        VITIS_LOOP_77_1
+  - String:          '''('
+  - LoopLoc:         '../src/sha256.c:77:20'
+  - String:          ') .'
+...
+--- !Failure
+Pass:            reflow-occurrence-inference
+Name:            NonComputableLoopForm
+Function:        sha256_top
+Args:            
+  - String:          'Could not analyze occurrence information within '''
+  - LoopName:        anonymous
+  - String:          '''('
+  - LoopLoc:         ''
+  - String:          ') . Requires loop in simplify form and with single exit.'
+...
+--- !HLSReportInfo
+Pass:            auto-loop-pipeline
+Name:            AutoLoopPipeline
+Args:            
+  - String:          'automatically set the pipeline for Loop< '
+  - LoopName:        VITIS_LOOP_106_2
+  - String:          '> at '
+  - LoopLoc:         '../src/sha256.c:106:23'
+  - String:          ' '
+...
+--- !HLSReportInfo
+Pass:            auto-loop-pipeline
+Name:            AutoLoopPipeline
+Args:            
+  - String:          'automatically set the pipeline for Loop< '
+  - LoopName:        VITIS_LOOP_111_3
+  - String:          '> at '
+  - LoopLoc:         '../src/sha256.c:111:23'
+  - String:          ' '
+...
+--- !HLSReportInfo
+Pass:            auto-loop-pipeline
+Name:            AutoLoopPipeline
+Args:            
+  - String:          'automatically set the pipeline for Loop< '
+  - LoopName:        VITIS_LOOP_103_1
+  - String:          '> at '
+  - LoopLoc:         '../src/sha256.c:103:23'
+  - String:          ' '
+...
+--- !HLSReportInfo
+Pass:            auto-loop-pipeline
+Name:            AutoLoopPipeline
+Args:            
+  - String:          'automatically set the pipeline for Loop< '
+  - LoopName:        VITIS_LOOP_38_2
+  - String:          '> at '
+  - LoopLoc:         '../src/sha256_top.c:38:20'
+  - String:          ' '
+...
+--- !HLSReportInfo
+Pass:            auto-loop-pipeline
+Name:            AutoLoopPipeline
+Args:            
+  - String:          'automatically set the pipeline for Loop< '
+  - LoopName:        VITIS_LOOP_39_3
+  - String:          '> at '
+  - LoopLoc:         '../src/sha256_top.c:39:20'
+  - String:          ' '
+...
+--- !HLSReportInfo
+Pass:            auto-loop-pipeline
+Name:            AutoLoopPipeline
+Args:            
+  - String:          'automatically set the pipeline for Loop< '
+  - LoopName:        unknown
+  - String:          '> at '
+  - LoopLoc:         ''
+  - String:          ' '
+...
+--- !HLSReportInfo
+Pass:            auto-loop-pipeline
+Name:            AutoLoopPipeline
+Args:            
+  - String:          'automatically set the pipeline for Loop< '
+  - LoopName:        unknown
+  - String:          '> at '
+  - LoopLoc:         ''
+  - String:          ' '
+...
+--- !HLSReportInfo
+Pass:            auto-loop-pipeline
+Name:            AutoLoopPipeline
+Args:            
+  - String:          'automatically set the pipeline for Loop< '
+  - LoopName:        unknown
+  - String:          '> at '
+  - LoopLoc:         ''
+  - String:          ' '
+...
+--- !HLSReportInfo
+Pass:            auto-loop-pipeline
+Name:            AutoLoopPipeline
+Args:            
+  - String:          'automatically set the pipeline for Loop< '
+  - LoopName:        VITIS_LOOP_52_4
+  - String:          '> at '
+  - LoopLoc:         '../src/sha256_top.c:52:20'
+  - String:          ' '
+...
+--- !Passed
+Pass:            reflow-auto-array-partition
+Name:            AutoSmallArrayPartition
+DebugLoc:        { File: ../src/sha256_top.c, Line: 43, Column: 12 }
+Function:        sha256_top
+Args:            
+  - String:          'Automatically partitioning small array '''
+  - Value:           bitlen
+  - String:          ''' completely based on array size.'
+...
+--- !Passed
+Pass:            reflow-auto-array-partition
+Name:            AutoParallelPerformanceDrivenVerbosePassed
+DebugLoc:        { File: ../src/sha256_top.c, Line: 43, Column: 12 }
+Function:        sha256_top
+Args:            
+  - PragmaType:      array_partition
+  - String:          ' '
+  - PragmaOptions:   'dim=1 type=complete  variable=bitlen'
+  - String:          ' '
+  - PragmaIsAuto:    '1'
+  - String:          ' '
+  - PragmaFunction:  sha256_top
+  - String:          ' '
+  - varLoc:          '../src/sha256_top.c:43:12'
+  - String:          ' '
+  - VarName:         bitlen
+  - String:          ' '
+...
+--- !Passed
+Pass:            reflow-auto-array-partition
+Name:            AutoArrayXform
+DebugLoc:        { File: ../src/sha256_top.c, Line: 43, Column: 12 }
+Function:        sha256_top
+Args:            
+  - String:          'Inferring pragma '''
+  - PragmaType:      array_partition
+  - String:          ' type='
+  - Mode:            complete
+  - String:          ' dim='
+  - Dim:             '1'
+  - String:          ''' for array '''
+  - Name:            bitlen
+  - String:          ''''
+  - String:          ' due to '
+  - String:          pipeline
+  - String:          ' pragma'
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: ../src/sha256_top.c, Line: 43, Column: 12 }
+Function:        sha256_top
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          bitlen
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '1'
+  - String:          .
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: ../src/sha256.c, Line: 108, Column: 5 }
+Function:        sha256_final
+Args:            
+  - Callee:          sha256_transform
+    DebugLoc:        { File: ../src/sha256.c, Line: 9, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          sha256_final
+    DebugLoc:        { File: ../src/sha256.c, Line: 97, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: ../src/sha256_top.c, Line: 50, Column: 3 }
+Function:        sha256_top
+Args:            
+  - Callee:          sha256_final
+    DebugLoc:        { File: ../src/sha256.c, Line: 97, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          sha256_top
+    DebugLoc:        { File: ../src/sha256_top.c, Line: 8, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: ../src/sha256.c, Line: 82, Column: 7 }
+Function:        sha256_top
+Args:            
+  - Callee:          sha256_transform
+    DebugLoc:        { File: ../src/sha256.c, Line: 9, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          sha256_top
+    DebugLoc:        { File: ../src/sha256_top.c, Line: 8, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...

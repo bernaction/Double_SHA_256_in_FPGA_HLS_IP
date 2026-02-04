@@ -1,0 +1,7 @@
+   Build using "B:/Xilinx/Vitis/2024.2/vcxx/libexec/clang++"
+   Compiling apatb_sha256_top.cpp
+   Compiling sha256.c_pre.c.tb.c
+   Compiling sha256_test.c_pre.c.tb.c
+   Compiling sha256_top.c_pre.c.tb.c
+   Compiling apatb_sha256_top_ir.ll
+   Generating cosim.tv.exe

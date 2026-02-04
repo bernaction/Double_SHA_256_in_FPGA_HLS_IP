@@ -1,0 +1,50 @@
+{
+  "0": {
+    "basicblocks": 225,
+    "calls": "1 2 1 2",
+    "file": "sha256_top.c",
+    "fileloc": 4,
+    "instructions": 1607,
+    "loads": {
+      "L": 128,
+      "T": 20
+    },
+    "name": "sha256_top",
+    "stores": {
+      "L": 337,
+      "T": 10
+    },
+    "total_instructions": 7969
+  },
+  "1": {
+    "basicblocks": 264,
+    "calls": "2 2",
+    "file": "sha256.c",
+    "fileloc": 97,
+    "instructions": 982,
+    "loads": {
+      "L": 128
+    },
+    "name": "sha256_final",
+    "stores": {
+      "L": 287
+    },
+    "total_instructions": 2448
+  },
+  "2": {
+    "basicblocks": 56,
+    "calls": "",
+    "file": "sha256.c",
+    "fileloc": 9,
+    "instructions": 733,
+    "loads": {
+      "G": 1,
+      "L": 102
+    },
+    "name": "sha256_transform",
+    "stores": {
+      "L": 56
+    },
+    "total_instructions": 733
+  }
+}

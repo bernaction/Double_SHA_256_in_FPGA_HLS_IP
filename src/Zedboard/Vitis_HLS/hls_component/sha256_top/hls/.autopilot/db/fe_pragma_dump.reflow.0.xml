@@ -1,0 +1,20 @@
+<pragmas>
+<pragma file="../src/sha256.c" line="34" pragmaType="pipeline" parentfunction="sha256_transform" off="0" ii="1" rewind="0" style=""/>
+<pragma file="../src/sha256.c" line="20" pragmaType="pipeline" parentfunction="sha256_transform" off="0" ii="1" rewind="0" style=""/>
+<pragma file="../src/sha256.c" line="15" pragmaType="unroll" parentfunction="sha256_transform" factor="-1" skip_exit_check="0"/>
+<pragma file="../src/sha256.c" line="11" pragmaType="array_partition" parentfunction="sha256_transform" dim="1" factor="0" mode="complete" dynamic="0" variable="data"/>
+<pragma file="../src/sha256.c" line="12" pragmaType="array_partition" parentfunction="sha256_transform" dim="1" factor="0" mode="complete" dynamic="0" variable="m"/>
+<pragma file="../src/sha256.c" line="128" pragmaType="unroll" parentfunction="sha256_final" factor="-1" skip_exit_check="0"/>
+<pragma file="../src/sha256.c" line="60" pragmaType="inline" parentfunction="sha256_init" off="0" region="0" recursive="0"/>
+<pragma file="../src/sha256_top.c" line="65" pragmaType="unroll" parentfunction="sha256_top" factor="-1" skip_exit_check="0"/>
+<pragma file="../src/sha256_top.c" line="30" pragmaType="unroll" parentfunction="sha256_top" factor="-1" skip_exit_check="0"/>
+<pragma file="../src/sha256_top.c" line="9" pragmaType="interface" parentfunction="sha256_top" mode="s_axilite" port="header" bundle="control" offset="256" name="" clock="" impl="" register="0"/>
+<pragma file="../src/sha256_top.c" line="10" pragmaType="interface" parentfunction="sha256_top" mode="s_axilite" port="hash_result" bundle="control" offset="512" name="" clock="" impl="" register="0"/>
+<pragma file="../src/sha256_top.c" line="11" pragmaType="interface" parentfunction="sha256_top" mode="s_axilite" port="" bundle="control" offset="-1" name="" clock="" impl="" register="0"/>
+<pragma file="../src/sha256_top.c" line="13" pragmaType="interface" parentfunction="sha256_top" mode="ap_none" port="ap_busy_out" name="" register="0"/>
+<pragma file="../src/sha256_top.c" line="19" pragmaType="array_partition" parentfunction="sha256_top" dim="1" factor="0" mode="complete" dynamic="0" variable="hash1"/>
+<pragma file="../src/sha256_top.c" line="20" pragmaType="array_partition" parentfunction="sha256_top" dim="1" factor="0" mode="complete" dynamic="0" variable="hash2"/>
+<pragma file="../src/sha256_top.c" line="21" pragmaType="array_partition" parentfunction="sha256_top" dim="1" factor="0" mode="complete" dynamic="0" variable="header_bytes"/>
+<pragma file="../src/sha256_top.c" line="23" pragmaType="dependence" parentfunction="sha256_top" class="" direction="NODIR" type="inter" distance="0" variable="header"/>
+<pragma file="../src/sha256_top.c" line="24" pragmaType="dependence" parentfunction="sha256_top" class="" direction="NODIR" type="inter" distance="0" variable="hash_result"/>
+</pragmas>

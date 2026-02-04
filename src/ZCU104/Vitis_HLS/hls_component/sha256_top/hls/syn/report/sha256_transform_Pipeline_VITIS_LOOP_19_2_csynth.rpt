@@ -1,0 +1,308 @@
+
+
+================================================================
+== Vitis HLS Report for 'sha256_transform_Pipeline_VITIS_LOOP_19_2'
+================================================================
+* Date:           Mon Jun  9 13:32:00 2025
+
+* Version:        2024.2 (Build 5238294 on Nov  8 2024)
+* Project:        sha256_top
+* Solution:       hls (Vivado IP Flow Target)
+* Product family: zynquplus
+* Target device:  xczu7ev-ffvc1156-2-e
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing: 
+    * Summary: 
+    +--------+----------+----------+------------+
+    |  Clock |  Target  | Estimated| Uncertainty|
+    +--------+----------+----------+------------+
+    |ap_clk  |  10.00 ns|  3.210 ns|     2.70 ns|
+    +--------+----------+----------+------------+
+
++ Latency: 
+    * Summary: 
+    +---------+---------+----------+----------+-----+-----+------------------------------------------------+
+    |  Latency (cycles) |  Latency (absolute) |  Interval |                    Pipeline                    |
+    |   min   |   max   |    min   |    max   | min | max |                      Type                      |
+    +---------+---------+----------+----------+-----+-----+------------------------------------------------+
+    |       50|       50|  0.500 us|  0.500 us|   49|   49|  loop auto-rewind stp (delay=0 clock cycles(s))|
+    +---------+---------+----------+----------+-----+-----+------------------------------------------------+
+
+    + Detail: 
+        * Instance: 
+        N/A
+
+        * Loop: 
+        +-------------------+---------+---------+----------+-----------+-----------+------+----------+
+        |                   |  Latency (cycles) | Iteration|  Initiation Interval  | Trip |          |
+        |     Loop Name     |   min   |   max   |  Latency |  achieved |   target  | Count| Pipelined|
+        +-------------------+---------+---------+----------+-----------+-----------+------+----------+
+        |- VITIS_LOOP_19_2  |       48|       48|         1|          1|          1|    48|       yes|
+        +-------------------+---------+---------+----------+-----------+-----------+------+----------+
+
+
+
+================================================================
+== Utilization Estimates
+================================================================
+* Summary: 
++-----------------+---------+------+--------+--------+-----+
+|       Name      | BRAM_18K|  DSP |   FF   |   LUT  | URAM|
++-----------------+---------+------+--------+--------+-----+
+|DSP              |        -|     -|       -|       -|    -|
+|Expression       |        -|     -|       0|     260|    -|
+|FIFO             |        -|     -|       -|       -|    -|
+|Instance         |        -|     -|       0|     876|    -|
+|Memory           |        -|     -|       -|       -|    -|
+|Multiplexer      |        -|     -|       0|      27|    -|
+|Register         |        -|     -|    1545|       -|    -|
++-----------------+---------+------+--------+--------+-----+
+|Total            |        0|     0|    1545|    1163|    0|
++-----------------+---------+------+--------+--------+-----+
+|Available        |      624|  1728|  460800|  230400|   96|
++-----------------+---------+------+--------+--------+-----+
+|Utilization (%)  |        0|     0|      ~0|      ~0|    0|
++-----------------+---------+------+--------+--------+-----+
+
++ Detail: 
+    * Instance: 
+    +--------------------------+-----------------------+---------+----+---+-----+-----+
+    |         Instance         |         Module        | BRAM_18K| DSP| FF| LUT | URAM|
+    +--------------------------+-----------------------+---------+----+---+-----+-----+
+    |sparsemux_97_6_32_1_1_U2  |sparsemux_97_6_32_1_1  |        0|   0|  0|  219|    0|
+    |sparsemux_97_6_32_1_1_U3  |sparsemux_97_6_32_1_1  |        0|   0|  0|  219|    0|
+    |sparsemux_97_6_32_1_1_U4  |sparsemux_97_6_32_1_1  |        0|   0|  0|  219|    0|
+    |sparsemux_97_6_32_1_1_U5  |sparsemux_97_6_32_1_1  |        0|   0|  0|  219|    0|
+    +--------------------------+-----------------------+---------+----+---+-----+-----+
+    |Total                     |                       |        0|   0|  0|  876|    0|
+    +--------------------------+-----------------------+---------+----+---+-----+-----+
+
+    * DSP: 
+    N/A
+
+    * Memory: 
+    N/A
+
+    * FIFO: 
+    N/A
+
+    * Expression: 
+    +-----------------------+----------+----+---+----+------------+------------+
+    |     Variable Name     | Operation| DSP| FF| LUT| Bitwidth P0| Bitwidth P1|
+    +-----------------------+----------+----+---+----+------------+------------+
+    |add_ln19_fu_2272_p2    |         +|   0|  0|  14|           7|           1|
+    |add_ln21_1_fu_2020_p2  |         +|   0|  0|  32|          32|          32|
+    |add_ln21_fu_2014_p2    |         +|   0|  0|  39|          32|          32|
+    |m_48_fu_2026_p2        |         +|   0|  0|  32|          32|          32|
+    |icmp_ln19_fu_926_p2    |      icmp|   0|  0|  15|           7|           8|
+    |xor_ln21_1_fu_1996_p2  |       xor|   0|  0|  32|          32|          32|
+    |xor_ln21_2_fu_2002_p2  |       xor|   0|  0|  32|          32|          32|
+    |xor_ln21_3_fu_2008_p2  |       xor|   0|  0|  32|          32|          32|
+    |xor_ln21_fu_1990_p2    |       xor|   0|  0|  32|          32|          32|
+    +-----------------------+----------+----+---+----+------------+------------+
+    |Total                  |          |   0|  0| 260|         238|         233|
+    +-----------------------+----------+----+---+----+------------+------------+
+
+    * Multiplexer: 
+    +----------------------+----+-----------+-----+-----------+
+    |         Name         | LUT| Input Size| Bits| Total Bits|
+    +----------------------+----+-----------+-----+-----------+
+    |ap_done_int           |   9|          2|    1|          2|
+    |ap_sig_allocacmp_i_2  |   9|          2|    7|         14|
+    |i_fu_290              |   9|          2|    7|         14|
+    +----------------------+----+-----------+-----+-----------+
+    |Total                 |  27|          6|   15|         30|
+    +----------------------+----+-----------+-----+-----------+
+
+    * Register: 
+    +-------------+----+----+-----+-----------+
+    |     Name    | FF | LUT| Bits| Const Bits|
+    +-------------+----+----+-----+-----------+
+    |ap_CS_fsm    |   1|   0|    1|          0|
+    |ap_done_reg  |   1|   0|    1|          0|
+    |i_fu_290     |   7|   0|    7|          0|
+    |m_10_fu_442  |  32|   0|   32|          0|
+    |m_11_fu_438  |  32|   0|   32|          0|
+    |m_12_fu_434  |  32|   0|   32|          0|
+    |m_13_fu_430  |  32|   0|   32|          0|
+    |m_14_fu_426  |  32|   0|   32|          0|
+    |m_15_fu_422  |  32|   0|   32|          0|
+    |m_16_fu_418  |  32|   0|   32|          0|
+    |m_17_fu_414  |  32|   0|   32|          0|
+    |m_18_fu_410  |  32|   0|   32|          0|
+    |m_19_fu_406  |  32|   0|   32|          0|
+    |m_1_fu_478   |  32|   0|   32|          0|
+    |m_20_fu_402  |  32|   0|   32|          0|
+    |m_21_fu_398  |  32|   0|   32|          0|
+    |m_22_fu_394  |  32|   0|   32|          0|
+    |m_23_fu_390  |  32|   0|   32|          0|
+    |m_24_fu_386  |  32|   0|   32|          0|
+    |m_25_fu_382  |  32|   0|   32|          0|
+    |m_26_fu_378  |  32|   0|   32|          0|
+    |m_27_fu_374  |  32|   0|   32|          0|
+    |m_28_fu_370  |  32|   0|   32|          0|
+    |m_29_fu_366  |  32|   0|   32|          0|
+    |m_2_fu_474   |  32|   0|   32|          0|
+    |m_30_fu_362  |  32|   0|   32|          0|
+    |m_31_fu_358  |  32|   0|   32|          0|
+    |m_32_fu_354  |  32|   0|   32|          0|
+    |m_33_fu_350  |  32|   0|   32|          0|
+    |m_34_fu_346  |  32|   0|   32|          0|
+    |m_35_fu_342  |  32|   0|   32|          0|
+    |m_36_fu_338  |  32|   0|   32|          0|
+    |m_37_fu_334  |  32|   0|   32|          0|
+    |m_38_fu_330  |  32|   0|   32|          0|
+    |m_39_fu_326  |  32|   0|   32|          0|
+    |m_3_fu_470   |  32|   0|   32|          0|
+    |m_40_fu_322  |  32|   0|   32|          0|
+    |m_41_fu_318  |  32|   0|   32|          0|
+    |m_42_fu_314  |  32|   0|   32|          0|
+    |m_43_fu_310  |  32|   0|   32|          0|
+    |m_44_fu_306  |  32|   0|   32|          0|
+    |m_45_fu_302  |  32|   0|   32|          0|
+    |m_46_fu_298  |  32|   0|   32|          0|
+    |m_47_fu_294  |  32|   0|   32|          0|
+    |m_4_fu_466   |  32|   0|   32|          0|
+    |m_5_fu_462   |  32|   0|   32|          0|
+    |m_6_fu_458   |  32|   0|   32|          0|
+    |m_7_fu_454   |  32|   0|   32|          0|
+    |m_8_fu_450   |  32|   0|   32|          0|
+    |m_9_fu_446   |  32|   0|   32|          0|
+    |m_fu_482     |  32|   0|   32|          0|
+    +-------------+----+----+-----+-----------+
+    |Total        |1545|   0| 1545|          0|
+    +-------------+----+----+-----+-----------+
+
+
+
+================================================================
+== Interface
+================================================================
+* Summary: 
++----------------------+-----+-----+------------+-------------------------------------------+--------------+
+|       RTL Ports      | Dir | Bits|  Protocol  |               Source Object               |    C Type    |
++----------------------+-----+-----+------------+-------------------------------------------+--------------+
+|ap_clk                |   in|    1|  ap_ctrl_hs|  sha256_transform_Pipeline_VITIS_LOOP_19_2|  return value|
+|ap_rst                |   in|    1|  ap_ctrl_hs|  sha256_transform_Pipeline_VITIS_LOOP_19_2|  return value|
+|ap_start              |   in|    1|  ap_ctrl_hs|  sha256_transform_Pipeline_VITIS_LOOP_19_2|  return value|
+|ap_done               |  out|    1|  ap_ctrl_hs|  sha256_transform_Pipeline_VITIS_LOOP_19_2|  return value|
+|ap_idle               |  out|    1|  ap_ctrl_hs|  sha256_transform_Pipeline_VITIS_LOOP_19_2|  return value|
+|ap_ready              |  out|    1|  ap_ctrl_hs|  sha256_transform_Pipeline_VITIS_LOOP_19_2|  return value|
+|or_ln16_14            |   in|   32|     ap_none|                                 or_ln16_14|        scalar|
+|or_ln16_15            |   in|   32|     ap_none|                                 or_ln16_15|        scalar|
+|or_ln16_9             |   in|   32|     ap_none|                                  or_ln16_9|        scalar|
+|or_ln16_10            |   in|   32|     ap_none|                                 or_ln16_10|        scalar|
+|or_ln16_11            |   in|   32|     ap_none|                                 or_ln16_11|        scalar|
+|or_ln16_12            |   in|   32|     ap_none|                                 or_ln16_12|        scalar|
+|or_ln16_13            |   in|   32|     ap_none|                                 or_ln16_13|        scalar|
+|or_ln16_5             |   in|   32|     ap_none|                                  or_ln16_5|        scalar|
+|or_ln16_8             |   in|   32|     ap_none|                                  or_ln16_8|        scalar|
+|or_ln16_s             |   in|   32|     ap_none|                                  or_ln16_s|        scalar|
+|or_ln16_1             |   in|   32|     ap_none|                                  or_ln16_1|        scalar|
+|or_ln16_3             |   in|   32|     ap_none|                                  or_ln16_3|        scalar|
+|or_ln16_4             |   in|   32|     ap_none|                                  or_ln16_4|        scalar|
+|or_ln16_6             |   in|   32|     ap_none|                                  or_ln16_6|        scalar|
+|or_ln16_7             |   in|   32|     ap_none|                                  or_ln16_7|        scalar|
+|or_ln16_2             |   in|   32|     ap_none|                                  or_ln16_2|        scalar|
+|m_16_load_out         |  out|   32|      ap_vld|                              m_16_load_out|       pointer|
+|m_16_load_out_ap_vld  |  out|    1|      ap_vld|                              m_16_load_out|       pointer|
+|m_17_load_out         |  out|   32|      ap_vld|                              m_17_load_out|       pointer|
+|m_17_load_out_ap_vld  |  out|    1|      ap_vld|                              m_17_load_out|       pointer|
+|m_18_load_out         |  out|   32|      ap_vld|                              m_18_load_out|       pointer|
+|m_18_load_out_ap_vld  |  out|    1|      ap_vld|                              m_18_load_out|       pointer|
+|m_19_load_out         |  out|   32|      ap_vld|                              m_19_load_out|       pointer|
+|m_19_load_out_ap_vld  |  out|    1|      ap_vld|                              m_19_load_out|       pointer|
+|m_20_load_out         |  out|   32|      ap_vld|                              m_20_load_out|       pointer|
+|m_20_load_out_ap_vld  |  out|    1|      ap_vld|                              m_20_load_out|       pointer|
+|m_21_load_out         |  out|   32|      ap_vld|                              m_21_load_out|       pointer|
+|m_21_load_out_ap_vld  |  out|    1|      ap_vld|                              m_21_load_out|       pointer|
+|m_22_load_out         |  out|   32|      ap_vld|                              m_22_load_out|       pointer|
+|m_22_load_out_ap_vld  |  out|    1|      ap_vld|                              m_22_load_out|       pointer|
+|m_23_load_out         |  out|   32|      ap_vld|                              m_23_load_out|       pointer|
+|m_23_load_out_ap_vld  |  out|    1|      ap_vld|                              m_23_load_out|       pointer|
+|m_24_load_out         |  out|   32|      ap_vld|                              m_24_load_out|       pointer|
+|m_24_load_out_ap_vld  |  out|    1|      ap_vld|                              m_24_load_out|       pointer|
+|m_25_load_out         |  out|   32|      ap_vld|                              m_25_load_out|       pointer|
+|m_25_load_out_ap_vld  |  out|    1|      ap_vld|                              m_25_load_out|       pointer|
+|m_26_load_out         |  out|   32|      ap_vld|                              m_26_load_out|       pointer|
+|m_26_load_out_ap_vld  |  out|    1|      ap_vld|                              m_26_load_out|       pointer|
+|m_27_load_out         |  out|   32|      ap_vld|                              m_27_load_out|       pointer|
+|m_27_load_out_ap_vld  |  out|    1|      ap_vld|                              m_27_load_out|       pointer|
+|m_28_load_out         |  out|   32|      ap_vld|                              m_28_load_out|       pointer|
+|m_28_load_out_ap_vld  |  out|    1|      ap_vld|                              m_28_load_out|       pointer|
+|m_29_load_out         |  out|   32|      ap_vld|                              m_29_load_out|       pointer|
+|m_29_load_out_ap_vld  |  out|    1|      ap_vld|                              m_29_load_out|       pointer|
+|m_30_load_out         |  out|   32|      ap_vld|                              m_30_load_out|       pointer|
+|m_30_load_out_ap_vld  |  out|    1|      ap_vld|                              m_30_load_out|       pointer|
+|m_31_load_out         |  out|   32|      ap_vld|                              m_31_load_out|       pointer|
+|m_31_load_out_ap_vld  |  out|    1|      ap_vld|                              m_31_load_out|       pointer|
+|m_32_load_out         |  out|   32|      ap_vld|                              m_32_load_out|       pointer|
+|m_32_load_out_ap_vld  |  out|    1|      ap_vld|                              m_32_load_out|       pointer|
+|m_33_load_out         |  out|   32|      ap_vld|                              m_33_load_out|       pointer|
+|m_33_load_out_ap_vld  |  out|    1|      ap_vld|                              m_33_load_out|       pointer|
+|m_34_load_out         |  out|   32|      ap_vld|                              m_34_load_out|       pointer|
+|m_34_load_out_ap_vld  |  out|    1|      ap_vld|                              m_34_load_out|       pointer|
+|m_35_load_out         |  out|   32|      ap_vld|                              m_35_load_out|       pointer|
+|m_35_load_out_ap_vld  |  out|    1|      ap_vld|                              m_35_load_out|       pointer|
+|m_36_load_out         |  out|   32|      ap_vld|                              m_36_load_out|       pointer|
+|m_36_load_out_ap_vld  |  out|    1|      ap_vld|                              m_36_load_out|       pointer|
+|m_37_load_out         |  out|   32|      ap_vld|                              m_37_load_out|       pointer|
+|m_37_load_out_ap_vld  |  out|    1|      ap_vld|                              m_37_load_out|       pointer|
+|m_38_load_out         |  out|   32|      ap_vld|                              m_38_load_out|       pointer|
+|m_38_load_out_ap_vld  |  out|    1|      ap_vld|                              m_38_load_out|       pointer|
+|m_39_load_out         |  out|   32|      ap_vld|                              m_39_load_out|       pointer|
+|m_39_load_out_ap_vld  |  out|    1|      ap_vld|                              m_39_load_out|       pointer|
+|m_40_load_out         |  out|   32|      ap_vld|                              m_40_load_out|       pointer|
+|m_40_load_out_ap_vld  |  out|    1|      ap_vld|                              m_40_load_out|       pointer|
+|m_41_load_out         |  out|   32|      ap_vld|                              m_41_load_out|       pointer|
+|m_41_load_out_ap_vld  |  out|    1|      ap_vld|                              m_41_load_out|       pointer|
+|m_42_load_out         |  out|   32|      ap_vld|                              m_42_load_out|       pointer|
+|m_42_load_out_ap_vld  |  out|    1|      ap_vld|                              m_42_load_out|       pointer|
+|m_43_load_out         |  out|   32|      ap_vld|                              m_43_load_out|       pointer|
+|m_43_load_out_ap_vld  |  out|    1|      ap_vld|                              m_43_load_out|       pointer|
+|m_44_load_out         |  out|   32|      ap_vld|                              m_44_load_out|       pointer|
+|m_44_load_out_ap_vld  |  out|    1|      ap_vld|                              m_44_load_out|       pointer|
+|m_45_load_out         |  out|   32|      ap_vld|                              m_45_load_out|       pointer|
+|m_45_load_out_ap_vld  |  out|    1|      ap_vld|                              m_45_load_out|       pointer|
+|m_46_load_out         |  out|   32|      ap_vld|                              m_46_load_out|       pointer|
+|m_46_load_out_ap_vld  |  out|    1|      ap_vld|                              m_46_load_out|       pointer|
+|m_47_load_out         |  out|   32|      ap_vld|                              m_47_load_out|       pointer|
+|m_47_load_out_ap_vld  |  out|    1|      ap_vld|                              m_47_load_out|       pointer|
+|m_48_load_out         |  out|   32|      ap_vld|                              m_48_load_out|       pointer|
+|m_48_load_out_ap_vld  |  out|    1|      ap_vld|                              m_48_load_out|       pointer|
+|m_49_load_out         |  out|   32|      ap_vld|                              m_49_load_out|       pointer|
+|m_49_load_out_ap_vld  |  out|    1|      ap_vld|                              m_49_load_out|       pointer|
+|m_50_load_out         |  out|   32|      ap_vld|                              m_50_load_out|       pointer|
+|m_50_load_out_ap_vld  |  out|    1|      ap_vld|                              m_50_load_out|       pointer|
+|m_51_load_out         |  out|   32|      ap_vld|                              m_51_load_out|       pointer|
+|m_51_load_out_ap_vld  |  out|    1|      ap_vld|                              m_51_load_out|       pointer|
+|m_52_load_out         |  out|   32|      ap_vld|                              m_52_load_out|       pointer|
+|m_52_load_out_ap_vld  |  out|    1|      ap_vld|                              m_52_load_out|       pointer|
+|m_53_load_out         |  out|   32|      ap_vld|                              m_53_load_out|       pointer|
+|m_53_load_out_ap_vld  |  out|    1|      ap_vld|                              m_53_load_out|       pointer|
+|m_54_load_out         |  out|   32|      ap_vld|                              m_54_load_out|       pointer|
+|m_54_load_out_ap_vld  |  out|    1|      ap_vld|                              m_54_load_out|       pointer|
+|m_55_load_out         |  out|   32|      ap_vld|                              m_55_load_out|       pointer|
+|m_55_load_out_ap_vld  |  out|    1|      ap_vld|                              m_55_load_out|       pointer|
+|m_56_load_out         |  out|   32|      ap_vld|                              m_56_load_out|       pointer|
+|m_56_load_out_ap_vld  |  out|    1|      ap_vld|                              m_56_load_out|       pointer|
+|m_57_load_out         |  out|   32|      ap_vld|                              m_57_load_out|       pointer|
+|m_57_load_out_ap_vld  |  out|    1|      ap_vld|                              m_57_load_out|       pointer|
+|m_58_load_out         |  out|   32|      ap_vld|                              m_58_load_out|       pointer|
+|m_58_load_out_ap_vld  |  out|    1|      ap_vld|                              m_58_load_out|       pointer|
+|m_59_load_out         |  out|   32|      ap_vld|                              m_59_load_out|       pointer|
+|m_59_load_out_ap_vld  |  out|    1|      ap_vld|                              m_59_load_out|       pointer|
+|m_60_load_out         |  out|   32|      ap_vld|                              m_60_load_out|       pointer|
+|m_60_load_out_ap_vld  |  out|    1|      ap_vld|                              m_60_load_out|       pointer|
+|m_61_load_out         |  out|   32|      ap_vld|                              m_61_load_out|       pointer|
+|m_61_load_out_ap_vld  |  out|    1|      ap_vld|                              m_61_load_out|       pointer|
+|m_62_load_out         |  out|   32|      ap_vld|                              m_62_load_out|       pointer|
+|m_62_load_out_ap_vld  |  out|    1|      ap_vld|                              m_62_load_out|       pointer|
+|m_63_load_out         |  out|   32|      ap_vld|                              m_63_load_out|       pointer|
+|m_63_load_out_ap_vld  |  out|    1|      ap_vld|                              m_63_load_out|       pointer|
++----------------------+-----+-----+------------+-------------------------------------------+--------------+
+

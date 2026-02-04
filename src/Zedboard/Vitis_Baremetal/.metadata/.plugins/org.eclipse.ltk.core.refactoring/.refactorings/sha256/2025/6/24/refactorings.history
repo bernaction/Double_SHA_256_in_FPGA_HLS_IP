@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;sha256/src/README.txt&apos; to &apos;ZEDBOARD.txt&apos;" description="Rename resource &apos;README.txt&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/README.txt" name="ZEDBOARD.txt" stamp="1749493323519" updateReferences="true"/>
+</session>

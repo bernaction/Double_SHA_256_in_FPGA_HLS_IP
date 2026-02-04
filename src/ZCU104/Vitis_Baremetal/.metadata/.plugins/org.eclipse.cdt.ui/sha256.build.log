@@ -1,0 +1,39 @@
+16:53:00 **** Build of configuration Debug for project sha256 ****
+make all 
+'Building file: ../src/main.c'
+'Invoking: ARM v8 gcc compiler'
+aarch64-none-elf-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/main.o" -ID:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_Baremetal/sha256_top/export/sha256_top/sw/sha256_top/standalone_psu_cortexa53_0/bspinclude/include -MMD -MP -MF"src/main.d" -MT"src/main.o" -o "src/main.o" "../src/main.c"
+'Finished building: ../src/main.c'
+' '
+'Building file: ../src/sha256.c'
+'Invoking: ARM v8 gcc compiler'
+aarch64-none-elf-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/sha256.o" -ID:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_Baremetal/sha256_top/export/sha256_top/sw/sha256_top/standalone_psu_cortexa53_0/bspinclude/include -MMD -MP -MF"src/sha256.d" -MT"src/sha256.o" -o "src/sha256.o" "../src/sha256.c"
+../src/sha256.c: In function 'sha256_final':
+../src/sha256.c:119:3: warning: label 'sha256_final_final_loop' defined but not used [-Wunused-label]
+  119 |   sha256_final_final_loop:
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+'Finished building: ../src/sha256.c'
+' '
+'Building file: ../src/sha256_top.c'
+'Invoking: ARM v8 gcc compiler'
+aarch64-none-elf-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/sha256_top.o" -ID:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_Baremetal/sha256_top/export/sha256_top/sw/sha256_top/standalone_psu_cortexa53_0/bspinclude/include -MMD -MP -MF"src/sha256_top.d" -MT"src/sha256_top.o" -o "src/sha256_top.o" "../src/sha256_top.c"
+../src/sha256_top.c: In function 'sha256_top':
+../src/sha256_top.c:12:17: warning: variable 'header_bytes' set but not used [-Wunused-but-set-variable]
+   12 |   unsigned char header_bytes[80];
+      |                 ^~~~~~~~~~~~
+'Finished building: ../src/sha256_top.c'
+' '
+'Building target: sha256.elf'
+'Invoking: ARM v8 gcc linker'
+aarch64-none-elf-gcc -Wl,-T -Wl,../src/lscript.ld -LD:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_Baremetal/sha256_top/export/sha256_top/sw/sha256_top/standalone_psu_cortexa53_0/bsplib/lib -o "sha256.elf"  ./src/main.o ./src/sha256.o ./src/sha256_top.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+'Finished building target: sha256.elf'
+' '
+'Invoking: ARM v8 Print Size'
+aarch64-none-elf-size sha256.elf  |tee "sha256.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+ 132280	   3200	  22516	 157996	  2692c	sha256.elf
+'Finished building: sha256.elf.size'
+' '
+
+16:53:03 Build Finished (took 3s.467ms)
+

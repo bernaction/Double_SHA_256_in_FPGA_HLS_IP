@@ -1,0 +1,363 @@
+\chapter{Projeto}\label{Sec:Projeto}
+
+Neste capítulo, é apresentado o projeto de implementação do sistema desenvolvido ao longo do Trabalho de Conclusão de Curso III. A proposta inicial consistia em criar um sistema de validação de blocos reais da rede Bitcoin, utilizando os cabeçalhos (\textit{headers}) de blocos para obter o \textit{hash} final deste mesmo bloco, com cálculo do algoritmo Double SHA-256 sendo realizado por um FPGA e pelo CPU ARM de cada kit de desenvolvimento.
+
+A \textbf{validação do cálculo do Double SHA-256 (SHA256(SHA256(header)))} com base em blocos reais da blockchain do Bitcoin, permitiu eliminar variáveis externas relacionadas à rede e à pool de mineração, facilitando a comparação direta entre a execução do algoritmo em software (processador ARM) e em hardware (FPGA).
+
+O sistema foi projetado para operar em duas plataformas distintas:
+
+\begin{itemize}
+  \item \textbf{ZedBoard Zynq-7000}: com processador ARM Cortex-A9 e FPGA XC7Z020.
+  \item \textbf{ZCU104}: com processador ARM Cortex-A53 e FPGA ZU7EV (UltraScale+).
+\end{itemize}
+
+A estrutura do sistema compreende um software embarcado capaz de montar cabeçalhos reais de blocos de 80 bytes a partir de dados obtidos via API (como o \textit{mempool.space}, nó próprio) ou de blocos históricos. Esses dados são enviados ao FPGA, que realiza o cálculo do Double SHA-256 por meio de um bloco de IP desenvolvido em RTL (VHDL) e em HLS (High-Level Synthesis).
+
+Com base nessa arquitetura, foram realizadas medições de tempo de execução e desempenho computacional, permitindo uma comparação direta entre a execução do algoritmo em processadores ARM e em aceleradores baseados em FPGA. Além disso, foram utilizados dados de \textit{hashrate} típicos de outras plataformas — como CPUs, GPUs e equipamentos ASIC — para contextualizar os resultados obtidos e destacar os ganhos proporcionados pela aceleração em hardware reconfigurável.
+
+
+A seguir, a \autoref{fig:visao_geral} ilustra a arquitetura do sistema projetado.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Premissas e Visão Geral do Sistema}\label{sec:premissas}
+
+Neste trabalho, propõe-se a utilização de aceleração em hardware para a validação do algoritmo Double SHA-256, com base em cabeçalhos (\textit{headers}) reais de blocos da blockchain do Bitcoin. A arquitetura explora a implementação do algoritmo em FPGA por meio de HLS, com o objetivo de validar a correta operação da função de hash e analisar o ganho de desempenho em relação ao processamento em CPU (ARM embarcado).
+
+A \autoref{fig:visao_geral} apresenta uma visão geral da arquitetura proposta. O sistema utiliza blocos reais da rede Bitcoin, obtidos por meio de APIs públicas como a \textit{mempool.space}, e opera de forma independente de pools de mineração em tempo real. Esses dados, fornecidos em formato JSON, são processados por um módulo tradutor responsável por extrair e converter as informações relevantes para a montagem do \textit{header} do bloco. Esse cabeçalho contém todos os campos necessários para a validação criptográfica do bloco no sistema embarcado.
+
+
+\begin{figure}[H]
+    \centering
+    \caption{Visão geral da arquitetura proposta com validação de blocos reais.}
+    \includegraphics[width=0.5\textwidth]{projeto/visao_geral4.pdf} 
+    \caption*{Fonte: O autor (2024).}
+    \label{fig:visao_geral}
+\end{figure}
+
+A arquitetura está dividida entre Hardware e Software:
+
+\textbf{Blockchain / API (topo da figura)}: A origem dos dados é a blockchain do Bitcoin, acessada por meio da API pública do serviço \textit{mempool.space}. Essa API permite consultar informações de blocos reais (inclusive blocos históricos), retornando os campos necessários do cabeçalho em formato JSON.
+
+\textbf{Python Parser}: Um script Python é responsável por consumir os dados da API, montar corretamente o cabeçalho de 80 bytes no formato exigido pelo protocolo Bitcoin (em \textit{little-endian}) e enviá-lo ao sistema embarcado para validação. Esse parser também pode ser utilizado para extrair e preparar múltiplos blocos de forma automatizada.
+
+\textbf{Hardware (à esquerda)}: A implementação em hardware é composta por um FPGA configurado para executar o algoritmo SHA-256, responsável pelo cálculo do \textit{double hash} (\texttt{SHA256(SHA256(header))}). A lógica programável inclui um gerador de clock (PLL) e um IP desenvolvido em HLS dedicado ao processamento do algoritmo.
+
+\textbf{Software (à direita)}: O sistema embarcado é executado em um processador ARM (PS) com sistema operacional Linux. Ele recebe o cabeçalho pré-processado, envia os dados ao FPGA, aguarda o resultado do hash e, em seguida, realiza a comparação com o hash real conhecido do bloco. O mesmo algoritmo é também executado em software (em C), a fim de comparar o tempo de execução e verificar a correção funcional da implementação em hardware.
+
+\textbf{Fluxo geral}: Os dados percorrem o seguinte caminho: \textit{Blockchain} → \textit{API mempool.space} → \textit{Python Parser} → \textit{Software ARM} → \textit{FPGA} → \textit{Retorno do hash}. Esse ciclo permite validar blocos reais da rede, reforçando a fidelidade da implementação e possibilitando medições de desempenho precisas.
+
+
+As interações do sistema seguem o seguinte fluxo:
+
+\begin{itemize}
+    \item O cabeçalho de 80 bytes do bloco (disponível em exploradores de blocos como \textit{mempool.space}) é obtido via API ou extraído de um bloco histórico conhecido.
+    \item Um script em Python realiza a requisição à API pública do \textit{mempool.space}, obtendo os campos necessários do bloco mais recente (ou de um bloco específico) em formato JSON. A partir desses dados, o cabeçalho de 80 bytes é montado seguindo o formato da blockchain do Bitcoin e convertido para \textit{little-endian} conforme necessário.
+    \item Esse header inclui campos como \texttt{version}, \texttt{previous block hash}, \texttt{merkle root}, \texttt{timestamp}, \texttt{bits} e \texttt{nonce}.
+    \item O software embarcado recebe esse cabeçalho e o envia ao FPGA, que realiza o cálculo do Double SHA-256 (\texttt{SHA256(SHA256(header))}).
+    \item O resultado é então comparado ao hash original conhecido do bloco, validando a operação da arquitetura.
+\end{itemize}
+
+Esse sistema tem como premissa garantir a fidelidade do cálculo Double SHA-256 no FPGA e realizar medições de desempenho entre a implementação acelerada por hardware e o processamento convencional em ARM.
+
+
+Hoje existem diversas implementações do algoritmo Double SHA-256 aplicadas à mineração de Bitcoin, abrangendo desde CPUs e GPUs até equipamentos especializados como FPGAs e ASICs. Cada uma dessas plataformas possui arquiteturas e implementações distintas, seja via software, firmware ou hardware dedicado.
+
+Este trabalho foca exclusivamente na implementação e validação do algoritmo Double SHA-256 em dispositivos baseados em FPGA, utilizando técnicas de HLS. O objetivo principal é avaliar a fidelidade do cálculo e o desempenho obtido em comparação com implementações em processadores ARM embarcados.
+
+As principais premissas e delimitadores de escopo para o projeto são:
+
+\begin{itemize}
+    \item O trabalho se restringe à avaliação do algoritmo Double SHA-256 em termos de tempo de execução e operações por segundo, em diferentes tecnologias de hardware (ARM vs FPGA);
+    \item Não será proposto ou desenvolvido nenhum algoritmo novo de Double SHA-256 ou variações do mesmo;
+    \item A implementação do algoritimo é baseada em versões previamente disponíveis na literatura técnica;
+    \item Os kits de prototipação utilizados nos testes são limitados aos disponíveis em laboratório;
+    \item As linguagens de desenvolvimento utilizadas são C/C++ e VHDL (incluindo HLS);
+    \item Os dispositivos de processamento-alvo são classificados como \textit{Commercial Off-The-Shelf} (COTS), ou seja, comercialmente acessíveis.
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Análise de Requisitos}\label{sec:analise_requisitos}
+
+Dadas as premissas apresentadas na \autoref{sec:premissas}, foram elaborados os requisitos do projeto para descrever as principais características e especificações da implementação do algoritmo Double SHA-256 utilizando FPGAs e HLS. 
+
+Nesta seção, são detalhados os requisitos funcionais e não funcionais, fornecendo uma base para a análise e implementação do sistema de mineração. Os requisitos funcionais e não funcionais são apresentados no \autoref{qua:Requisitos_funcionais} e no \autoref{qua:Requisitos_nao_funcionais}, respectivamente.
+
+\begin{quadro}[H]
+\caption{Requisitos funcionais do sistema de validação de blocos em FPGA.}
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{|L{2.5cm}|L{12.6cm}|}
+\rowcolor[HTML]{EFEFEF}  
+\hline
+\textbf{Requisito} & \textbf{Descrição} \\ \hline
+\textbf{RF01} & O sistema deve utilizar o algoritmo SHA-256 aplicado duas vezes (Double SHA-256) para validar o cabeçalho de blocos reais da blockchain do Bitcoin. \\ \hline
+\textbf{RF02} & O sistema deve receber dados de cabeçalhos (header) de blocos em formato JSON via API pública e convertê-los para o formato adequado de 80 bytes. \\ \hline
+\textbf{RF03} & O sistema deve enviar os cabeçalhos formatados para o FPGA e receber de volta o resultado do hash. \\ \hline
+\textbf{RF04} & O sistema deve comparar o hash gerado pelo FPGA com o hash original do bloco, validando a operação do algoritmo. \\ \hline
+\textbf{RF05} & O sistema deve realizar medições de desempenho entre FPGA e ARM, incluindo tempo de execução e taxa de processamento. \\ \hline
+\end{tabular}
+\label{qua:Requisitos_funcionais}
+\end{quadro}
+
+
+
+\begin{quadro}[H]
+\small
+\caption{Requisitos não funcionais do sistema de validação em FPGA.}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{|L{2.5cm}|L{12.6cm}|}
+\rowcolor[HTML]{EFEFEF} 
+\hline
+\textbf{Requisito} & \textbf{Descrição} 
+\\ \hline
+\textbf{RNF01} & O sistema deve ser implementado em um FPGA compatível com High-Level Synthesis (HLS), facilitando o desenvolvimento do algoritmo SHA-256 em C/C++. \\ \hline
+\textbf{RNF02} & A infraestrutura de testes deve permitir medições precisas de tempo de execução e, consumo energético. \\ \hline
+\textbf{RNF03} & O ambiente de desenvolvimento deve utilizar ferramentas compatíveis com FPGA e sistemas embarcados, operando em plataforma Linux. \\ \hline
+\textbf{RNF04} & O sistema deverá manter a eficiência computacional e ser capaz de validar blocos reais da blockchain com precisão. \\ \hline
+\textbf{RNF05} & O projeto deverá ser testado em uma bancada com hardware real (ZedBoard e ZCU104) em condições controladas. \\ \hline
+\end{tabular}
+\label{qua:Requisitos_nao_funcionais}
+\end{quadro}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Arquitetura de Software}\label{sec:arq_software}
+
+Nesta seção, são apresentados os detalhes de implementação do sistema de validação de blocos de Bitcoin em FPGA utilizando o algoritmo Double SHA-256.
+O diagrama apresentado na \autoref{fig:diagrama_sequencia} ilustra o fluxo de interação entre os componentes principais do sistema utilizando FPGA e o algoritmo Double SHA-256. O processo é composto por diversas entidades que colaboram para garantir a validação das transações. 
+
+\begin{figure}[H]
+    \centering
+    \caption{Fluxo de validação do algoritmo Double SHA-256 utilizando cabeçalhos reais da blockchain.}
+    \includegraphics[width=1\linewidth]{projeto/diagrama_sequencia2.pdf}
+    \caption*{Fonte: O autor (2024).}
+    \label{fig:diagrama_sequencia}
+\end{figure}
+
+%\subsection{Node (Nó)}\label{subsec:node}
+%Um nó de Bitcoin é um participante da rede que valida e propaga transações e blocos, mantendo uma cópia completa ou parcial da blockchain. Os nós desempenham um papel essencial na segurança e descentralização da rede, ao verificarem as transações e blocos conforme o protocolo do Bitcoin. Cada nó independente reforça a resistência da rede a ataques, garantindo que o sistema opere de maneira segura e confiável \cite{nakamoto2008bitcoin}.
+
+\subsection{Obtenção de Dados da Blockchain}\label{subsec:mempool}
+
+Para validar a implementação do algoritmo Double SHA-256 com dados reais, foi necessário acessar cabeçalhos de blocos publicados na blockchain do Bitcoin. Para isso, utilizou-se o serviço público \textit{mempool.space}, que fornece uma API REST/JSON Request com acesso a informações completas sobre os blocos mais recentes e históricos da rede.
+
+Esses dados foram utilizados por um script em Python desenvolvido no projeto, responsável por extrair os campos relevantes e montar o cabeçalho de 80 bytes no formato exigido pelo protocolo do Bitcoin. A estrutura e funcionamento detalhado desse processo são apresentados no \autoref{sec:Desenvolvimento}.
+
+
+
+\subsection{Referências de Softwares de Mineração}\label{subsec:software_mineracao}
+
+Durante a fase de pesquisa inicial, foram analisados alguns softwares de mineração de criptomoedas amplamente utilizados, como o CGMiner e o Open-Source FPGA Bitcoin Miner. Embora esses projetos não tenham sido utilizados diretamente na implementação deste trabalho, eles forneceram referências conceituais e estruturais para entender a arquitetura de sistemas de mineração baseados em FPGA e a implementação do algoritmo Double SHA-256.
+
+\textbf{CGMiner} é um software de mineração de código aberto escrito em C, com suporte a diversos dispositivos, como CPUs, GPUs, FPGAs e ASICs. Ele oferece uma interface de linha de comando e integração com \textit{pools} de mineração, sendo bastante conhecido por sua flexibilidade e configuração detalhada de parâmetros operacionais \cite{cgminer}. 
+
+Já o \textbf{Open-Source FPGA Bitcoin Miner} é um projeto modular de código aberto que visa implementar a mineração em FPGAs, oferecendo suporte ao algoritmo SHA-256 com capacidade de personalização para diferentes arquiteturas \cite{OpenSourceFPGA2024}.
+
+Apesar da análise dessas soluções, a implementação prática deste trabalho foi desenvolvida de forma independente, com o núcleo do algoritmo Double SHA-256 implementado em HLS, e a integração feita no ambiente Vitis/Vivado.
+
+
+\subsection{Sistema de Validação de Blocos}\label{subsec:sistema}
+
+O sistema desenvolvido neste trabalho tem como objetivo validar a implementação do algoritmo Double SHA-256 com base em cabeçalhos reais da blockchain do Bitcoin. Para isso, a arquitetura de software e hardware foi dividida nos seguintes módulos principais:
+
+\begin{itemize}
+    \item \textbf{Script de Coleta e Preparação (Python)}: Responsável por consultar a API pública do \textit{mempool.space}, extrair os campos do bloco (versão, hash anterior, merkle root, timestamp, bits e nonce) e montar o cabeçalho de 80 bytes no formato \textit{little-endian}, conforme o protocolo do Bitcoin.
+    
+    \item \textbf{Algoritmo SHA-256 em C (ARM)}: Implementado na parte de software baremetal do processador ARM da ZedBoard e da ZCU104. Executa o cálculo completo do Double SHA-256 para fins de comparação de desempenho e validação com o resultado do FPGA.
+    
+    \item \textbf{Acelerador SHA-256 em HLS (FPGA)}: Núcleo desenvolvido em C/C++, integrado ao ambiente Vivado/Vitis, responsável por executar o Double SHA-256 diretamente no hardware.
+    
+    \item \textbf{Módulo de Comparação de Resultados}: Implementado no ARM, este módulo recebe o hash calculado pelo FPGA e pelo próprio software em C, realiza a comparação e exibe o resultado final no terminal serial.
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Arquitetura de Hardware}\label{sec:arq_hardware}
+
+Nesta seção, são apresentados os aspectos do hardware utilizado para a implementação e validação do algoritmo Double SHA-256 em FPGA, com base em cabeçalhos reais da blockchain do Bitcoin. O foco do projeto está na análise de desempenho do algoritmo implementado via HLS, comparando os resultados obtidos pelo FPGA com aqueles gerados por um processador ARM embarcado na mesma plataforma.
+
+O uso de um FPGA permite explorar características como reconfigurabilidade e paralelismo de execução, otimizando o tempo de processamento do algoritmo. A implementação foi realizada utilizando a ferramenta Vivado Design Suite, onde o código em C/C++ foi convertido para lógica digital por meio do fluxo de HLS, possibilitando ajustes rápidos e melhorias incrementais no hardware.
+
+Esta arquitetura visa validar o funcionamento correto do algoritmo Double SHA-256 conforme o protocolo do Bitcoin e medir o tempo de execução no plano lógico (FPGA) em comparação com o plano de software (ARM), contribuindo com dados relevantes sobre desempenho e eficiência computacional em aplicações criptográficas.
+
+
+\subsection{Diagrama de Hardware}\label{sec:hardware_diagram}
+
+A \autoref{fig:diagrama_hardware} ilustra a arquitetura proposta para o sistema de mineração, destacando as principais etapas do fluxo de dados e os componentes de hardware utilizados. O sistema é composto por um FPGA com recursos configuráveis, como a PLL para geração de \textit{clock}, FIFO para gerenciamento de dados e controladores digitais de lógica que orquestram o fluxo de dados necessário para o processamento do algoritmo Double SHA-256. Além disso, o FPGA é conectado ao HPS (Hard Processor System) através de um barramento AXI, que permite a comunicação entre os módulos de hardware e o processador ARM.
+
+\begin{figure}[H]
+    \caption{Diagrama dos detalhes lógicos do hardware de um FPGA e o núcleo SHA-256.}
+    \centering
+    \includegraphics[width=1\textwidth]{projeto/diagrama_hardware.pdf}
+    \caption*{Fonte: O Autor (2024).}
+    \label{fig:diagrama_hardware}
+\end{figure}
+
+
+\subsection{Arquitetura do FPGA}\label{sec:hardware_arq}
+
+Os FPGAs utilizados neste projeto possuem uma arquitetura baseada em LUTs (Look-Up Tables) e Flip-Flops, fundamentais para a execução paralela e eficiente do algoritmo SHA-256. Blocos de memória BRAM e DSPs (multiplicadores dedicados) também são explorados para acelerar operações específicas, otimizando o desempenho computacional e reduzindo o consumo energético \cite{vahid2001embedded}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Materiais e Métodos}\label{sec:materiais_metodos}
+
+Essa seção apresenta os materiais e métodos que foram utilizados na implementação do algoritmo de mineração executado dentro do FPGA, assim como as técnicas de aceleração em hardware.
+
+\subsection{Materiais}
+
+\subsubsection*{Uso do HLS na Implementação}
+
+O uso de High-Level Synthesis (HLS) é essencial para a implementação do algoritmo SHA-256 em FPGA, ao permitir que o desenvolvedor escreva o código em linguagens de alto nível, como C/C++, convertidas em descrição de hardware, como VHDL ou Verilog. Essa abordagem facilita a exploração de paralelismo e a otimização da arquitetura, reduzindo o tempo de desenvolvimento e simplificando a adaptação a novos requisitos de desempenho.
+
+A abordagem do uso de HLS para aceleração de códigos em C/C++, permite o desenvolvimento eficiente de funções complexas para FPGAs, possibilitando melhorias significativas no desempenho da mineração. Este código é uma adaptação baseada na implementação padrão do algoritmo SHA-256 descrito no documento \textit{FIPS PUB 180–4 (Federal Information Processing Standards Publication 180–4)} pelo \textit{NIST} \cite{nist_sha256}. Além disso, estruturas de código SHA-256 semelhantes são comuns em repositórios e recursos de código aberto, como o \cite{bcon_crypto_algorithms} e sites de documentação de algoritmos criptográficos, onde são disponibilizadas implementações de referência para estudo e desenvolvimento.
+
+Na Figura \ref{fig:diagrama_hls_rtl}, observa-se o fluxo de conversão de HLS para RTL (Register Transfer Level). A ferramenta HLS transforma o código em C/C++ em uma representação RTL, permitindo que a implementação do algoritmo seja sintetizada em hardware real no FPGA. Isso proporciona um desenvolvimento mais ágil e flexível para o projeto de descrição em hardware no FPGA.
+
+\begin{figure}[H]
+    \centering
+    \caption{Diagrama do fluxo de síntese entre HLS e RTL.}
+    \includegraphics[width=1\linewidth]{projeto/diagrama_fluxo_hardware.pdf}
+    \caption*{Fonte: O autor (2024).}
+    \label{fig:diagrama_hls_rtl}
+\end{figure}
+
+\textbf{Linguagem e Ferramentas}
+
+Para as implementações, foram utilizadas as linguagens de programação C/C++ e para a geração do hardware, fluxo de desenvolvimento de High-Level Synthesis (HLS) da AMD.
+
+A principal ferramenta de desenvolvimento utilizada foi a IDE Vivado
+Design Suite, que permite a síntese e a implementação de projetos para FPGA da família AMD. Essa IDE oferece recursos robustos para design, simulação e verificação, facilitando o processo de implementação de lógica digital em FPGAs e proporcionando uma análise aprofundada de desempenho e consumo de energia. Além disso, serão utilizadas as ferramentas de diagnóstico e monitoramento da Altera Quartus para avaliar a eficiência energética e o comportamento térmico do FPGA durante a mineração.
+
+\textbf{Dispositivo Alvo}
+
+Foram utilizados dois dispositivos principais para a validação da implementação do algoritmo Double SHA-256:
+
+
+\textbf{ZedBoard Zynq-7000 Development Board}: serve como plataforma principal de desenvolvimento. Combina um FPGA da série Artix-7 com um processador dual-core ARM Cortex-A9, permitindo a implementação do algoritmo em hardware (FPGA) e software (bare-metal no ARM). É utilizada tanto para validação funcional quanto para análise de desempenho energético e comparativo. Esta placa de desenvolvimento integra um SoC da família Zynq-7000, composto por um processador ARM Cortex-A9 dual-core (até 667 MHz) e um FPGA da série Artix-7 com aproximadamente 85.000 células lógicas programáveis. Conta ainda com 512 MB de memória DDR3, portas USB, HDMI, Ethernet Gigabit, conectores PMODs e ADCs integrados. Essa arquitetura heterogênea permite a prototipagem de sistemas onde o ARM executa tarefas de controle e o FPGA acelera rotinas computacionalmente intensivas, como o algoritmo SHA-256 \cite{Zedboard2024}.
+  
+\textbf{Zynq™ UltraScale+™ MPSoC ZCU104 Evaluation Board}: uma plataforma mais recente da Xilinx baseada no SoC Zynq UltraScale+. Conta com um quad-core ARM Cortex-A53 e um FPGA da série Programmable Logic UltraScale+, oferecendo maior capacidade de paralelismo e desempenho computacional. Foi utilizada para validar a escalabilidade e eficiência da mesma implementação em um dispositivo mais moderno. Para experimentos com maior capacidade computacional e frequências mais elevadas, foi utilizada também a placa ZCU104, que incorpora um SoC da família Zynq UltraScale+ MPSoC. Este dispositivo inclui quatro núcleos ARM Cortex-A53 (64 bits), dois núcleos ARM Cortex-R5 em tempo real, uma GPU Mali-400 MP2 e um FPGA com mais de 600.000 células lógicas programáveis. A ZCU104 possui suporte a memória DDR4 de alta largura de banda, interfaces PCIe, DisplayPort e outros recursos avançados, sendo ideal para experimentos de validação de desempenho em algoritmos criptográficos complexos como o Double SHA-256 do Bitcoin \cite{ZCU1042024}.
+
+A utilização dessas duas plataformas permitiu comparar o desempenho do algoritmo em diferentes níveis de complexidade de hardware, contribuindo para uma análise mais abrangente da viabilidade da aceleração via FPGA.
+
+Além das FPGAs, um computador base é utilizado para desenvolvimento, síntese e configuração do algoritmo em C/C++ e VHDL, bem como para a interface de monitoramento e coleta de dados em tempo real durante os testes.
+
+\textbf{Wattímetro}
+
+Também foi utilizado um adaptador de tomada com medidor de consumo em watts, como demonstrado na \autoref{fig:wattimetro}, permitindo o acompanhamento em tempo real do consumo energético do sistema e a coleta de dados para análise de eficiência.
+
+\begin{figure}[H]
+    \caption{Wattímetro de tomada, mais conhecido como Kill-A-Watt.}
+    \centering
+    \includegraphics[width=0.2\textwidth]{projeto/wattimetro.png}
+    %\caption*{Marca: Desconhecida.}
+    \label{fig:wattimetro}
+\end{figure}
+
+Esse conjunto de materiais permitiu uma análise completa do desempenho do FPGA, desde a implementação do algoritmo até a avaliação de sua eficiência energética e comportamento térmico.
+
+
+\subsection{Métodos}
+
+Para avaliar o desempenho e a viabilidade do sistema de mineração em FPGA, foram adotados métodos que analisam diversos aspectos essenciais para uma operação eficiente e sustentável. Esses métodos visam medir a capacidade de processamento do FPGA em termos de taxa de \textit{hash}, além de monitorar o consumo energético e a eficiência da operação. Também foi realizada a análise térmica para garantir que o dispositivo opere em condições seguras, evitando o superaquecimento e preservando a integridade do hardware. A seguir, cada um desses métodos é descrito em detalhes.
+
+\textbf{Hashrate}
+
+O \textit{hashrate} é uma métrica que mede a quantidade de operações de \textit{hash} realizadas por segundo, sendo fundamental para avaliar o desempenho do sistema. Uma taxa de \textit{hash} elevada indica maior capacidade de processamento do FPGA, o que melhora a eficiência energética e permite comparações com outras tecnologias como ASICs, GPUs e CPUs.
+
+A medição do \textit{hashrate} foi realizada de duas formas distintas: utilizando o contador de alta precisão do sistema operacional Linux em modo baremetal e, paralelamente, por meio de um contador de ciclos de clock implementado no próprio hardware, considerando a frequência de operação do sistema. Em ambos os casos, foi mensurado o tempo necessário para a execução completa do algoritmo de Double SHA-256, permitindo o cálculo da taxa de \textit{hash} por meio da seguinte fórmula:
+
+\begin{equation}
+    \text{Hashrate (H/s)} = \frac{1}{\text{Tempo de execução (s)}}
+\end{equation}
+\addEquacao{Cálculo do hashrate}{5}
+
+Essa fórmula assume que uma única execução do algoritmo SHA-256 (ou Double SHA-256) foi realizada. Por exemplo, se o tempo de execução medido for \(7,8 \times 10^{-6}\) segundos, o hashrate correspondente será aproximadamente \(128.205,13\) H/s.
+
+
+\textbf{Consumo de Energia}
+
+O consumo energético monitora a quantidade de energia utilizada pelo FPGA durante a operação de mineração. Esse método permite avaliar o impacto do sistema na infraestrutura elétrica, além de auxiliar na análise da viabilidade econômica da mineração. Um adaptador de tomada com medidor de consumo em watts foi utilizado para coletar esses dados em tempo real, permitindo a comparação entre diferentes configurações de hardware e software.
+
+\textbf{Eficiência Energética}
+
+A eficiência energética é uma métrica derivada da relação entre a taxa de \textit{hashrate} e o consumo energético, expressa em \textit{Watt/hash}. Essa medida permite avaliar a eficácia do sistema em realizar operações de mineração com o menor consumo de energia possível. A eficiência energética é fundamental para determinar o custo-benefício da operação, ao indicar o quão bem o sistema converte energia elétrica em trabalho computacional útil.
+
+% \textbf{Temperatura}
+
+% Como o sistema executa apenas uma operação de hash por vez, não há necessidade de controle térmico em tempo real. A complexidade de monitoramento de temperatura foi descartada, uma vez que a carga computacional é pontual e não contínua/cíclica.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Análise de Riscos} \label{sec:analise_riscos}
+
+% No \autoref{Q:Analise_Riscos}, são listados alguns dos riscos mais relevantes para o desenvolvimento do projeto, bem como estratégias de resposta para mitigá-los. Essas ações preventivas e reativas não apenas fortalecem a capacidade de o projeto enfrentar imprevistos, mas também contribuem para um gerenciamento mais técnico do trabalho, aumentando a probabilidade de conclusão bem-sucedida nos prazos estipulados.
+
+% \begin{quadro}[H]
+% \caption{Análise de riscos do projeto.}
+% \vspace{-6pt}
+% \renewcommand{\arraystretch}{1.10}
+% \begin{tabular}{|L{0.22\textwidth}|C{0.16\textwidth}|C{0.10\textwidth}|L{0.18\textwidth}|L{0.20\textwidth}|}
+% \rowcolor[HTML]{EFEFEF}
+% \hline
+
+% \textbf{Risco} & \textbf{Probabilidade} & \textbf{Impacto} & \textbf{Gatilho} & \textbf{Plano de Contingência} 
+% \\ \hline
+
+% Falha na implementação do algoritmo SHA-256 & Médio & Alto & Problemas no código ou inconsistências nos testes de unidade & Realizar revisão detalhada do código, implementar testes e consultar documentação técnica
+% \\ \hline
+
+% Problemas na conversão de código HLS & Médio & Alto & Erros durante a conversão do código ou desempenho abaixo do esperado & Utilizar ferramentas de diagnóstico e debug da IDE, otimizar o código C/C++, mudar a ferramenta de HLS
+% \\ \hline
+
+
+% Superaquecimento do FPGA & Baixo & Médio & Temperatura excedendo limites seguros durante a operação & Implementar sistema de resfriamento adequado, ativo ou passivo, monitorar temperatura constantemente e ajustar frequência de operação
+% \\ \hline
+
+% Indisponibilidade de ferramentas de desenvolvimento & Baixa & Médio & Ferramentas de desenvolvimento ou ambiente de simulação fora de operação & Ter um ambiente de backup local e versões alternativas de ferramentas configuradas
+% \\ \hline
+
+% \end{tabular}
+% \label{Q:Analise_Riscos}
+% \caption*{Fonte: O autor (2024).}
+% \end{quadro}
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \section{Cronograma do TCC III} \label{sec:cronograma_tcc3}
+
+% A seção tem o objetivo de apresentar o \autoref{Q:Cronograma}, que ilustra o cronograma com as atividades a serem realizadas ao longo do TCC III (tempo de execução é dividido em semanas de trabalho).
+
+
+% \begin{quadro}[H]
+% \caption{Cronograma de atividades do TCC III.}
+% \renewcommand{\arraystretch}{1.10}
+% \begin{tabular}{|L{0.38\textwidth}|C{0.09\textwidth}|C{0.09\textwidth}|C{0.09\textwidth}|C{0.09\textwidth}|C{0.09\textwidth}|C{0.09\textwidth}|}
+% \rowcolor[HTML]{EFEFEF} 
+% \hline
+% \textbf{Atividades}& \textbf{02/2025}& \textbf{03/2025}& \textbf{04/2025}& \textbf{05/2025}& \textbf{06/2025}
+% \\ \hline
+
+% Implementação & XXXX & XXXX & XX - - & &
+% \\ \hline
+% Simulação & & XXXX & XXXX & &
+% \\ \hline
+% Verificação funcional & & XXXX & XXXX & XXXX & X - - -
+% \\ \hline
+% Benchmarking (hashrate) & & & & XXXX & X - - -
+% \\ \hline
+% Análise de Consumo & & & & - - - X & X - - -
+% \\ \hline 
+% Monografia & & XXXX & XXXX & XXXX & X - - -
+% \\ \hline 
+
+% \end{tabular}
+% \label{Q:Cronograma}
+% \caption*{Fonte: O autor (2024).}
+% \end{quadro}

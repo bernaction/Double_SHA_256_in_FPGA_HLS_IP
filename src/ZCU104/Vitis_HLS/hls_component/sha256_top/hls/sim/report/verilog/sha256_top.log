@@ -1,0 +1,156 @@
+INFO: [COSIM-47] Using XSIM for RTL simulation.
+INFO: [COSIM-14] Instrumenting C test bench ...
+   Build using "B:/Xilinx/Vitis/2024.2/vcxx/libexec/clang++"
+   Compiling apatb_sha256_top.cpp
+   Compiling sha256.c_pre.c.tb.c
+   Compiling sha256_test.c_pre.c.tb.c
+   Compiling sha256_top.c_pre.c.tb.c
+   Compiling apatb_sha256_top_ir.ll
+   Generating cosim.tv.exe
+INFO: [COSIM-302] Starting C TB testing ... 
+INFO: [COSIM-333] Generating C post check test bench ...
+INFO: [COSIM-12] Generating RTL test bench ...
+INFO: [COSIM-1] *** C/RTL co-simulation file generation completed. ***
+INFO: [COSIM-323] Starting verilog simulation. 
+INFO: [COSIM-15] Starting XSIM ...
+INFO: [COSIM-316] Starting C post checking ...
+--------- TESTE DOUBLE SHA256 - CPU ---------
+--------- ENTRADA DE DADOS ---------
+Header (hex) com nonce:
+0100000050120119172a610421a6c3011dd330d9df07b63616c2cc1f1cd00200000000006657a9252aacd5c0b2940996ecff952228c3067cc38d4885efb5a4ac4247e9f337221b4d4c86041b0f2b5710
+
+--------- SAIDA DE DADOS ---------
+Double Hash (LE): 06e533fd1ada86391f3f6c343204b0d278d4aaec1c0b20aa27ba030000000000
+Hash corresponde ao esperado? SIM
+Tempo de execucao (preciso): 0.003241200 segundos
+Hashrate (estimado): 308.53 H/s
+
+D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\sim\verilog>set PATH= 
+
+D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\sim\verilog>call B:/Xilinx/Vivado/2024.2/bin/xelab xil_defaultlib.apatb_sha256_top_top glbl -Oenable_linking_all_libraries  -prj sha256_top.prj -L smartconnect_v1_0 -L axi_protocol_checker_v1_1_12 -L axi_protocol_checker_v1_1_13 -L axis_protocol_checker_v1_1_11 -L axis_protocol_checker_v1_1_12 -L xil_defaultlib -L unisims_ver -L xpm  -L floating_point_v7_0_24 -L floating_point_v7_1_19 --lib "ieee_proposed=./ieee_proposed" -s sha256_top  
+Vivado Simulator v2024.2.0
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: B:/Xilinx/Vivado/2024.2/bin/unwrapped/win64.o/xelab.exe xil_defaultlib.apatb_sha256_top_top glbl -Oenable_linking_all_libraries -prj sha256_top.prj -L smartconnect_v1_0 -L axi_protocol_checker_v1_1_12 -L axi_protocol_checker_v1_1_13 -L axis_protocol_checker_v1_1_11 -L axis_protocol_checker_v1_1_12 -L xil_defaultlib -L unisims_ver -L xpm -L floating_point_v7_0_24 -L floating_point_v7_1_19 --lib ieee_proposed=./ieee_proposed -s sha256_top 
+Multi-threading is on. Using 14 slave threads.
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/glbl.v" into library work
+INFO: [VRFC 10-311] analyzing module glbl
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/AESL_axi_slave_control.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module AESL_axi_slave_control
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top.autotb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module apatb_sha256_top_top
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top_control_s_axi.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top_control_s_axi
+INFO: [VRFC 10-311] analyzing module sha256_top_control_s_axi_ram
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top_flow_control_loop_pipe_sequential_init.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top_flow_control_loop_pipe_sequential_init
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top_sha256_final.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top_sha256_final
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top_sha256_final_Pipeline_VITIS_LOOP_103_1.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top_sha256_final_Pipeline_VITIS_LOOP_103_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top_sha256_final_Pipeline_VITIS_LOOP_106_2.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top_sha256_final_Pipeline_VITIS_LOOP_106_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top_sha256_final_Pipeline_VITIS_LOOP_111_3.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top_sha256_final_Pipeline_VITIS_LOOP_111_3
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top_sha256_top_Pipeline_1.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top_sha256_top_Pipeline_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top_sha256_top_Pipeline_VITIS_LOOP_52_4.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top_sha256_top_Pipeline_VITIS_LOOP_52_4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top_sha256_transform.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top_sha256_transform
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top_sha256_transform_Pipeline_VITIS_LOOP_19_2.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top_sha256_transform_Pipeline_VITIS_LOOP_19_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top_sha256_transform_Pipeline_VITIS_LOOP_33_3.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top_sha256_transform_Pipeline_VITIS_LOOP_33_3
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top_sha256_transform_Pipeline_VITIS_LOOP_33_3_k_ROM_AUTO_1R.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top_sha256_transform_Pipeline_VITIS_LOOP_33_3_k_ROM_AUTO_1R
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top_sparsemux_129_6_32_1_1.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top_sparsemux_129_6_32_1_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top_sparsemux_161_7_8_1_1.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top_sparsemux_161_7_8_1_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top_sparsemux_65_5_8_1_1.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top_sparsemux_65_5_8_1_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top_sparsemux_97_6_32_1_1.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top_sparsemux_97_6_32_1_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top_state_RAM_AUTO_1R1W.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sha256_top_state_RAM_AUTO_1R1W
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/dataflow_monitor.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module dataflow_monitor
+Starting static elaboration
+Pass Through NonSizing Optimizer
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package xil_defaultlib.$unit_dataflow_monitor_sv
+Compiling module xil_defaultlib.sha256_top_state_RAM_AUTO_1R1W
+Compiling module xil_defaultlib.sha256_top_flow_control_loop_pip...
+Compiling module xil_defaultlib.sha256_top_sha256_top_Pipeline_1
+Compiling module xil_defaultlib.sha256_top_sparsemux_97_6_32_1_1...
+Compiling module xil_defaultlib.sha256_top_sha256_transform_Pipe...
+Compiling module xil_defaultlib.sha256_top_sha256_transform_Pipe...
+Compiling module xil_defaultlib.sha256_top_sparsemux_129_6_32_1_...
+Compiling module xil_defaultlib.sha256_top_sha256_transform_Pipe...
+Compiling module xil_defaultlib.sha256_top_sha256_transform
+Compiling module xil_defaultlib.sha256_top_sha256_final_Pipeline...
+Compiling module xil_defaultlib.sha256_top_sha256_final_Pipeline...
+Compiling module xil_defaultlib.sha256_top_sha256_final_Pipeline...
+Compiling module xil_defaultlib.sha256_top_sha256_final
+Compiling module xil_defaultlib.sha256_top_sha256_top_Pipeline_V...
+Compiling module xil_defaultlib.sha256_top_control_s_axi_ram(MEM...
+Compiling module xil_defaultlib.sha256_top_control_s_axi_ram(DEP...
+Compiling module xil_defaultlib.sha256_top_control_s_axi
+Compiling module xil_defaultlib.sha256_top_sparsemux_161_7_8_1_1...
+Compiling module xil_defaultlib.sha256_top_sparsemux_65_5_8_1_1(...
+Compiling module xil_defaultlib.sha256_top
+Compiling module xil_defaultlib.AESL_axi_slave_control
+WARNING: [XSIM 43-3373] "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/AESL_axi_slave_control.v" Line 642. System function $fread is used as system task. This system function should have a LHS e.g. x=$fread().
+WARNING: [XSIM 43-3373] "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/AESL_axi_slave_control.v" Line 651. System function $fread is used as system task. This system function should have a LHS e.g. x=$fread().
+WARNING: [XSIM 43-3373] "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/AESL_axi_slave_control.v" Line 692. System function $fread is used as system task. This system function should have a LHS e.g. x=$fread().
+Compiling module xil_defaultlib.nodf_module_intf_default
+Compiling module xil_defaultlib.seq_loop_intf(FSM_WIDTH=43)
+Compiling module xil_defaultlib.upc_loop_intf(FSM_WIDTH=1)
+Compiling module xil_defaultlib.dataflow_monitor_1
+Compiling module xil_defaultlib.apatb_sha256_top_top
+Compiling module work.glbl
+Built simulation snapshot sha256_top
+
+****** xsim v2024.2 (64-bit)
+  **** SW Build 5239630 on Fri Nov 08 22:35:27 MST 2024
+  **** IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+  **** SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+  **** Start of session at: Mon Jun  9 13:33:33 2025
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source xsim.dir/sha256_top/xsim_script.tcl
+# xsim {sha256_top} -autoloadwcfg -tclbatch {sha256_top.tcl}
+Time resolution is 1 ps
+source sha256_top.tcl
+## run all
+////////////////////////////////////////////////////////////////////////////////////
+// Inter-Transaction Progress: Completed Transaction / Total Transaction
+// Intra-Transaction Progress: Measured Latency / Latency Estimation * 100%
+//
+// RTL Simulation : "Inter-Transaction Progress" ["Intra-Transaction Progress"] @ "Simulation Time"
+////////////////////////////////////////////////////////////////////////////////////
+// RTL Simulation : 0 / 1 [n/a] @ "125000"
+// RTL Simulation : 1 / 1 [n/a] @ "10205000"
+////////////////////////////////////////////////////////////////////////////////////
+$finish called at time : 10265 ns : File "D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/sim/verilog/sha256_top.autotb.v" Line 332
+## quit
+INFO: [Common 17-206] Exiting xsim at Mon Jun  9 13:33:36 2025...
+--------- TESTE DOUBLE SHA256 - CPU ---------
+--------- ENTRADA DE DADOS ---------
+Header (hex) com nonce:
+0100000050120119172a610421a6c3011dd330d9df07b63616c2cc1f1cd00200000000006657a9252aacd5c0b2940996ecff952228c3067cc38d4885efb5a4ac4247e9f337221b4d4c86041b0f2b5710
+
+--------- SAIDA DE DADOS ---------
+Double Hash (LE): 06e533fd1ada86391f3f6c343204b0d278d4aaec1c0b20aa27ba030000000000
+Hash corresponde ao esperado? SIM
+Tempo de execucao (preciso): 0.000125300 segundos
+Hashrate (estimado): 7980.85 H/s
+INFO: [COSIM-1000] *** C/RTL co-simulation finished: PASS ***
+INFO: [COSIM-211] II is measurable only when transaction number is greater than 1 in RTL simulation. Otherwise, they will be marked as all NA. If user wants to calculate them, please make sure there are at least 2 transactions in RTL simulation.

@@ -1,0 +1,129 @@
+\chapter{Introdução}\label{Sec:Introducao}
+
+
+No atual cenário de avanços tecnológicos, as tecnologias de processamento digital desempenham um papel fundamental na solução de problemas computacionais complexos. Com o crescimento exponencial de dados e a necessidade de processamento eficiente, dispositivos como FPGAs (\textit{Field-Programmable Gate Arrays}) têm ganhado destaque por sua flexibilidade e capacidade de personalização na sua configuração \cite{vahid2001embedded}. Esses dispositivos são amplamente utilizados em aplicações que exigem alto desempenho, como sistemas embarcados, aprendizado de máquina e, mais recentemente, em operações relacionadas à tecnologia \textit{blockchain} \cite{Cocco2016BitcoinMining}.
+
+%A tecnologia \textit{blockchain}, conhecida por sua capacidade de descentralização e segurança, tem se consolidado como um dos pilares das criptomoedas. Dentre elas, o Bitcoin é o maior representante, sendo amplamente reconhecido como o precursor do uso dessa tecnologia em sistemas financeiros descentralizados. O Bitcoin utiliza o algoritmo SHA-256 (\textit{Secure Hash Algorithm 256-bit}) para assegurar a integridade e a segurança de sua rede. Este algoritmo, embora altamente confiável, exige grande capacidade de processamento, especialmente no contexto da mineração de blocos, um processo essencial para o funcionamento da rede \textit{blockchain} \cite{Zhang2022BlockchainDecentralization}.
+
+Diante da crescente complexidade das operações de mineração e do aumento da demanda por soluções eficientes, técnicas de síntese em alto nível (\textit{High-Level Synthesis — HLS}) têm emergido como uma alternativa para extrair mais desempenho. O HLS permite a tradução de algoritmos escritos em linguagens de alto nível, como C/C++, para descrições de hardware compatíveis com FPGAs, otimizando o desempenho e explorando o paralelismo intrínseco do hardware.
+
+Neste contexto, este trabalho propôs a exploração do uso de FPGAs, configurados por meio de técnicas de HLS, para a validação do algoritmo Double SHA-256 implementando o núcleo principal usado no processo de mineração de Bitcoin. A proposta visou aliar eficiência energética e desempenho computacional, contribuindo para o desenvolvimento de sistemas mais acessíveis e sustentáveis no campo da validação de blocos de criptomoedas.
+
+A tecnologia blockchain constitui um sistema, analogamente como um livro-razão, no qual cada computador participante atua como um nó responsável por registrar todas as transações realizadas para armazenar o histórico completo dessas operações. Esse modelo descentralizado elimina a necessidade de uma autoridade central ou instituição financeira para garantir o funcionamento da rede \cite{nakamoto2008bitcoin}. A segurança é assegurada pelo fato de que qualquer tentativa de fraude exigiria a alteração de dados em mais de 50\% dos nós simultaneamente, uma tarefa que demanda um poder computacional extremamente alto, tornando-a impraticável, dado o tamanho e a robustez da rede atual.
+
+
+\section{Problematização}
+
+\subsection{A Dificuldade da Mineração}
+
+O processo da mineração de Bitcoin, de adicionar novos blocos à blockchain\footnote{É uma tecnologia de livro-razão \textbf{\textit{distribuído que }}organiza dados em blocos criptografados e cronologicamente conectados, formando uma cadeia imutável de informações.}, se dá pela resolução complexa de problemas matemáticos que garantem a segurança e a integridade da rede. Com o passar do tempo, a dificuldade desses problemas aumentou significativamente. O grau de dificuldade é ajustado aproximadamente a cada duas semanas para garantir que um novo bloco seja encontrado em aproximadamente 10 minutos, independentemente da quantidade de capacidade de processamento na rede de computadores \cite{nakamoto2008bitcoin}.
+
+
+
+Como resultado, minerar Bitcoin de forma caseira, isto é, sem grandes \textit{clusters} de computação acessíveis e com hardware convencional, tornou-se impraticável. No início, computadores pessoais, usando seus processadores e depois placas de vídeo, que antes eram suficientes para minerar Bitcoin, tornaram-se incapazes de competir com as poderosas fazendas de mineração com equipamentos baseados em ASICs dedicados. Esses dispositivos são projetados especificamente para a mineração de Bitcoin, oferecendo uma eficiência muito superior em processamento, mas também apresentando desafios significativos em termos de custo monetário e consumo de energia \cite{antminer2020bitcoin}.
+
+\subsection{O Custo Monetário e o Consumo de Energia Elétrica}
+
+Os hardwares baseados em ASIC, embora eficientes em processamento para mineração, consomem uma grande quantidade de energia elétrica e ocupam um espaço significativo, além do seu alto nível de ruído sonoro e temperatura de operação. Por exemplo, o Bitmain Antminer S21 Pro \cite{S21Pro}, um dos modelos mais eficientes em questão de Watt/TH/s no mercado, computa 234 TH/s no algoritmo SHA-256. O \textit{hashrate}\footnote{Métrica de cálculos por tempo} é uma métrica de poder computacional total de cálculos de \textit{hash} por segundo. Essa máquina tem seu valor de venda de aproximadamente U\$6.318, com um consumo energético de 3.510 Watts, ou seja, uma eficiência energética de 15 Watt/TH/s \cite{asicminervalue}. Operar várias dessas máquinas em uma fazenda de mineração requer um investimento inicial significativo, além de um custo operacional elevado devido ao grande consumo de energia e à necessidade de sistemas de resfriamento para o hardware de processamento \cite{minerset2021energy}.
+
+\subsection{Espaço e Infraestrutura}
+
+Além do custo e do consumo de energia, as fazendas de mineração requerem um espaço físico considerável e uma infraestrutura adequada para operar, como um grande fornecimento de energia elétrica e estrutura de arrefecimento e exaustão térmica. Grandes galpões são frequentemente utilizados para abrigar centenas ou até milhares de máquinas ASICs. Esse nível de escala está fora do alcance da maioria das pessoas, limitando a participação na mineração de Bitcoin a grandes operadores e investidores com capital significativo \cite{arthurinc}.
+
+
+\subsection{Solução Proposta}
+
+Diante desse cenário, este trabalho propõe explorar a viabilidade de utilizar dispositivos FPGA, como, por exemplo, o \textbf{ZedBoard Zynq-7000 ARM/FPGA SoC Development Board} \cite{Zedboard2024} e a \textbf{AMD Zynq™ UltraScale+™ MPSoC ZCU104 Evaluation Kit} \cite{XilinxZCU104}, para a validação de blocos reais da rede do Bitcoin, com base na eficiência energética.
+
+
+Para o desenvolvimento deste trabalho, usaremos componentes comerciais prontos (COTS, do inglês “Commercial off-the-shelf”), disponíveis nos laboratórios da instituição, os quais são produtos de hardware já disponíveis no mercado e projetados para serem utilizados em uma ampla gama de aplicações. A escolha por COTS visa reduzir os custos de desenvolvimento e acelerar o processo de implementação, uma vez que esses componentes já foram testados e validados por fabricantes especializados. Para o desenvolvimento do projeto em FPGA, utilizaremos a técnica de HLS \textit{(High-Level Synthesis)}, a qual permite que algoritmos descritos em linguagens de programação de alto nível, como C ou C++, sejam automaticamente convertidos em descrições de hardware em nível de registrador (RTL) \cite{coussy2009hls}. Essa abordagem simplifica o processo de design de hardware, aumentando a eficiência do desenvolvimento e permitindo ajustes rápidos no projeto para otimização de desempenho e consumo de energia.
+
+%\begin{figure}[H]
+%    \centering
+%    \caption{ZedBoard Zynq-7000 ARM/FPGA SoC Development Board}
+%    \includegraphics[width=0.75\linewidth]{1_introducao/ZedBoard Zynq-7000.png}
+%    \label{fig:zedboard_png}
+%\end{figure}
+
+%\begin{figure}[H]
+%    \centering
+%    \caption{AMD Zynq™ UltraScale+™ MPSoC ZCU104 Evaluation Kit}
+%    \includegraphics[width=0.75\linewidth]{1_introducao/zcu104.png}
+%    \label{fig:zcu104}
+%\end{figure}
+
+O estudo consumiu de competências adquiridas nas disciplinas de Arquitetura e Organização de Processadores, Projeto de Sistemas Digitais e Projeto de Sistemas Embarcados, abordadas no curso de Engenharia de Computação, em prática \cite{univali_disciplinas}. Também são explorados conteúdos não comuns no curso, como HLS para FPGAs e o uso de componentes COTS para a implementação de soluções de mineração de Bitcoin.
+
+\section{Objetivos}
+
+Esta seção formaliza o objetivo geral do trabalho, bem como os objetivos específicos para a validação do projeto proposto, conforme descrito nas subseções a seguir.
+
+\subsection{Objetivo Geral}
+
+Explorar o uso de FPGAs COTS na aplicação do algoritmo Double SHA-256 com o uso HLS para validação de cabeçalho de bloco válidos de Bitcoin.
+
+
+\subsection{Objetivos Específicos}
+\begin{enumerate}
+    \item Analisar as abordagens existentes para implementação do algoritmo SHA-256, com foco em aplicações para validação de blocos na blockchain do Bitcoin.
+    
+    \item Desenvolver uma arquitetura em HLS capaz de executar o cálculo completo do Double SHA-256 em FPGA com base em blocos já minerados.
+    
+    \item Avaliar o desempenho da solução em FPGA nas plataformas ZedBoard e ZCU104 visando comparar CPU ARM com acelerador em lógica programável.
+
+    \item Avaliar a corretude dos resultados da FPGA comparando o hash final com os dados publicados na blockchain do Bitcoin.
+    
+    \item Disponibilizar um comparativo com métodos tradicionais de mineração, ASIC\footnote{Na área específica de mineração de criptomoedas, os profissionais desta área chamam equipamentos baseados em ASICs de apenas ASIC.}, CPU e GPU, considerando o \textit{hashrate} final.
+\end{enumerate}
+
+%O trabalho buscará demonstrar a viabilidade técnica e econômica da utilização do FPGA para a mineração de Bitcoin, contribuindo para a otimização do processo de mineração em termos de desempenho e eficiência energética. A abordagem detalhada em cada objetivo específico deverá garantir uma compreensão profunda dos desafios e soluções possíveis, estabelecendo um quadro claro para futuras pesquisas e desenvolvimentos na área.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    PLANO DE TRABALHO    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{comment}
+\section{PLANO DE TRABALHO}
+
+Este plano de trabalho apresenta as etapas que serão seguidas para atingir os objetivos propostos neste projeto utilizando FPGA e conceitos de HLS. Cada etapa no plano de trabalho, é detalhada com suas respectivas atividades, demonstrando o caminho a ser seguido para construir a solução proposta.
+
+\begin{enumerate}
+    \item Levantamento teórico: permitirá identificar e analisar as principais obras e autores que tratam problemas semelhantes.
+        \begin{enumerate}
+            \item[a.] \underline{Pesquisa bibliográfica:} verificação e levantamento teórico relacionados à pesquisa;
+            \item[b.] \underline{Análise dos materiais:} análise dos conteúdos levantados sobre FPGA e HLS;
+        \end{enumerate}
+    \item Implementação do Algoritmo SHA-256 em C/C++: permitirá desenvolver a base do algoritmo de mineração.
+    \begin{enumerate}
+        \item[a.] \underline{Desenvolvimento:} codificação do algoritmo SHA-256 em C/C++;
+        \item[b.] \underline{Testes de unidade:} realização de testes de unidade para garantir a correta implementação do algoritmo;
+    \end{enumerate}
+    \item Conversão para Hardware com HLS: permitirá a conversão do código de software para uma descrição de hardware.
+    \begin{enumerate}
+        \item[a.] \underline{Conversão:} utilização do HLS para converter o código C/C++ em VHDL;
+        \item[b.] \underline{Otimização:} aplicação de técnicas de otimização para melhorar o desempenho e a eficiência energética do design;
+    \end{enumerate}
+    \item Síntese e Implementação no FPGA: permitirá a programação do FPGA com o design desenvolvido.
+    \begin{enumerate}
+        \item[a.] \underline{Síntese:} utilização do Intel Quartus Prime para a síntese do design em VHDL;
+        \item[b.] \underline{Implementação:} programação do FPGA com o design sintetizado;
+    \end{enumerate}
+    \item Simulação e Verificação: permitirá garantir que o design funcione corretamente antes da implementação física.
+    \begin{enumerate}
+        \item[a.] \underline{Simulação:} utilização de programa de simulação para o teste do design sintetizado;
+        \item[b.] \underline{Verificação funcional:} verificação da funcionalidade e correção de possíveis erros;
+    \end{enumerate}
+    \item Avaliação de Desempenho e Eficiência Energética: permitirá avaliar a eficiência da solução desenvolvida.
+    \begin{enumerate}
+        \item[a.] \underline{Benchmarking:} execução de testes de benchmark para avaliar o \textit{hashrate} do sistema;
+        \item[b.] \underline{Análise de Consumo:} monitoramento do consumo de energia durante os testes;
+        \item[c.] \underline{Eficiência Energética:} cálculo da eficiência energética (Watt/TH) e comparação com outras tecnologias de mineração (CPU, GPU, ASIC);
+    \end{enumerate}
+    \item Monografia: permitirá a escrita do texto da monografia.
+    \begin{enumerate}
+        \item[a.] \underline{Monografia:} escrita do texto da monografia;
+    \end{enumerate}
+\end{enumerate}
+
+\end{comment}
+
+

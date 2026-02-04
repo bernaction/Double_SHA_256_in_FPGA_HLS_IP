@@ -1,0 +1,67 @@
+---
+MainSourceFile:  'D:/Clouds/Dropbox/Vivado_Project/Final/ZCU104/Vitis_HLS/hls_component/sha256_top/hls/.autopilot/db/sha256.pp.0.c'
+Diagnostics:     
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_14_1:  '
+    FileOffset:      14
+    FilePath:        'D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\src\sha256.c'
+    Replacements:    
+      - FilePath:        'D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c'
+        Offset:          48562
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_14_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_19_2:  '
+    FileOffset:      19
+    FilePath:        'D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\src\sha256.c'
+    Replacements:    
+      - FilePath:        'D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c'
+        Offset:          48708
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_19_2: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_33_3:  '
+    FileOffset:      33
+    FilePath:        'D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\src\sha256.c'
+    Replacements:    
+      - FilePath:        'D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c'
+        Offset:          49294
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_33_3: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_77_1:  '
+    FileOffset:      77
+    FilePath:        'D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\src\sha256.c'
+    Replacements:    
+      - FilePath:        'D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c'
+        Offset:          50552
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_77_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_103_1:  '
+    FileOffset:      103
+    FilePath:        'D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\src\sha256.c'
+    Replacements:    
+      - FilePath:        'D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c'
+        Offset:          51151
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_103_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_106_2:  '
+    FileOffset:      106
+    FilePath:        'D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\src\sha256.c'
+    Replacements:    
+      - FilePath:        'D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c'
+        Offset:          51227
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_106_2: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_111_3:  '
+    FileOffset:      111
+    FilePath:        'D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\src\sha256.c'
+    Replacements:    
+      - FilePath:        'D:\Clouds\Dropbox\Vivado_Project\Final\ZCU104\Vitis_HLS\hls_component\sha256_top\hls\.autopilot\db\sha256.pp.0.c'
+        Offset:          51308
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_111_3: '
+...

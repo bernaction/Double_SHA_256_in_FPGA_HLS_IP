@@ -1,0 +1,3 @@
+relativeroot=D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/hls_component
+original_argv=-c --mode hls --config D:\Clouds\Dropbox\Vivado_Project\Final\Zedboard\Vitis_HLS\hls_component\hls_config.cfg --work_dir sha256_top 
+

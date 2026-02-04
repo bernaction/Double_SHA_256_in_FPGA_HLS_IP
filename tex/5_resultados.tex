@@ -1,0 +1,583 @@
+\chapter{Resultados} \label{cap:resultados}
+
+Neste capítulo, são apresentados os resultados obtidos a partir da execução do sistema proposto nas duas plataformas embarcadas — ZedBoard e ZCU104. São analisadas as métricas de desempenho, como tempo de execução, hashrate estimado, uso de recursos lógicos (LUTs, FFs, BRAMs), o cálculo da Fmax (frequência máxima de operação) com base no \textit{Worst Negative Slack} (WNS) e a eficiência energética em termos de \textit{hashrate} por watt. Além disso, é discutida a correção dos hashes gerados e o ganho de desempenho obtido com a aceleração em hardware comparada à execução em software.
+
+As análises aqui conduzidas visam demonstrar a efetividade do IP desenvolvido em HLS para o cálculo do Double SHA-256, sua compatibilidade entre diferentes gerações do Zynq e sua viabilidade como acelerador embarcado.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Métricas Avaliadas}
+
+Para avaliar o desempenho do sistema implementado, foram adotadas métricas técnicas que permitem quantificar o impacto da aceleração em hardware frente à execução tradicional em software. As métricas principais são:
+
+\begin{itemize}
+  \item \textbf{Tempo de Execução}: o tempo necessário para completar o cálculo do Double SHA-256 de um bloco, medido em segundos. No caso do software, foi utilizado o temporizador interno do ARM (Cortex-A53) com as funções \texttt{XTime\_GetTime}. Para o hardware, foi utilizado um contador de ciclos ou temporização baseada no clock configurado no PL (Programmable Logic).
+  
+  \item \textbf{Hashrate Estimado}: número de hashes calculados por segundo (\textit{hashes per second}, H/s), estimado com base no tempo de execução de um ciclo completo de mineração para um único nonce.
+  
+  \item \textbf{Uso de Recursos Lógicos}: recursos consumidos na FPGA durante a síntese e implementação do IP em HLS, incluindo LUTs, FFs e BRAMs. Os dados foram obtidos por meio do relatório de utilização gerado pelo Vivado após a implementação.
+  
+  \item \textbf{Frequência Máxima de Operação (Fmax)}: frequência máxima teórica atingível pelo IP no FPGA, determinada pelo WNS reportado após a implementação. A Fmax é fundamental para estimar o desempenho e a estabilidade do sistema em diferentes condições de operação.
+  
+  \item \textbf{Eficiência Energética}: relação entre o hashrate obtido e o consumo energético estimado da plataforma, medido em H/s por Watt. Quando não foi possível medir diretamente o consumo, valores típicos de consumo do SoC foram utilizados como base comparativa.
+  
+  \item \textbf{Correção dos Hashes Gerados}: verificação da exatidão dos resultados gerados pelo sistema embarcado em relação à referência calculada via software, garantindo que o processo de mineração implementado respeita a especificação do protocolo do Bitcoin.
+  
+  \item \textbf{Ganho de Desempenho}: razão entre o tempo de execução do algoritmo em software e em hardware, expressa como um fator de aceleração (por exemplo, 10x).
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Análise Geral dos Resultados}
+
+A fim de validar o funcionamento correto e avaliar o desempenho do sistema proposto, foram realizados testes experimentais nas plataformas ZedBoard e ZCU104, utilizando como base cabeçalhos reais da rede Bitcoin e comparando os resultados obtidos com implementações em software executadas no processador ARM Cortex. Cada teste consistiu em aplicar o algoritmo de mineração (Double SHA-256) a um cabeçalho de bloco completo e medir o tempo necessário para o processamento.
+
+O tempo de execução foi obtido com base em contadores de ciclo disponíveis nas próprias plataformas. No caso da CPU, utilizou-se o temporizador do PS (Processing System). Para a FPGA, foi utilizado um registrador de contagem de ciclos implementado no próprio IP.
+
+O cálculo do hashrate foi baseado na razão entre o número de hashes processados e o tempo total de execução. Adicionalmente, foram comparadas a utilização de recursos lógicos (LUTs, FFs e BRAMs) e a frequência máxima atingível conforme o WNS reportado após a implementação.
+
+Os testes visaram comparar não apenas a aceleração obtida, mas também a robustez da implementação, avaliando se os hashes gerados coincidem com as referências calculadas por software. A eficiência energética também foi estimada, com base no consumo típico das plataformas embarcadas.
+
+Com base nessa análise inicial, as próximas seções detalham os resultados obtidos separadamente para cada plataforma embarcada.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Cálculo de Fmax (Frequência Máxima) a partir do WNS}
+
+A Fmax de um circuito digital é determinada pela maior frequência de clock na qual todas as restrições de tempo são atendidas. O WNS é uma métrica fundamental para determinar essa frequência. O WNS representa a menor folga de tempo disponível em um caminho crítico. Um WNS positivo indica que todas as restrições de tempo foram atendidas, enquanto um WNS negativo indica que o circuito não consegue operar na frequência de clock desejada.
+
+A Fmax pode ser calculada a partir do WNS usando a seguinte fórmula:
+
+\begin{equation}
+    \text{Fmax} = \frac{\text{1}} {\text{Tclock - WNS}}
+\end{equation}
+\label{eq:fmax}
+\addEquacao{Cálculo da maior frequência de clock}{8}
+
+Onde:
+\begin{itemize}
+    \item $T_{clock}$ é o período do clock nominal.
+    \item $WNS$ é o Worst Negative Slack.
+\end{itemize}
+
+Um WNS de $0,248\ ns$ para o \textit{Setup} (conforme \autoref{fig:wns_zedboard}) significa que o circuito pode operar em uma frequência ligeiramente superior à nominal, pois há uma folga positiva de $0,248\ ns$ no caminho mais crítico. Com esse valor de WNS calculado na implementação, podemos configurar o clock máximo suportado para que o FPGA execute com o melhor desempenho nossa máquina de estado.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Medição de Eficiência Energética (Hashrate/Watt)}
+
+A eficiência energética é um fator crítico em aplicações de mineração e em sistemas embarcados em geral, onde o consumo de energia pode impactar significativamente os custos operacionais e a viabilidade do projeto. O cálculo do \textit{hashrate} por watt ($H/W$) é realizado dividindo o \textit{hashrate} obtido pelo consumo de energia em watts.
+\begin{equation}
+    \text{Eficiência Energética} = \frac{\text{hashrate}} {\text{Watts}}
+\end{equation}
+\addEquacao{Cálculo de eficiência energética}{9}
+
+Para as plataformas em questão, a potência consumida será monitorada por meio de dispositivos externos de medição de energia, permitindo uma quantificação precisa da eficiência energética do sistema.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Resultados da ZedBoard Zynq-7000}
+
+A ZedBoard, equipada com o SoC Zynq-7000, foi uma das plataformas utilizadas para a validação da implementação do algoritmo Double SHA-256. Abaixo, são apresentados os resultados obtidos em termos de desempenho, consumo de recursos da FPGA e medição de potência.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Utilização de Recursos da FPGA (ZedBoard)}
+
+A \autoref{qua:utilizacao_zedboard} detalha a utilização dos recursos da FPGA na ZedBoard após a síntese e implementação do design.
+
+% \begin{figure}[H]
+%     \centering
+%     \caption{Utilização de recursos da FPGA na ZedBoard.}
+%     \includegraphics[width=0.8\textwidth]{5_resultados/zedboard/utilizacao.png} 
+%     \caption*{Fonte: O Autor (2025).}
+%     \label{fig:utilizacao_zedboard}
+% \end{figure}
+
+\begin{table}[H]
+\centering
+\small
+\caption{Utilização de Recursos da FPGA na ZedBoard.}
+\fontsize{10}{12}\selectfont
+\def\arraystretch{1.25}
+\setlength\tabcolsep{3pt}
+\begin{tabular}{|l|c|c|c|}
+\rowcolor[HTML]{EFEFEF} 
+\hline
+\textbf{Recurso} & \textbf{Utilização}  & \textbf{Disponível} & \textbf{Utilização \%} \\ \hline
+        LUT      & $10.709$             & $53.200$             & $20,13\%$\\ \hline
+        LUTRAM   & $222$                & $17.400$             & $1,28\%$ \\ \hline
+        FF       & $12.804$             & $106.400$            & $12,03\%$ \\ \hline
+        BRAM     & $2$                  & $140$                & $1,43\%$ \\\hline
+\end{tabular}
+\label{qua:utilizacao_zedboard}
+\caption*{Fonte: O autor (2025).}
+\end{table}
+
+
+Os dados de utilização de recursos na \autoref{qua:utilizacao_zedboard} indicam que a implementação do Double SHA-256 na FPGA da ZedBoard consome uma porcentagem relativamente baixa dos recursos disponíveis. A utilização de $20,13\%$ dos LUTs e $12,03\%$ dos FFs sugere que há espaço considerável para a inclusão de mais lógicas ou para a implementação de múltiplos \textit{cores} do algoritmo Double SHA-256, o que poderia aumentar ainda mais o \textit{hashrate}. A baixa utilização de BRAMs e LUTRAMs também é um indicativo de que a arquitetura do algoritmo não demanda grande quantidade de memória interna da FPGA.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Análise de \textit{Timing}}
+
+A \autoref{fig:wns_zedboard} apresenta o sumário de timing do design, crucial para verificar a viabilidade da operação na frequência desejada. A \autoref{tab:timing_zedboard} mostra os dados de maneira organizada.
+
+\begin{figure}[H]
+    \centering
+    \caption{Sumário de Timing do Design na ZedBoard.}
+    \includegraphics[width=1\textwidth]{5_resultados/zedboard/wns.png} 
+    \caption*{Fonte: O autor (2025).}
+    \label{fig:wns_zedboard}
+\end{figure}
+
+
+\begin{table}[H]
+\centering
+\small
+\caption{Métricas de Timing do Design na ZedBoard.}
+    \fontsize{10}{12}\selectfont
+    \def\arraystretch{1.25}
+    \setlength\tabcolsep{3pt}
+\begin{tabular}{lcc}
+\rowcolor[HTML]{EFEFEF} 
+\hline
+    \textbf{Métrica de Timing}              & \textbf{Valor} & \textbf{Status}  \\ \hline
+    Worst Negative Slack (WNS)              & $0,248\ ns$    & Sem violações    \\ \hline
+    Total Negative Slack (TNS)              & $0,000\ ns$    & Sem violações    \\ \hline
+    Worst Hold Slack (WHS)                  & $0,033\ ns$    & Sem violações    \\ \hline
+    Total Hold Slack (THS)                  & $0,000\ ns$    & Sem violações    \\ \hline
+    Worst Pulse Width Slack (WPWS)          & $3,750\ ns$    & Sem violações    \\ \hline
+    Total Pulse Width Negative Slack (TPWS) & $0,000\ ns$    & Sem violações    \\ \hline
+\end{tabular}
+\label{tab:timing_zedboard}
+\caption*{Fonte: O autor (2025).}
+\end{table}
+
+O WNS de $0,248\ ns$ é positivo, indicando que todas as restrições de tempo de \textit{setup} foram atendidas. Isso significa que o circuito é capaz de operar na frequência de clock nominal definida para o projeto. Um WNS positivo também sugere que o circuito poderia operar em uma frequência ligeiramente mais alta do que a projetada, se necessário. De forma análoga, os valores positivos para \textit{Worst Hold Slack} (WHS) e \textit{Worst Pulse Width Slack} (WPWS) confirmam que todas as restrições de \textit{hold} e de largura de pulso também foram satisfeitas. A mensagem "\textit{All user specified timing constraints are met}" confirma a robustez do design em relação ao timing.
+No caso da Zedboard, por ter um WNS próximo a zero, não foi feita nenhuma modificação em seu clock de fábrica no PL, no caso 100 MHz.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Desempenho do Double SHA-256}
+
+A \autoref{fig:terminal_zedboard} ilustra os resultados comparativos do teste Double SHA-256 executado no processador (CPU) da ZedBoard (Cortex-A9) e na lógica programável (FPGA) do Zynq-7000, impressos no terminal de comunicação.
+
+
+\begin{figure}[H]
+ \centering
+ \caption{Resultados de desempenho do Double SHA-256 (CPU ARM vs FPGA).}
+ \includegraphics[width=0.8\textwidth]{5_resultados/zedboard/terminal.png}
+ \label{fig:terminal_zedboard}
+ \caption*{Fonte: O Autor (2025)}
+\end{figure}
+
+Resumidamente, temos:
+
+\begin{table}[H]
+\centering
+\small
+\caption{Desempenho Comparativo do Double SHA-256 na ZedBoard.}
+    \fontsize{10}{12}\selectfont
+    \def\arraystretch{1.25}
+    \setlength\tabcolsep{3pt}
+\begin{tabular}{lcc}
+\rowcolor[HTML]{EFEFEF} 
+    \hline
+        \textbf{Métrica} & \textbf{CPU (Cortex-A9)} & \textbf{FPGA (ZedBoard Zynq-7000)} \\ \hline
+        Tempo de execução (preciso) & $58.607\ ns$ & $7.850\ ns$ \\ \hline
+        Hashrate (estimado) & $17.062\ H/s$ & $127.388\ H/s$ \\ \hline
+\end{tabular}
+\label{tab:desempenho_zedboard}
+\caption*{Fonte: O autor (2025).}
+\end{table}
+
+Conforme os dados apresentados na \autoref{tab:desempenho_zedboard}, a implementação em FPGA demonstrou um ganho de aceleração de aproximadamente $7\times$ em comparação com a execução em CPU ($127.388\ H/s\ /\ 17.062\ H/s \approx 7,46\times$). Este resultado evidencia a capacidade da lógica programável em processar o algoritmo Double SHA-256 de forma significativamente mais rápida, devido à sua natureza paralela e à capacidade de otimização de hardware.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Consumo de Energia}
+
+A \autoref{fig:zedboard_placa} e \autoref{fig:zedboard_watt} mostram a ZedBoard em operação e a leitura do consumo de energia por um medidor externo.
+
+\begin{figure}[H]
+    \centering
+    \caption{ZedBoard em Operação.}
+    \includegraphics[width=0.8\textwidth]{5_resultados/zedboard/zed_placa.jpg} % Certifique-se de que o caminho para a imagem está correto
+    \caption*{Fonte: O autor (2025).}
+    \label{fig:zedboard_placa}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \caption{Medição do Consumo de energia da ZedBoard.}
+    \includegraphics[width=0.3\textwidth]{5_resultados/zedboard/zed_watt.jpg} % Certifique-se de que o caminho para a imagem está correto
+    \caption*{Fonte: O autor (2025).}
+    \label{fig:zedboard_watt}
+\end{figure}
+
+
+\begin{table}[H]
+\centering
+\small
+\caption{Consumo de Energia da ZedBoard.}
+    \fontsize{10}{12}\selectfont
+    \def\arraystretch{1.25}
+    \setlength\tabcolsep{3pt}
+\begin{tabular}{lc}
+\rowcolor[HTML]{EFEFEF} 
+    \hline
+    \textbf{Métrica}        & \textbf{Valor} \\ \hline
+    Potência Aparente (VA)  & $9,3\ VA$      \\ \hline
+    Potência Ativa (W)       & $4,3\ W$      \\ \hline
+\end{tabular}
+\label{tab:potencia_zedboard}
+\caption*{Fonte: O autor (2025).}
+\end{table}
+
+O medidor de energia indica um consumo de energia ativa de $4,3\ W$ para a ZedBoard durante a execução do algoritmo Double SHA-256 na FPGA (\autoref{tab:potencia_zedboard}). Este valor representa a energia real consumida pelo sistema e é fundamental para o cálculo da eficiência energética.
+
+Com base no \textit{hashrate} da FPGA ($127.388\ H/s$) e no consumo de energia de $4,3\ W$, a eficiência energética para a ZedBoard é:
+
+\[
+\text{Eficiência Energética} = \frac{127.388\,\text{H/s}}{4{,}3\,\text{W}} \approx 29.625{,}12\,\text{H/W}
+\]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Resultados da Zynq UltraScale+ MPSoC ZCU104}
+
+A ZCU104, baseada no SoC Zynq UltraScale+ MPSoC, representa uma geração mais avançada de plataformas embarcadas. Para manter uma base comparativa inicial com a ZedBoard, o sistema foi inicialmente sintetizado com o clock de $100\ MHz$.
+
+\begin{figure}[H]
+    \centering
+    \caption{Sumário de Timing do Design na ZCU104 (100 MHz).}
+    \includegraphics[width=1\textwidth]{5_resultados/zcu104/wns_1.png} 
+    \caption*{Fonte: O Autor (2025).}
+    \label{fig:wns1_zcu}
+\end{figure}
+
+Conforme demonstrado na \autoref{fig:wns1_zcu}, o WNS estimado foi de $3,218\ ns$, portanto, utilizando-se a fórmula de F\_{max} demonstrado na Equação 5, a análise de \textit{timing} revelou uma margem de folga positiva suficiente, permitindo aumentar com segurança o clock para $250\ MHz$, resultando em ganhos expressivos de desempenho, sem acréscimo perceptível no consumo energético.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Utilização de Recursos da FPGA (ZCU104)}
+
+A \autoref{qua:utilizacao_zcu} mostra a utilização dos recursos da FPGA após a implementação com clock de $250\ MHz$.
+
+% \begin{figure}[H]
+%     \centering
+%     \caption{Utilização de recursos da FPGA na ZCU104 (250MHz).}
+%     \includegraphics[width=0.8\textwidth]{5_resultados/zcu104/utilizacao_2.png} 
+%     \caption*{Fonte: O Autor (2025).}
+%     \label{fig:utilizacao_zcu}
+% \end{figure}
+
+\begin{table}[H]
+\centering
+\small
+\caption{Utilização de Recursos da FPGA na ZCU104.}
+    \fontsize{10}{12}\selectfont
+    \def\arraystretch{1.25}
+    \setlength\tabcolsep{3pt}
+\begin{tabular}{lccc}
+\rowcolor[HTML]{EFEFEF} 
+\hline
+\textbf{Recurso} & \textbf{Utilização} & \textbf{Disponível} & \textbf{Utilização \%} \\ \hline
+    LUT          & $13.231$            & $230.400$            & $5,74\%$\\  \hline
+    LUTRAM       & $544$               & $101.760$            & $0,53\%$\\  \hline
+    FF           & $140.62$            & $460.800$            & $3,05\%$\\  \hline
+    BRAM         & $2.5$               & $312$                & $0,80\%$\\  \hline
+\end{tabular}
+\label{qua:utilizacao_zcu}
+\caption*{Fonte: O autor (2025).}
+\end{table}
+
+A baixa utilização dos recursos confirma a viabilidade da implementação, com espaço suficiente para escalabilidade futura, como a replicação do núcleo Double SHA-256.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Análise de \textit{Timing}}
+
+A \autoref{fig:wns1_zcu} apresenta o relatório de \textit{timing} após o aumento da frequência de clock para $250\ MHz$ (período de $4\ ns$). A \autoref{tab:timing_zcu} mostra os dados de maneira organizada.
+
+\begin{figure}[H]
+    \centering
+    \caption{Sumário de Timing do Design na ZCU104 (250 MHz).}
+    \includegraphics[width=1\textwidth]{5_resultados/zcu104/wns_2.png} 
+    \caption*{Fonte: O autor (2025).}
+    \label{fig:wns2_zcu}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \small
+    \caption{Métricas de Timing do Design na ZCU104 (250 MHz).}
+    \fontsize{10}{12}\selectfont
+    \def\arraystretch{1.25}
+    \setlength\tabcolsep{3pt}
+    \begin{tabular}{lcc}
+    \rowcolor[HTML]{EFEFEF} 
+    \hline
+    \textbf{Métrica de Timing}                      & \textbf{Valor} & \textbf{Status} \\ \hline
+            Worst Negative Slack (WNS)              & $0,002\ ns$    & Sem violações \\ \hline
+            Total Negative Slack (TNS)              & $0,000\ ns$    & Sem violações \\ \hline
+            Worst Hold Slack (WHS)                  & $0,011\ ns$    & Sem violações \\ \hline
+            Total Hold Slack (THS)                  & $0,000\ ns$    & Sem violações \\ \hline
+            Worst Pulse Width Slack (WPWS)          & $0,500\ ns$    & Sem violações \\ \hline
+            Total Pulse Width Negative Slack (TPWS) & $0,000\ ns$    & Sem violações \\ \hline
+    \end{tabular}
+\label{tab:timing_zcu}
+\caption*{Fonte: O autor (2025).}
+\end{table}
+
+Mesmo operando com um clock elevado a $250\ MHz$, o WNS permaneceu positivo, o que garante que o circuito pode operar com segurança nesta frequência. Isso evidencia a robustez da implementação desenvolvida.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Desempenho do Double SHA-256}
+
+Os testes de execução mostraram um ganho de aceleração significativo. A \autoref{fig:terminal_zcu} apresenta a comparação de desempenho entre a CPU (Cortex-A53) e o FPGA da ZCU104, impressas no terminal de comunicação.
+
+\begin{figure}[H]
+ \centering
+ \caption{Resultados de desempenho do Double SHA-256 (CPU vs FPGA).}
+ \includegraphics[width=1\textwidth]{5_resultados/zcu104/terminal_2.png}
+ \label{fig:terminal_zcu}
+ \caption*{Fonte: O Autor (2025)}
+\end{figure}
+
+%Resumidamente, temos:
+
+\begin{table}[H]
+\centering
+\small
+\caption{Desempenho Comparativo do Double SHA-256.}
+    \fontsize{10}{12}\selectfont
+    \def\arraystretch{1.25}
+    \setlength\tabcolsep{3pt}
+\begin{tabular}{lcc}
+\rowcolor[HTML]{EFEFEF} 
+\hline
+    \textbf{Métrica} & \textbf{CPU (Cortex-A53)} & \textbf{FPGA (ZCU104)} \\ \hline
+    Tempo de execução & $42.030\ ns$ & $3.128\ ns$ \\ \hline
+    Hashrate (estimado) & $23.792\ H/s$ & $319.693\ H/s$ \\ \hline
+\end{tabular}
+\label{tab:desempenho_zcu}
+\caption*{Fonte: O autor (2025).}
+\end{table}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Consumo de Energia}
+
+A \autoref{fig:zcu_placa} e a \autoref{fig:zcu_watt} mostram o setup experimental e o consumo energético medido da ZCU104 durante a execução da função de hashing.
+
+\begin{figure}[H]
+    \centering
+    \caption{ZCU104 em Operação.}
+    \includegraphics[width=0.8\textwidth]{5_resultados/zcu104/zcu_placa.jpg} 
+    \caption*{Fonte: O autor (2025).}
+    \label{fig:zcu_placa}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \caption{Medição do Consumo de Energia da ZCU104.}
+    \includegraphics[width=0.3\textwidth]{5_resultados/zcu104/zcu_watt.jpg} 
+    \caption*{Fonte: O autor (2025).}
+    \label{fig:zcu_watt}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\small
+\caption{Consumo de Energia da ZCU104.}
+    \fontsize{10}{12}\selectfont
+    \def\arraystretch{1.25}
+    \setlength\tabcolsep{3pt}
+\begin{tabular}{lc}
+\rowcolor[HTML]{EFEFEF} 
+    \hline
+    \textbf{Métrica}                & \textbf{Valor} \\ \hline
+            Potência Aparente (VA)  & $21,2\ VA$ \\ \hline
+            Potência Ativa (W)      & $11,0\ W$ \\ \hline
+\end{tabular}
+\label{tab:potencia_zcu}
+\caption*{Fonte: O autor (2025).}
+\end{table}
+
+O ganho de aceleração obtido foi de aproximadamente $13\times$, com um consumo de Energia de apenas $11\ W$. A eficiência energética obtida foi:
+
+
+\[
+\text{Eficiência Energética} = \frac{319.693\ H/s}{11\ W} \approx 29.063,00\ H/W
+\]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{comment}
+\section{Resultados em CPU Desktop como Referência}
+
+Como referência adicional, foi realizado um teste executando o mesmo código em linguagem C do algoritmo Double SHA-256 em um computador pessoal equipado com processador \textbf{AMD Ryzen 7 5800x3D}. Este código é idêntico ao utilizado na ZedBoard (Cortex-A9) e na ZCU104 (Cortex-A53), garantindo paridade metodológica nos testes. A \autoref{fig:hashrate_pc} mostra a saída do terminal do binário rodando em um sistema \textit{Windows 10 x64}.
+
+\begin{figure}[H]
+ \centering
+ \caption{Execução do Double SHA-256 em CPU Desktop (AMD Ryzen 7 5800x3D).}
+ \includegraphics[width=1\textwidth]{5_resultados/hashrate_pc.png}
+ \label{fig:hashrate_pc}
+ \caption*{Fonte: O Autor (2025).}
+\end{figure}
+
+A execução resultou nos seguintes dados:
+
+\begin{table}[H]
+\centering
+\small
+\caption{Desempenho Comparativo do Double SHA-256 na ZCU104.}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{lcc}
+\rowcolor[HTML]{EFEFEF} 
+\hline
+    \textbf{Métrica}                    & \textbf{CPU (Ryzen 7 5800x3D)} \\ \hline
+            Tempo de execução (preciso) & $0,000003400\ s$ ($3.400\ ns$) \\ \hline
+            Hashrate (estimado)         & $294.117,65\ H/s$ \\ \hline
+\end{tabular}
+\label{tab:desempenho_cpu}
+\caption*{Fonte: O autor (2025).}
+\end{table}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Considerações sobre o TDP da CPU Desktop}
+
+Para fins de comparação da eficiência energética entre as plataformas embarcadas e um sistema convencional de desktop, utilizou-se como base o processador AMD Ryzen 7 5800x3D, cuja especificação oficial pode ser consultada no site da fabricante \cite{amd_5800x3d}. Esse processador possui um \textit{Thermal Design Power} (TDP) de $105\ W$, que foi adotado como estimativa de consumo para os testes de software realizados na arquitetura x86-64. Vale destacar que o TDP não representa com exatidão o consumo elétrico real de um processador durante a execução de tarefas específicas, como o cálculo de um único hash. O TDP refere-se à quantidade máxima de calor que o sistema de resfriamento deve dissipar em condições normais de operação. No entanto, por limitações práticas — como a impossibilidade de isolar com precisão o consumo energético da CPU durante um teste específico — adotou-se esse valor como referência. Essa abordagem, embora simplificada, permite a comparação aproximada de eficiência (hashes por watt) entre plataformas distintas.
+
+
+\[
+\text{Eficiência Energética} = \frac{294.117,65\ H/s}{105\ W} \approx 2.801,12\ H/W
+\]
+
+
+É importante destacar que, embora a \autoref{tab:eficiencia_mineracao} na introdução do trabalho mencione processadores pessoais atingindo valores na ordem de 300 MH/s, esses resultados são obtidos por meio de softwares de mineração amplamente otimizados e consagrados no mercado, como \textit{XMRig}, \textit{CGMiner} ou \textit{BFGMiner}. Tais ferramentas empregam técnicas avançadas, incluindo execução paralela multithread, uso intensivo de cache L3, otimizações em pipeline e instruções específicas de baixo nível para SHA. 
+
+No presente trabalho, optou-se por utilizar o mesmo código em linguagem C puro — sem nenhuma otimização para plataforma específica — nas três plataformas avaliadas (ZedBoard, ZCU104 e Ryzen 5800x3D), a fim de garantir paridade metodológica e permitir a comparação justa entre CPU x86-64, ARM embarcado e FPGA. Portanto, o desempenho apresentado aqui para o Ryzen 7 representa um cenário realista de uso genérico, e não o máximo potencial teórico da arquitetura x86-64 para mineração profissional. Ainda assim, mesmo com essa limitação, a eficiência energética do FPGA (ZCU104) mostrou-se aproximadamente \textbf{$9\times$ superior} ao processador desktop, evidenciando o grande potencial do uso de aceleradores em hardware em aplicações de alto desempenho com baixo consumo.
+
+
+Com base nesses dados, é possível observar que, apesar de tratar-se de uma CPU de alto desempenho para aplicações gerais, o ganho obtido pela implementação em hardware dedicado (FPGA) ainda se mostra competitivo e superior. A \autoref{tab:comparativo_cpu_fpga} apresenta uma comparação direta entre a CPU desktop e a ZCU104.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Comparativo entre CPU Desktop e FPGA ZCU104.}
+    \fontsize{10}{12}\selectfont
+    \def\arraystretch{1.25}
+    \setlength\tabcolsep{3pt}
+\begin{tabular}{lcc}
+\hline
+\rowcolor[HTML]{EFEFEF}
+\textbf{Métrica}  & \textbf{Ryzen 7 5800x3D} & \textbf{ZCU104 (FPGA)} \\ \hline
+Tempo de Execução & $3.400\ ns$               & $3.128\ ns$ \\ \hline
+Hashrate Estimado & $294.117,65\ H/s$      & $319.693\ H/s$ \\ \hline
+\end{tabular}
+\label{tab:comparativo_cpu_fpga}
+\caption*{Fonte: O autor (2025).}
+\end{table}
+\end{comment}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Resultados Finais e Comparativo Geral}
+
+Nesta seção, é apresentado um comparativo consolidado entre as abordagens testadas: (1) execução em software nos processadores ARM embarcados (Cortex-A9 da ZedBoard e Cortex-A53 da ZCU104) e (2) execução acelerada por hardware nas FPGAs das respectivas plataformas. O objetivo é analisar o desempenho bruto — medido em \textit{hashes por segundo} (H/s) — e a eficiência energética, expressa em \textit{hashes por watt} (H/W).
+
+
+\begin{table}[H]
+\centering
+\small
+\caption{Comparativo de desempenho, potência consumida e eficiência energética entre plataformas.}
+    \fontsize{10}{12}\selectfont
+    \def\arraystretch{1.25}
+    \setlength\tabcolsep{5pt}
+\begin{tabular}{lcccc}
+\hline
+\rowcolor[HTML]{EFEFEF}
+\textbf{Métrica} & \textbf{ZedBoard ARM} & \textbf{ZedBoard FPGA} & \textbf{ZCU104 ARM} & \textbf{ZCU104 FPGA} \\ \hline
+Hashrate (H/s)         & 17.061    & 127.388   & 23.736    & 319.693   \\ \hline
+Potência (W)           & 4,3       & 4,3       & 11,0      & 11,0      \\ \hline
+Eficiência (H/W)       & 3.967,67  & 29.625,11 & 2.157,81  & 29.063,27 \\ \hline
+\end{tabular}
+\label{tab:comparativo_geral}
+\caption*{Fonte: O autor (2025).}
+\end{table}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Desempenho Bruto (\textit{Hashrate})}
+
+Como apresentado na \autoref{fig:graf_hashrate}, a plataforma ZCU104 com aceleração via FPGA obteve o maior desempenho, atingindo cerca de $319\ \text{kH/s}$. Isso representa um desempenho aproximadamente $2,5 \times$ superior ao da ZedBoard com FPGA, evidenciando os benefícios de uma arquitetura mais recente e maior frequência de operação.
+
+O ganho em relação à execução em software foi ainda mais expressivo: a aceleração por FPGA obteve cerca de $13,5 \times$ mais \textit{hashrate} que o Cortex-A53 da ZCU104, e $7,5 \times$ mais que o Cortex-A9 da ZedBoard.
+
+
+\begin{figure}[H]
+    \centering
+    \caption{Gráfico do desempenho bruto, medido em Hashrate por segundo, de cada plataforma.}
+    \includegraphics[width=1\linewidth]{5_resultados/graf_hashrate2.png}
+    \caption*{Fonte: O autor (2025).}
+    \label{fig:graf_hashrate}
+\end{figure}
+
+
+O ganho em relação à execução em software foi ainda mais expressivo: a aceleração com FPGA obteve aproximadamente $13,5 \times$ mais hashrate que o Cortex-A53 da ZCU104, e $18,7 \times$ mais que o Cortex-A9 da ZedBoard.
+
+\[
+\text{Aceleração (FPGA/CPU)}_{\text{ZedBoard}} = \frac{127.388}{17.061} \approx 7,5 \times
+\]
+
+\[
+\text{Aceleração (FPGA/CPU)}_{\text{ZCU104}} = \frac{319.693}{23.786} \approx 13,5 \times
+\]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Demanda de Potência} 
+
+A \autoref{fig:graf_potencia} apresenta a comparação do consumo de energia ativa. A ZedBoard manteve um consumo de apenas \textbf{4,3 W}, enquanto a ZCU104, mesmo com maior capacidade e frequência de operação (250 MHz), consumiu \textbf{11 W}. Esses valores foram mantidos tanto na execução em ARM quanto na FPGA, uma vez que a medição considerou o consumo total da placa.
+
+
+\begin{figure}[H]
+    \centering
+    \caption{Gráfico comparativo da potência ativa (W) de cada plataforma.}
+    \includegraphics[width=1\linewidth]{5_resultados/graf_potencia2.png}
+    \caption*{Fonte: O autor (2025).}
+    \label{fig:graf_potencia}
+\end{figure}
+
+Esses resultados reforçam que o uso de FPGAs em ambientes embarcados proporciona um equilíbrio vantajoso entre desempenho e consumo energético, mesmo com a operação em altas frequências e uso parcial dos recursos lógicos.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Eficiência Energética}
+
+A eficiência energética das FPGAs foi significativamente superior à dos processadores ARM, mesmo em configurações sem paralelismo. A ZedBoard alcançou $29.625\ H/W$ e a ZCU104, $29.063\ H/W$, em ambos os casos superando os respectivos processadores ARM em mais de $7 \times$.
+
+\[
+\text{Eficiência (FPGA/CPU)}_{\text{ZedBoard}} = \frac{29.625,11}{3.967,67} \approx 7,47 \times
+\quad
+\]
+
+\[
+\text{Eficiência (FPGA/CPU)}_{\text{ZCU104}} = \frac{29.063,27}{2.157,81} \approx 13,46 \times
+\]
+
+Mesmo a execução em software nas plataformas embarcadas apresentou melhor eficiência energética que muitas soluções de propósito geral, devido ao consumo reduzido de energia.
+
+
+\begin{figure}[H]
+    \centering
+    \caption{Gráfico da eficiência energética de cada plataforma.}
+    \includegraphics[width=1\linewidth]{5_resultados/graf_eficiencia2.png}
+    \caption*{Fonte: O autor (2025).}
+    \label{fig:graf_eficiencia}
+\end{figure}

@@ -1,0 +1,38 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build SHA256 Test",
+      "type": "shell",
+      "shell": {
+        "executable": "cmd.exe",
+        "args": ["/d", "/c"]
+      },
+      "command": "C:\\MinGW\\bin\\gcc.exe",
+      "args": [
+        "-fdiagnostics-color=always",
+        "-g",
+        "D:/Clouds/Dropbox/Vivado_Project/Refatoracao/c_pc/main.c",
+        "D:/Clouds/Dropbox/Vivado_Project/Refatoracao/c_pc/sha256.c",
+        "D:/Clouds/Dropbox/Vivado_Project/Refatoracao/c_pc/sha256_top.c",
+        "-o",
+        "D:/Clouds/Dropbox/Vivado_Project/Refatoracao/c_pc/sha256_test.exe"
+      ],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": ["$gcc"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared"
+      },
+      "detail": "Compila SHA256 com main.c, sha256.c e sha256_top.c"
+    }
+  ]
+}

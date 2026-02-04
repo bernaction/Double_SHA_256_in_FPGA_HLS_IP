@@ -1,0 +1,147 @@
+
+
+================================================================
+== Vitis HLS Report for 'sha256_final_Pipeline_VITIS_LOOP_106_2'
+================================================================
+* Date:           Mon Jun  9 16:12:58 2025
+
+* Version:        2024.2 (Build 5238294 on Nov  8 2024)
+* Project:        sha256_top
+* Solution:       hls (Vivado IP Flow Target)
+* Product family: zynq
+* Target device:  xc7z020-clg484-1
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing: 
+    * Summary: 
+    +--------+----------+----------+------------+
+    |  Clock |  Target  | Estimated| Uncertainty|
+    +--------+----------+----------+------------+
+    |ap_clk  |  10.00 ns|  6.916 ns|     2.70 ns|
+    +--------+----------+----------+------------+
+
++ Latency: 
+    * Summary: 
+    +---------+---------+----------+----------+-----+-----+------------------------------------------------+
+    |  Latency (cycles) |  Latency (absolute) |  Interval |                    Pipeline                    |
+    |   min   |   max   |    min   |    max   | min | max |                      Type                      |
+    +---------+---------+----------+----------+-----+-----+------------------------------------------------+
+    |        ?|        ?|         ?|         ?|    0|    0|  loop auto-rewind stp (delay=0 clock cycles(s))|
+    +---------+---------+----------+----------+-----+-----+------------------------------------------------+
+
+    + Detail: 
+        * Instance: 
+        N/A
+
+        * Loop: 
+        +--------------------+---------+---------+----------+-----------+-----------+------+----------+
+        |                    |  Latency (cycles) | Iteration|  Initiation Interval  | Trip |          |
+        |      Loop Name     |   min   |   max   |  Latency |  achieved |   target  | Count| Pipelined|
+        +--------------------+---------+---------+----------+-----------+-----------+------+----------+
+        |- VITIS_LOOP_106_2  |        ?|        ?|         1|          1|          1|     ?|       yes|
+        +--------------------+---------+---------+----------+-----------+-----------+------+----------+
+
+
+
+================================================================
+== Utilization Estimates
+================================================================
+* Summary: 
++-----------------+---------+-----+--------+-------+-----+
+|       Name      | BRAM_18K| DSP |   FF   |  LUT  | URAM|
++-----------------+---------+-----+--------+-------+-----+
+|DSP              |        -|    -|       -|      -|    -|
+|Expression       |        -|    -|       0|     29|    -|
+|FIFO             |        -|    -|       -|      -|    -|
+|Instance         |        -|    -|       -|      -|    -|
+|Memory           |        -|    -|       -|      -|    -|
+|Multiplexer      |        -|    -|       0|     27|    -|
+|Register         |        -|    -|       9|      -|    -|
++-----------------+---------+-----+--------+-------+-----+
+|Total            |        0|    0|       9|     56|    0|
++-----------------+---------+-----+--------+-------+-----+
+|Available        |      280|  220|  106400|  53200|    0|
++-----------------+---------+-----+--------+-------+-----+
+|Utilization (%)  |        0|    0|      ~0|     ~0|    0|
++-----------------+---------+-----+--------+-------+-----+
+
++ Detail: 
+    * Instance: 
+    N/A
+
+    * DSP: 
+    N/A
+
+    * Memory: 
+    N/A
+
+    * FIFO: 
+    N/A
+
+    * Expression: 
+    +----------------------+----------+----+---+----+------------+------------+
+    |     Variable Name    | Operation| DSP| FF| LUT| Bitwidth P0| Bitwidth P1|
+    +----------------------+----------+----+---+----+------------+------------+
+    |i_fu_134_p2           |         +|   0|  0|  14|           7|           1|
+    |icmp_ln106_fu_140_p2  |      icmp|   0|  0|  15|           7|           8|
+    +----------------------+----------+----+---+----+------------+------------+
+    |Total                 |          |   0|  0|  29|          14|           9|
+    +----------------------+----------+----+---+----+------------+------------+
+
+    * Multiplexer: 
+    +------------------------------+----+-----------+-----+-----------+
+    |             Name             | LUT| Input Size| Bits| Total Bits|
+    +------------------------------+----+-----------+-----+-----------+
+    |ap_done_int                   |   9|          2|    1|          2|
+    |ap_sig_allocacmp_i_7_in_load  |   9|          2|    7|         14|
+    |i_7_in_fu_52                  |   9|          2|    7|         14|
+    +------------------------------+----+-----------+-----+-----------+
+    |Total                         |  27|          6|   15|         30|
+    +------------------------------+----+-----------+-----+-----------+
+
+    * Register: 
+    +--------------+---+----+-----+-----------+
+    |     Name     | FF| LUT| Bits| Const Bits|
+    +--------------+---+----+-----+-----------+
+    |ap_CS_fsm     |  1|   0|    1|          0|
+    |ap_done_reg   |  1|   0|    1|          0|
+    |i_7_in_fu_52  |  7|   0|    7|          0|
+    +--------------+---+----+-----+-----------+
+    |Total         |  9|   0|    9|          0|
+    +--------------+---+----+-----+-----------+
+
+
+
+================================================================
+== Interface
+================================================================
+* Summary: 
++-------------------+-----+-----+------------+----------------------------------------+--------------+
+|     RTL Ports     | Dir | Bits|  Protocol  |              Source Object             |    C Type    |
++-------------------+-----+-----+------------+----------------------------------------+--------------+
+|ap_clk             |   in|    1|  ap_ctrl_hs|  sha256_final_Pipeline_VITIS_LOOP_106_2|  return value|
+|ap_rst             |   in|    1|  ap_ctrl_hs|  sha256_final_Pipeline_VITIS_LOOP_106_2|  return value|
+|ap_start           |   in|    1|  ap_ctrl_hs|  sha256_final_Pipeline_VITIS_LOOP_106_2|  return value|
+|ap_done            |  out|    1|  ap_ctrl_hs|  sha256_final_Pipeline_VITIS_LOOP_106_2|  return value|
+|ap_idle            |  out|    1|  ap_ctrl_hs|  sha256_final_Pipeline_VITIS_LOOP_106_2|  return value|
+|ap_ready           |  out|    1|  ap_ctrl_hs|  sha256_final_Pipeline_VITIS_LOOP_106_2|  return value|
+|zext_ln97          |   in|    4|     ap_none|                               zext_ln97|        scalar|
+|in_data_57         |  out|    8|      ap_vld|                              in_data_57|       pointer|
+|in_data_57_ap_vld  |  out|    1|      ap_vld|                              in_data_57|       pointer|
+|in_data_63         |  out|    8|      ap_vld|                              in_data_63|       pointer|
+|in_data_63_ap_vld  |  out|    1|      ap_vld|                              in_data_63|       pointer|
+|in_data_62         |  out|    8|      ap_vld|                              in_data_62|       pointer|
+|in_data_62_ap_vld  |  out|    1|      ap_vld|                              in_data_62|       pointer|
+|in_data_61         |  out|    8|      ap_vld|                              in_data_61|       pointer|
+|in_data_61_ap_vld  |  out|    1|      ap_vld|                              in_data_61|       pointer|
+|in_data_60         |  out|    8|      ap_vld|                              in_data_60|       pointer|
+|in_data_60_ap_vld  |  out|    1|      ap_vld|                              in_data_60|       pointer|
+|in_data_59         |  out|    8|      ap_vld|                              in_data_59|       pointer|
+|in_data_59_ap_vld  |  out|    1|      ap_vld|                              in_data_59|       pointer|
+|in_data_58         |  out|    8|      ap_vld|                              in_data_58|       pointer|
+|in_data_58_ap_vld  |  out|    1|      ap_vld|                              in_data_58|       pointer|
++-------------------+-----+-----+------------+----------------------------------------+--------------+
+

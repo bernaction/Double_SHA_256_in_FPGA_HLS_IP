@@ -1,0 +1,247 @@
+<ENTRY>
+{
+ "thisFile": "D:/Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\hls_component\\sha256_top\\sha256_top.hlscompile_summary",
+ "connectId": "",
+ "serverToken": "",
+ "timestamp": "0"
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_CmdStep",
+ "dateTimestamp": "06/09/25 16:12:30",
+ "timestampMillis": "1749496350931",
+ "buildStep": {
+  "cmdId": "b489c294-7141-4368-bf2e-cda3ec591c48",
+  "name": "v++",
+  "logFile": "D:/Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\hls_component\\sha256_top\\logs\\sha256_top.steps.log",
+  "commandLine": "B:/Xilinx/Vitis/2024.2/bin/unwrapped/win64.o/v++.exe  -c --mode hls --config D:\\Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\hls_component\\hls_config.cfg --work_dir sha256_top ",
+  "args": [
+   "-c",
+   "--mode",
+   "hls",
+   "--config",
+   "D:\\Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\hls_component\\hls_config.cfg",
+   "--work_dir",
+   "sha256_top"
+  ],
+  "iniFiles": [
+   {
+    "path": "D:/Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\hls_component\\hls_config.cfg",
+    "content": "part=xc7z020clg484-1\n\n[hls]\nflow_target=vivado\npackage.output.format=ip_catalog\npackage.output.syn=false\nsyn.top=sha256_top\nsyn.file=D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/src/sha256.c\nsyn.file=D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/src/sha256.h\nsyn.file=D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/src/sha256_top.c\ntb.file=D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/src/sha256_test.c"
+   }
+  ],
+  "cwd": "D:\\Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\hls_component"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "06/09/25 16:12:30",
+ "timestampMillis": "1749496350933",
+ "status": {
+  "cmdId": "b489c294-7141-4368-bf2e-cda3ec591c48",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_FlowMetaData",
+ "dateTimestamp": "06/09/25 16:12:37",
+ "timestampMillis": "1749496357317",
+ "buildSummary": {
+  "hardwarePlatform": "",
+  "hardwareDsa": "",
+  "platformDirectory": "",
+  "runtime": "",
+  "systemConfig": "",
+  "flow": "BF_COMPILE",
+  "target": "TT_HW",
+  "kernels": [
+   {
+    "base": {
+     "type": "KERNEL",
+     "name": "sha256_top",
+     "file": "",
+     "reports": [],
+     "uuid": ""
+    },
+    "sources": [
+     "D:/Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\src\\sha256.c",
+     "D:/Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\src\\sha256.h",
+     "D:/Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\src\\sha256_top.c"
+    ],
+    "psSources": [],
+    "cuNames": [],
+    "type": "HLS",
+    "frequency": 0,
+    "freqUnits": ""
+   }
+  ],
+  "toolVersion": "2024.2"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "06/09/25 16:12:37",
+ "timestampMillis": "1749496357318",
+ "buildStep": {
+  "cmdId": "d69f41b3-c1a0-42cb-b1cc-b6d314f30779",
+  "name": "",
+  "logFile": "D:/Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\hls_component\\sha256_top\\hls\\hls.log",
+  "commandLine": "",
+  "args": [],
+  "iniFiles": [],
+  "cwd": "D:\\Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\hls_component"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "06/09/25 16:12:37",
+ "timestampMillis": "1749496357318",
+ "status": {
+  "cmdId": "d69f41b3-c1a0-42cb-b1cc-b6d314f30779",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "06/09/25 16:12:37",
+ "timestampMillis": "1749496357319",
+ "report": {
+  "path": "D:/Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\hls_component\\sha256_top\\hls\\hls_data.json",
+  "name": "",
+  "fileType": "JSON",
+  "reportType": "HLS_SYNTHESIS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "06/09/25 16:12:37",
+ "timestampMillis": "1749496357319",
+ "report": {
+  "path": "D:/Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\hls_component\\sha256_top\\hls\\syn\\report\\csynth.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "HLS_SYNTHESIS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "06/09/25 16:12:37",
+ "timestampMillis": "1749496357320",
+ "report": {
+  "path": "D:/Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\hls_component\\sha256_top\\hls\\syn\\report\\csynth.xml",
+  "name": "",
+  "fileType": "XML",
+  "reportType": "HLS_SYNTHESIS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "06/09/25 16:13:03",
+ "timestampMillis": "1749496383969",
+ "report": {
+  "path": "D:/Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\hls_component\\sha256_top\\hls",
+  "name": "",
+  "fileType": "DIR",
+  "reportType": "HLS_DATAFLOW",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "06/09/25 16:13:03",
+ "timestampMillis": "1749496383969",
+ "report": {
+  "path": "D:/Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\hls_component\\sha256_top\\hls",
+  "name": "",
+  "fileType": "DIR",
+  "reportType": "HLS_FUNCTION_CALL_GRAPH",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "06/09/25 16:13:03",
+ "timestampMillis": "1749496383970",
+ "report": {
+  "path": "D:/Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\hls_component\\sha256_top\\hls",
+  "name": "",
+  "fileType": "DIR",
+  "reportType": "HLS_SCHEDULE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "06/09/25 16:13:03",
+ "timestampMillis": "1749496383971",
+ "status": {
+  "cmdId": "d69f41b3-c1a0-42cb-b1cc-b6d314f30779",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "06/09/25 16:13:04",
+ "timestampMillis": "1749496384214",
+ "status": {
+  "cmdId": "b489c294-7141-4368-bf2e-cda3ec591c48",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "06/09/25 16:13:04",
+ "timestampMillis": "1749496384244",
+ "report": {
+  "path": "D:/Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\hls_component\\sha256_top\\reports\\v++_compile_sha256_top_guidance.html",
+  "name": "",
+  "fileType": "HTML",
+  "reportType": "GLOBAL_RULECHECK_GUIDANCE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "06/09/25 16:13:04",
+ "timestampMillis": "1749496384245",
+ "report": {
+  "path": "D:/Clouds\\Dropbox\\Vivado_Project\\Final\\Zedboard\\Vitis_HLS\\hls_component\\sha256_top\\reports\\.db\\v++_compile_sha256_top_guidance.pb3",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_RULECHECK_GUIDANCE",
+  "cmdId": ""
+ }
+}
+</ENTRY>

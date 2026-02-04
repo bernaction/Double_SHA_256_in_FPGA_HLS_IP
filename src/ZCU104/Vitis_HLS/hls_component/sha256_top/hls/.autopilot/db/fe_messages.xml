@@ -1,0 +1,105 @@
+<xilinx:hls_fe_msgs>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="directive:1:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaContext="directive" ARG_PragmaFunction="sha256_top" ARG_PragmaIsValid="1" ARG_PragmaOptions="name=sha256_top" ARG_PragmaType="top" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256_top.c:9:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_top" ARG_PragmaIsValid="1" ARG_PragmaOptions="s_axilite port=header bundle=control offset=0x100" ARG_PragmaType="interface" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256_top.c:10:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_top" ARG_PragmaIsValid="1" ARG_PragmaOptions="s_axilite port=hash_result bundle=control offset=0x200" ARG_PragmaType="interface" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256_top.c:11:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_top" ARG_PragmaIsValid="1" ARG_PragmaOptions="s_axilite port=return bundle=control" ARG_PragmaType="interface" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256_top.c:13:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_top" ARG_PragmaIsValid="1" ARG_PragmaOptions="ap_none port=ap_busy_out" ARG_PragmaType="interface" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256_top.c:19:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_top" ARG_PragmaIsValid="1" ARG_PragmaOptions="variable=hash1 complete dim=1" ARG_PragmaType="array_partition" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256_top.c:20:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_top" ARG_PragmaIsValid="1" ARG_PragmaOptions="variable=hash2 complete dim=1" ARG_PragmaType="array_partition" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256_top.c:21:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_top" ARG_PragmaIsValid="1" ARG_PragmaOptions="variable=header_bytes complete dim=1" ARG_PragmaType="array_partition" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256_top.c:23:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_top" ARG_PragmaIsValid="1" ARG_PragmaOptions="variable=header inter false" ARG_PragmaType="dependence" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256_top.c:24:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_top" ARG_PragmaIsValid="1" ARG_PragmaOptions="variable=hash_result inter false" ARG_PragmaType="dependence" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256_top.c:30:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_top" ARG_PragmaIsValid="1" ARG_PragmaType="unroll" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256_top.c:65:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_top" ARG_PragmaIsValid="1" ARG_PragmaType="unroll" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256.c:11:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_transform" ARG_PragmaIsValid="1" ARG_PragmaOptions="variable=data complete dim=1" ARG_PragmaType="array_partition" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256.c:12:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_transform" ARG_PragmaIsValid="1" ARG_PragmaOptions="variable=m complete dim=1" ARG_PragmaType="array_partition" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256.c:15:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_transform" ARG_PragmaIsValid="1" ARG_PragmaType="unroll" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256.c:20:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_transform" ARG_PragmaIsValid="1" ARG_PragmaOptions="II=1" ARG_PragmaType="pipeline" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256.c:34:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_transform" ARG_PragmaIsValid="1" ARG_PragmaOptions="II=1" ARG_PragmaType="pipeline" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256.c:60:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_init" ARG_PragmaIsValid="1" ARG_PragmaType="inline" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="../src/sha256.c:128:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="sha256_final" ARG_PragmaIsValid="1" ARG_PragmaType="unroll" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="CODE_UNSUPPORTED" msg_id="214-131" msg_severity="INFO" msg_loc="../src/sha256_top.c:48:3" msg_body="Inlining function 'sha256_init' into 'sha256_top'">
+        <args Callee="sha256_init" Callee-DebugLoc="File ../src/sha256.c Line 59 Column 0" Caller="sha256_top" Caller-DebugLoc="File ../src/sha256_top.c Line 8 Column 0"/>
+    </msg>
+    <msg msg_groups="PRAGMA_UNROLL" msg_id="214-186" msg_severity="INFO" msg_loc="../src/sha256_top.c:8:0" msg_body="Unrolling loop 'VITIS_LOOP_64_5' (../src/sha256_top.c:64:20) in function 'sha256_top' completely with a factor of 8">
+        <args Factor="8" LoopLoc="../src/sha256_top.c:64:20" LoopName="VITIS_LOOP_64_5"/>
+    </msg>
+    <msg msg_groups="PRAGMA_UNROLL" msg_id="214-186" msg_severity="INFO" msg_loc="../src/sha256_top.c:8:0" msg_body="Unrolling loop 'VITIS_LOOP_29_1' (../src/sha256_top.c:29:20) in function 'sha256_top' completely with a factor of 20">
+        <args Factor="20" LoopLoc="../src/sha256_top.c:29:20" LoopName="VITIS_LOOP_29_1"/>
+    </msg>
+    <msg msg_groups="PRAGMA_UNROLL" msg_id="214-186" msg_severity="INFO" msg_loc="../src/sha256.c:97:0" msg_body="Unrolling loop 'sha256_final_final_loop' (../src/sha256.c:127:3) in function 'sha256_final' completely with a factor of 4">
+        <args Factor="4" LoopLoc="../src/sha256.c:127:3" LoopName="sha256_final_final_loop"/>
+    </msg>
+    <msg msg_groups="PRAGMA_UNROLL" msg_id="214-186" msg_severity="INFO" msg_loc="../src/sha256.c:9:0" msg_body="Unrolling loop 'VITIS_LOOP_14_1' (../src/sha256.c:14:19) in function 'sha256_transform' completely with a factor of 16">
+        <args Factor="16" LoopLoc="../src/sha256.c:14:19" LoopName="VITIS_LOOP_14_1"/>
+    </msg>
+    <msg msg_groups="PRAGMA_INLINE" msg_id="214-178" msg_severity="INFO" msg_loc="../src/sha256_top.c:8:0" msg_body="Inlining function 'sha256_update' into 'sha256_top'">
+        <args Callee="sha256_update" Callee-DebugLoc="File ../src/sha256.c Line 76 Column 0" Caller="sha256_top" Caller-DebugLoc="File ../src/sha256_top.c Line 8 Column 0"/>
+    </msg>
+    <msg msg_groups="PRAGMA_MISC" msg_id="214-248" msg_severity="INFO" msg_loc="../src/sha256.c:10:50" msg_body="Applying array_partition to 'm': Complete partitioning on dimension 1.">
+        <args Dim="1" Mode="Complete" UOName="m"/>
+    </msg>
+    <msg msg_groups="PRAGMA_MISC" msg_id="214-248" msg_severity="INFO" msg_loc="../src/sha256_top.c:15:16" msg_body="Applying array_partition to 'hash1': Complete partitioning on dimension 1.">
+        <args Dim="1" Mode="Complete" UOName="hash1"/>
+    </msg>
+    <msg msg_groups="PRAGMA_MISC" msg_id="214-248" msg_severity="INFO" msg_loc="../src/sha256_top.c:16:17" msg_body="Applying array_partition to 'hash2': Complete partitioning on dimension 1.">
+        <args Dim="1" Mode="Complete" UOName="hash2"/>
+    </msg>
+    <msg msg_groups="PRAGMA_MISC" msg_id="214-248" msg_severity="INFO" msg_loc="../src/sha256_top.c:17:17" msg_body="Applying array_partition to 'header_bytes': Complete partitioning on dimension 1.">
+        <args Dim="1" Mode="Complete" UOName="header_bytes"/>
+    </msg>
+    <msg msg_groups="PRAGMA_MISC" msg_id="214-248" msg_severity="INFO" msg_loc="../src/sha256_top.c:41:17" msg_body="Applying array_partition to 'in_data': Complete partitioning on dimension 1.">
+        <args Dim="1" Mode="Complete" UOName="in_data"/>
+    </msg>
+    <msg msg_groups="AUTOMATION PRAGMA_MISC" msg_id="214-421" msg_severity="INFO" msg_loc="../src/sha256_top.c:43:12" msg_body="Automatically partitioning small array 'bitlen' completely based on array size.">
+        <args Value="bitlen"/>
+    </msg>
+    <msg msg_groups="AUTOMATION_VERBOSE_PASSED" msg_id="214-335" msg_severity="INFO" msg_loc="../src/sha256_top.c:43:12" msg_body="array_partition dim=1 type=complete  variable=bitlen 1 sha256_top ../src/sha256_top.c:43:12 bitlen">
+        <args PragmaFunction="sha256_top" PragmaIsAuto="1" PragmaOptions="dim=1 type=complete  variable=bitlen" PragmaType="array_partition" VarName="bitlen" varLoc="../src/sha256_top.c:43:12"/>
+    </msg>
+    <msg msg_groups="AUTOMATION PRAGMA_MISC" msg_id="214-270" msg_severity="INFO" msg_loc="../src/sha256_top.c:43:12" msg_body="Inferring pragma 'array_partition type=complete dim=1' for array 'bitlen' due to pipeline pragma">
+        <args Dim="1" Mode="complete" Name="bitlen" PragmaType="array_partition"/>
+    </msg>
+    <msg msg_groups="PRAGMA_MISC" msg_id="214-248" msg_severity="INFO" msg_loc="../src/sha256_top.c:43:12" msg_body="Applying array_partition to 'bitlen': Complete partitioning on dimension 1.">
+        <args Dim="1" Mode="Complete" UOName="bitlen"/>
+    </msg>
+</xilinx:hls_fe_msgs>
+

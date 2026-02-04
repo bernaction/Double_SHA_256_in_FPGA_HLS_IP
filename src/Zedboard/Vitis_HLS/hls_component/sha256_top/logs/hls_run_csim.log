@@ -1,0 +1,40 @@
+  **** HLS Build v2024.2 5238294
+INFO: [HLS 200-2005] Using work_dir D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/hls_component/sha256_top 
+INFO: [HLS 200-1505] Using default flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2024.2%20English&url=ug1448-hls-guidance&resourceid=200-1505.html
+INFO: [HLS 200-1465] Applying ini 'syn.file=D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/src/sha256.c' from D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/hls_component/hls_config.cfg(8)
+INFO: [HLS 200-10] Adding design file 'D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/src/sha256.c' to the project
+INFO: [HLS 200-1465] Applying ini 'syn.file=D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/src/sha256.h' from D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/hls_component/hls_config.cfg(9)
+INFO: [HLS 200-10] Adding design file 'D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/src/sha256.h' to the project
+INFO: [HLS 200-1465] Applying ini 'syn.file=D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/src/sha256_top.c' from D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/hls_component/hls_config.cfg(10)
+INFO: [HLS 200-10] Adding design file 'D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/src/sha256_top.c' to the project
+INFO: [HLS 200-1465] Applying ini 'tb.file=D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/src/sha256_test.c' from D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/hls_component/hls_config.cfg(11)
+INFO: [HLS 200-10] Adding test bench file 'D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/src/sha256_test.c' to the project
+INFO: [HLS 200-1465] Applying ini 'syn.top=sha256_top' from D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/hls_component/hls_config.cfg(7)
+INFO: [HLS 200-1465] Applying ini 'flow_target=vivado' from D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/hls_component/hls_config.cfg(4)
+INFO: [HLS 200-1505] Using flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2024.2%20English&url=ug1448-hls-guidance&resourceid=200-1505.html
+INFO: [HLS 200-1465] Applying ini 'part=xc7z020clg484-1' from D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/hls_component/hls_config.cfg(1)
+INFO: [HLS 200-1611] Setting target device to 'xc7z020-clg484-1'
+INFO: [HLS 200-1465] Applying ini 'package.output.format=ip_catalog' from D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_HLS/hls_component/hls_config.cfg(5)
+INFO: [SIM 211-2] *************** CSIM start ***************
+INFO: [SIM 211-4] CSIM will launch CLANG as the compiler.
+INFO: [HLS 200-2036] Building debug C Simulation binaries
+   Compiling ../../../../../src/sha256_test.c in debug mode
+   Compiling ../../../../../src/sha256_top.c in debug mode
+   Compiling ../../../../../src/sha256.c in debug mode
+   Generating csim.exe
+--------- TESTE DOUBLE SHA256 - CPU ---------
+--------- ENTRADA DE DADOS ---------
+Header (hex) com nonce:
+0100000050120119172a610421a6c3011dd330d9df07b63616c2cc1f1cd00200000000006657a9252aacd5c0b2940996ecff952228c3067cc38d4885efb5a4ac4247e9f337221b4d4c86041b0f2b5710
+
+--------- SAIDA DE DADOS ---------
+Double Hash (LE): 06e533fd1ada86391f3f6c343204b0d278d4aaec1c0b20aa27ba030000000000
+Hash corresponde ao esperado? SIM
+Tempo de execucao (preciso): 0.000002600 segundos
+Hashrate (estimado): 384615.38 H/s
+INFO: [SIM 211-1] CSim done with 0 errors.
+INFO: [SIM 211-3] *************** CSIM finish ***************
+INFO: [HLS 200-112] Total CPU user time: 2 seconds. Total CPU system time: 1 seconds. Total elapsed time: 8.273 seconds; peak allocated memory: 266.547 MB.
+INFO: [vitis-run 60-791] Total elapsed time: 0h 0m 13s

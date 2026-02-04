@@ -1,0 +1,22 @@
+\chapter{Conclusões} \label{Sec:Conclusoes}
+
+Neste trabalho, foi proposto e implementado um sistema de validação de blocos reais de Bitcoin baseado no algoritmo Double SHA-256, utilizando técnicas de \textit{High-Level Synthesis} (HLS) para desenvolvimento em FPGA. O objetivo principal foi analisar as abordagens existentes para implementação do algoritmo SHA-256, com
+foco em aplicações para validação de blocos na blockchain do Bitcoin por plataformas embarcadas comerciais, como a ZedBoard (Zynq-7000) e a ZCU104 (Zynq UltraScale+).
+
+Ao longo do desenvolvimento, foi implementado um núcleo de processamento SHA-256 otimizado em HLS, capaz de receber cabeçalhos de blocos da rede Bitcoin e realizar a validação em hardware de forma contínua, com controle externo via processador ARM embarcado. Os testes realizados demonstraram que o uso do FPGA permitiu ganhos expressivos de desempenho em comparação com a execução em software, chegando a mais de 13 vezes de aceleração em relação ao processamento na CPU ARM da própria plataforma embarcada.
+
+Embora a ZedBoard tenha apresentado um valor levemente superior de eficiência energética em relação à ZCU104, é importante destacar que esse resultado não deve ser interpretado como uma superioridade definitiva da plataforma. Os testes foram conduzidos com a implementação mínima do IP, utilizando um único núcleo de processamento (sem paralelismo ou \textit{pipelining} de múltiplos cabeçalhos) e sem otimizações agressivas de uso de BRAMs ou instruções SIMD no software.
+
+Além disso, a utilização de recursos lógicos na ZedBoard foi significativamente maior: o IP ocupou aproximadamente 20\% da capacidade total da FPGA, enquanto na ZCU104 o mesmo IP representou somente cerca de 6\% dos recursos disponíveis. Isso demonstra que a ZCU104 possui uma margem muito maior para escalabilidade e paralelização de múltiplos \textit{hashes} em paralelo, o que poderia aumentar substancialmente seu \textit{hashrate} e melhorar sua eficiência energética em cenários otimizados. Assim, a leve vantagem da ZedBoard se deve mais ao contexto específico dos testes do que a uma limitação técnica da ZCU104.
+
+Embora não tenham sido formuladas perguntas ou hipóteses explícitas no \autoref{Sec:Introducao}, o trabalho partiu da premissa de que a execução do algoritmo Double SHA-256 em FPGA poderia superar a CPU embarcada em desempenho e eficiência. Os resultados confirmaram essa hipótese, demonstrando que plataformas comerciais baseadas em FPGA são viáveis para validação de blocos reais da blockchain, com consumo energético reduzido e tempos de resposta compatíveis com aplicações em sistemas embarcados.
+
+Diferente de grande parte dos trabalhos relacionados, que utilizam blocos simulados ou ambientes restritos a simulações, este TCC se destacou por realizar validações com blocos reais da blockchain do Bitcoin, extraídos via um \textit{parser} através de uma API. Além disso, foram testadas implementações em duas plataformas de diferentes complexidades, com comparações reais de desempenho e consumo energético entre CPU embarcada e FPGA.
+
+Como contribuição principal, este trabalho apresentou uma arquitetura validada com blocos reais da blockchain, capaz de executar o algoritmo Double SHA-256 em tempo real em plataformas FPGA. Além disso, propôs e implementou um sistema de medição precisa de desempenho e consumo via componente VHDL dedicado, fornecendo dados comparativos relevantes para o contexto de sistemas embarcados criptográficos.
+
+
+Todos os objetivos definidos neste trabalho foram plenamente atendidos. A implementação e validação do algoritmo Double SHA-256 em FPGA confirmaram sua viabilidade, desempenho superior e alta eficiência energética em plataformas embarcadas. Os requisitos estabelecidos no escopo do projeto — incluindo uso de blocos reais, medição de desempenho e comparação com processadores ARM — também foram integralmente explorados e validados.
+
+
+Como trabalhos futuros, propõe-se a inclusão de múltiplos núcleos SHA-256 operando em paralelo, o uso de \textit{pipelining} interno e a comunicação direta com \textit{pools} de mineração em tempo real via rede, permitindo uma mineração funcional e compatível com sistemas reais.

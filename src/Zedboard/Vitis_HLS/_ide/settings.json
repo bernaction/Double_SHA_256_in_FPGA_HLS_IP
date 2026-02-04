@@ -1,0 +1,9 @@
+{
+  "clangd.fallbackFlags": [
+    "-IB:\\Xilinx\\Vitis\\2024.2\\include",
+    "-IB:\\Xilinx\\Vitis\\2024.2\\include\\etc",
+    "-IB:\\Xilinx\\Vitis\\2024.2\\include\\ap_sysc",
+    "-IB:\\Xilinx\\Vitis\\2024.2\\win64\\tools\\auto_cc\\include",
+    "-IB:\\Xilinx\\Vitis\\2024.2\\win64\\tools\\systemc\\include"
+  ]
+}

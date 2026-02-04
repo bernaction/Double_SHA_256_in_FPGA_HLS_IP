@@ -1,0 +1,42 @@
+Nothing to build in platform 'sha256_top'
+
+15:37:28 **** Incremental Build of configuration Debug for project sha256 ****
+make all 
+make --no-print-directory pre-build
+a9-linaro-pre-build-step
+' '
+make --no-print-directory main-build
+'Building file: ../src/main.c'
+'Invoking: ARM v7 gcc compiler'
+arm-none-eabi-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/main.o" -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -ID:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_Baremetal/sha256_top/export/sha256_top/sw/sha256_top/standalone_ps7_cortexa9_0/bspinclude/include -MMD -MP -MF"src/main.d" -MT"src/main.o" -o "src/main.o" "../src/main.c"
+'Finished building: ../src/main.c'
+' '
+'Building target: sha256.elf'
+'Invoking: ARM v7 gcc linker'
+arm-none-eabi-gcc -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -Wl,-build-id=none -specs=Xilinx.spec -Wl,-T -Wl,../src/lscript.ld -LD:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_Baremetal/sha256_top/export/sha256_top/sw/sha256_top/standalone_ps7_cortexa9_0/bsplib/lib -o "sha256.elf"  ./src/main.o ./src/sha256.o ./src/sha256_top.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+'Finished building target: sha256.elf'
+' '
+'Invoking: ARM v7 Print Size'
+arm-none-eabi-size sha256.elf  |tee "sha256.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+  76626	   1780	  23360	 101766	  18d86	sha256.elf
+'Finished building: sha256.elf.size'
+' '
+15:37:30 **** Incremental Build of configuration Debug for project sha256_system ****
+make all 
+Generating bif file for the system project
+generate_system_bif.bat 53128 D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_Baremetal/sha256_top/export/sha256_top/sha256_top.xpfm standalone_ps7_cortexa9_0 D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_Baremetal/sha256_system/Debug/system.bif
+
+****** Software Commandline Tool (XSCT) v2024.2.0
+  **** SW Build 5239620 on Sun Nov 10 09:56:12 MST 2024
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+
+
+Warning: XSCT is deprecated and will be removed in future releases.
+We recommend using the new Python command-line tool for project management and debugging:
+- Run "vitis -i" for interactive mode.
+- Run "vitis -s <script>" for script mode.
+sdcard_gen --xpfm D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_Baremetal/sha256_top/export/sha256_top/sha256_top.xpfm --sys_config sha256_top --bif D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_Baremetal/sha256_system/Debug/system.bif --bitstream D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_Baremetal/sha256/_ide/bitstream/sha256_top.bit --elf D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_Baremetal/sha256/Debug/sha256.elf,ps7_cortexa9_0
+creating BOOT.BIN using D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_Baremetal/sha256/_ide/bitstream/sha256_top.bit
+Running B:/Xilinx/Vitis/2024.2/bin/bootgen  -image D:/Clouds/Dropbox/Vivado_Project/Final/Zedboard/Vitis_Baremetal/sha256_system/Debug/sd_card_temp/boot.bif -w -o i BOOT.BIN

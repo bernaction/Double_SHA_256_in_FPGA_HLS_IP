@@ -1,0 +1,7 @@
+timestamp=[2025-06-10 16:50:14], mode=WORKBENCH_START, duration=0:00:04.145, duration_ms=4145, data={}
+timestamp=[2025-06-10 16:50:15], mode=WORKBENCH_UI_INIT, duration=0:00:00.505, duration_ms=505, data={editors_count=0, platform_editors_count=0, projects_count=0, platform_projects_count=0, active_platform_editor=false, projects=}
+timestamp=[2025-06-10 16:50:21], mode=PLATFORM_REPOSITORY_INIT, duration=0:00:00.450, duration_ms=450, data={}
+timestamp=[2025-06-10 16:51:14], mode=APP_CREATION, duration=0:00:25.224, duration_ms=25224, data={name=sha256, project_type=sdk, os=standalone, processor=psu_cortexa53, runtime=cpp, platform=sha256_top, application_type=application}
+timestamp=[2025-06-10 16:53:00], mode=PLATFORM_GENERATION, duration=0:01:25.740, duration_ms=85740, data={name=sha256_top}
+timestamp=[2025-06-10 16:53:03], mode=BUILD, duration=0:00:03.478, duration_ms=3478, data={name=sha256, configuration=Debug, clean_build=false}
+timestamp=[2025-06-10 16:53:12], mode=BUILD, duration=0:00:08.090, duration_ms=8090, data={name=sha256_system, configuration=Debug, clean_build=false}

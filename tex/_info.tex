@@ -1,0 +1,60 @@
+\begin{Info}
+% Universidade
+{UNIVERSIDADE DO VALE DO ITAJAÍ}
+% Escola
+%{ESCOLA DO MAR, CIÊNCIA E TECNOLOGIA}
+{ESCOLA POLITÉCNICA}
+% Curso
+{CURSO DE ENGENHARIA DE COMPUTAÇÃO}
+% Titulo
+{IMPLEMENTAÇÃO DO DOUBLE SHA-256 EM HLS PARA FPGA UTILIZANDO BLOCOS REAIS DO BITCOIN}
+% Autor
+{Bernardo Vannier Soares Pinto}
+% Cidade e Data
+{Itajaí (SC), Junho de 2025}
+% Nome da Área de concentração
+{Algoritmo SHA-256}
+% Orientador(a)
+{Felipe Viel, MSc.}
+% Coorientador(a) <Nome do Coorientador(a)>, <Titulação> %%%%%%%% Se não tiver coorientador deixe vazio1
+
+\end{Info}
+
+%\begin{Dedicatoria}
+% Dedicatória
+% \end{Dedicatoria}
+
+% \begin{Agradecimentos}
+% Agradeço a todos.
+% \end{Agradecimentos}
+
+% \begin{Epigrafe}
+% Epígrafe
+% \end{Epigrafe}
+
+\begin{Resumo}
+PINTO, Bernardo V. S. Implementação do double SHA-256 em FPGA com HLS utilizando blocos reais do Bitcoin. Itajaí, 2024. \pageref{LastPage} f. Trabalho Técnico-científico de Conclusão de Curso (Graduação em Engenharia de Computação) -- Escola Politécnica, Universidade do Vale do Itajaí, Itajaí, 2024.
+
+O algoritmo criptográfico SHA-256 desempenha papel central na integridade e segurança da blockchain do Bitcoin, sendo aplicado duas vezes consecutivas no processo conhecido como Double SHA-256. Apesar de sua confiabilidade, o algoritmo demanda elevado poder computacional, o que o torna desafiador para sistemas embarcados com restrições de energia e desempenho. Este trabalho teve como objetivo avaliar a viabilidade de implementar o Double SHA-256 em hardware reconfigurável por meio de High-Level Synthesis (HLS), utilizando plataformas FPGA comerciais. A arquitetura foi desenvolvida como um IP personalizado e integrado a sistemas bare-metal nas plataformas ZedBoard (Zynq-7000) e ZCU104 (Zynq UltraScale+ MPSoC), validando blocos reais da blockchain para garantir fidelidade funcional. Os resultados mostraram que a ZCU104 atingiu desempenho de 319 kH/s com tempo de execução de 3,1~\textmu{}s por hash, enquanto a ZedBoard se destacou em eficiência energética, com 29,625 hashes por watt. Ambas as implementações utilizaram apenas um núcleo lógico, com consumo reduzido de recursos da FPGA. Concluiu-se que a abordagem proposta é eficaz e energeticamente eficiente, adequada para aplicações embarcadas que exigem criptografia de alto desempenho.
+
+\textbf{Palavras-chave}: SHA-256, FPGA, HLS, Blockchain, Eficiência energética, Sistemas embarcados, Validação de blocos.
+\end{Resumo}
+
+\begin{comment}
+Problema: SHA-256 é custoso computacionalmente e usado no núcleo da blockchain;
+Objetivo: avaliar viabilidade e eficiência da implementação em FPGA usando HLS;
+Proposta: validação de blocos reais com Double SHA-256 em hardware reconfigurável;
+Resultados: desempenho, eficiência energética e comparação com CPU embarcada;
+Conclusão: FPGA com HLS é uma solução viável para aplicações embarcadas de alto desempenho.
+\end{comment}
+
+
+
+\begin{Abstract}
+
+The SHA-256 cryptographic algorithm plays a central role in ensuring the integrity and security of the Bitcoin blockchain and is applied twice in succession in the Double SHA-256 process. Despite its robustness, the algorithm demands significant computational power, posing challenges for embedded systems with constraints on energy and performance. This work aimed to evaluate the feasibility of implementing Double SHA-256 on reconfigurable hardware using High-Level Synthesis (HLS), targeting commercially available FPGA platforms. The architecture was developed as a custom IP and integrated into bare-metal systems on ZedBoard (Zynq-7000) and ZCU104 (Zynq UltraScale+ MPSoC) platforms, validating real blockchain headers to ensure functional fidelity. The results showed that the ZCU104 reached a performance of 319 kH/s with an execution time of 3.1~\textmu{}s per hash, while the ZedBoard excelled in energy efficiency with 29,625 hashes per watt. Both implementations used a single logic core with low FPGA resource usage. The results confirmed that the proposed approach is effective and energy-efficient, making it suitable for high-performance cryptographic applications in embedded systems.
+
+\textbf{Keywords}: SHA-256, FPGA, HLS, Blockchain, Energy efficiency, Embedded systems, Block validation.
+\end{Abstract}
+
+

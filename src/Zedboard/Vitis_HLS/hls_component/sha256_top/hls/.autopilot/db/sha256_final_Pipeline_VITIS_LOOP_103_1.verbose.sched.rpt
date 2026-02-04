@@ -1,0 +1,242 @@
+
+
+================================================================
+== Vitis HLS Report for 'sha256_final_Pipeline_VITIS_LOOP_103_1'
+================================================================
+* Date:           Mon Jun  9 16:12:54 2025
+
+* Version:        2024.2 (Build 5238294 on Nov  8 2024)
+* Project:        sha256_top
+* Solution:       hls (Vivado IP Flow Target)
+* Product family: zynq
+* Target device:  xc7z020-clg484-1
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing: 
+    * Summary: 
+    +--------+----------+----------+------------+
+    |  Clock |  Target  | Estimated| Uncertainty|
+    +--------+----------+----------+------------+
+    |ap_clk  |  10.00 ns|  5.046 ns|     2.70 ns|
+    +--------+----------+----------+------------+
+
++ Latency: 
+    * Summary: 
+    +---------+---------+----------+----------+-----+-----+------------------------------------------------+
+    |  Latency (cycles) |  Latency (absolute) |  Interval |                    Pipeline                    |
+    |   min   |   max   |    min   |    max   | min | max |                      Type                      |
+    +---------+---------+----------+----------+-----+-----+------------------------------------------------+
+    |        ?|        ?|         ?|         ?|    0|    0|  loop auto-rewind stp (delay=0 clock cycles(s))|
+    +---------+---------+----------+----------+-----+-----+------------------------------------------------+
+
+    + Detail: 
+        * Instance: 
+        N/A
+
+        * Loop: 
+        +--------------------+---------+---------+----------+-----------+-----------+------+----------+
+        |                    |  Latency (cycles) | Iteration|  Initiation Interval  | Trip |          |
+        |      Loop Name     |   min   |   max   |  Latency |  achieved |   target  | Count| Pipelined|
+        +--------------------+---------+---------+----------+-----------+-----------+------+----------+
+        |- VITIS_LOOP_103_1  |        ?|        ?|         1|          1|          1|     ?|       yes|
+        +--------------------+---------+---------+----------+-----------+-----------+------+----------+
+
+============================================================
++ Verbose Summary: Synthesis Manager
+============================================================
+InlineROM: 1
+ExposeGlobal: 0
+============================================================
++ Verbose Summary: CDFG Model
+============================================================
+IsTopModel: 0
+ResetActiveHigh: 1
+IsCombinational: 0
+IsDatapathOnly: 0
+HasWiredReturn: 1
+HasMFsm: 2
+HasVarLatency: 1
+IsPipeline: 0
+IsRtlPipelined: 0
+IsInstanceOverlapped: 0
+IsDontTouch: 0
+HasImplIP: 0
+IsGatedGlobalClock: 0
+
++ Individual pipeline summary: 
+  * Pipeline-0: initiation interval (II) = 1, depth = 1
+
+
+============================================================
++ Verbose Summary: Schedule
+============================================================
+* Number of FSM states : 1
+* Pipeline : 1
+  Pipeline-0 : II = 1, D = 1, States = { 1 }
+* Dataflow Pipeline: 0
+
+* FSM state transitions: 
+1 --> 
+
+* FSM state operations: 
+
+State 1 <SV = 0> <Delay = 5.04>
+ST_1 : Operation 4 [1/1] (0.00ns)   --->   "%indvars_iv_in = alloca i32 1"   --->   Operation 4 'alloca' 'indvars_iv_in' <Predicate = true> <Delay = 0.00>
+ST_1 : Operation 5 [1/1] (0.00ns)   --->   "%zext_ln102_read = read i6 @_ssdm_op_Read.ap_auto.i6, i6 %zext_ln102"   --->   Operation 5 'read' 'zext_ln102_read' <Predicate = true> <Delay = 0.00>
+ST_1 : Operation 6 [1/1] (0.00ns)   --->   "%zext_ln102_cast = zext i6 %zext_ln102_read"   --->   Operation 6 'zext' 'zext_ln102_cast' <Predicate = true> <Delay = 0.00>
+ST_1 : Operation 7 [1/1] (1.58ns)   --->   "%store_ln0 = store i7 %zext_ln102_cast, i7 %indvars_iv_in"   --->   Operation 7 'store' 'store_ln0' <Predicate = true> <Delay = 1.58>
+ST_1 : Operation 8 [1/1] (0.00ns)   --->   "%br_ln0 = br void %while.body"   --->   Operation 8 'br' 'br_ln0' <Predicate = true> <Delay = 0.00>
+ST_1 : Operation 9 [1/1] (0.00ns)   --->   "%indvars_iv_in_load = load i7 %indvars_iv_in" [../src/sha256.c:103]   --->   Operation 9 'load' 'indvars_iv_in_load' <Predicate = true> <Delay = 0.00>
+ST_1 : Operation 10 [1/1] (1.87ns)   --->   "%icmp_ln103 = icmp_eq  i7 %indvars_iv_in_load, i7 55" [../src/sha256.c:103]   --->   Operation 10 'icmp' 'icmp_ln103' <Predicate = true> <Delay = 1.87> <CoreInst = "Cmp">   --->   Core 9 'Cmp' <Latency = 0> <II = 1> <Delay = 1.87> <FuncUnit> <Opcode : 'seteq' 'setne' 'setle' 'setge' 'setlt' 'setgt'> <InPorts = 2> <OutPorts = 1>
+ST_1 : Operation 11 [1/1] (0.00ns)   --->   "%br_ln103 = br i1 %icmp_ln103, void %while.body.split, void %if.end.loopexit46.exitStub" [../src/sha256.c:103]   --->   Operation 11 'br' 'br_ln103' <Predicate = true> <Delay = 0.00>
+ST_1 : Operation 12 [1/1] (1.87ns)   --->   "%i = add i7 %indvars_iv_in_load, i7 1" [../src/sha256.c:103]   --->   Operation 12 'add' 'i' <Predicate = (!icmp_ln103)> <Delay = 1.87> <CoreInst = "Adder">   --->   Core 1 'Adder' <Latency = 0> <II = 1> <Delay = 1.87> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+ST_1 : Operation 13 [1/1] (0.00ns)   --->   "%specpipeline_ln98 = specpipeline void @_ssdm_op_SpecPipeline, i32 4294967295, i32 0, i32 0, i32 0, void @empty_0" [../src/sha256.c:98]   --->   Operation 13 'specpipeline' 'specpipeline_ln98' <Predicate = (!icmp_ln103)> <Delay = 0.00>
+ST_1 : Operation 14 [1/1] (0.00ns)   --->   "%specloopname_ln103 = specloopname void @_ssdm_op_SpecLoopName, void @empty_11" [../src/sha256.c:103]   --->   Operation 14 'specloopname' 'specloopname_ln103' <Predicate = (!icmp_ln103)> <Delay = 0.00>
+ST_1 : Operation 15 [1/1] (1.87ns)   --->   "%switch_ln103 = switch i7 %indvars_iv_in_load, void %arrayidx4105.case.63, i7 0, void %arrayidx4105.case.1, i7 1, void %arrayidx4105.case.2, i7 2, void %arrayidx4105.case.3, i7 3, void %arrayidx4105.case.4, i7 4, void %arrayidx4105.case.5, i7 5, void %arrayidx4105.case.6, i7 6, void %arrayidx4105.case.7, i7 7, void %arrayidx4105.case.8, i7 8, void %arrayidx4105.case.9, i7 9, void %arrayidx4105.case.10, i7 10, void %arrayidx4105.case.11, i7 11, void %arrayidx4105.case.12, i7 12, void %arrayidx4105.case.13, i7 13, void %arrayidx4105.case.14, i7 14, void %arrayidx4105.case.15, i7 15, void %arrayidx4105.case.16, i7 16, void %arrayidx4105.case.17, i7 17, void %arrayidx4105.case.18, i7 18, void %arrayidx4105.case.19, i7 19, void %arrayidx4105.case.20, i7 20, void %arrayidx4105.case.21, i7 21, void %arrayidx4105.case.22, i7 22, void %arrayidx4105.case.23, i7 23, void %arrayidx4105.case.24, i7 24, void %arrayidx4105.case.25, i7 25, void %arrayidx4105.case.26, i7 26, void %arrayidx4105.case.27, i7 27, void %arrayidx4105.case.28, i7 28, void %arrayidx4105.case.29, i7 29, void %arrayidx4105.case.30, i7 30, void %arrayidx4105.case.31, i7 31, void %arrayidx4105.case.32, i7 32, void %arrayidx4105.case.33, i7 33, void %arrayidx4105.case.34, i7 34, void %arrayidx4105.case.35, i7 35, void %arrayidx4105.case.36, i7 36, void %arrayidx4105.case.37, i7 37, void %arrayidx4105.case.38, i7 38, void %arrayidx4105.case.39, i7 39, void %arrayidx4105.case.40, i7 40, void %arrayidx4105.case.41, i7 41, void %arrayidx4105.case.42, i7 42, void %arrayidx4105.case.43, i7 43, void %arrayidx4105.case.44, i7 44, void %arrayidx4105.case.45, i7 45, void %arrayidx4105.case.46, i7 46, void %arrayidx4105.case.47, i7 47, void %arrayidx4105.case.48, i7 48, void %arrayidx4105.case.49, i7 49, void %arrayidx4105.case.50, i7 50, void %arrayidx4105.case.51, i7 51, void %arrayidx4105.case.52, i7 52, void %arrayidx4105.case.53, i7 53, void %arrayidx4105.case.54, i7 54, void %arrayidx4105.case.55, i7 61, void %arrayidx4105.exit, i7 56, void %arrayidx4105.exit, i7 57, void %arrayidx4105.exit, i7 58, void %arrayidx4105.exit, i7 59, void %arrayidx4105.exit, i7 60, void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 15 'switch' 'switch_ln103' <Predicate = (!icmp_ln103)> <Delay = 1.87>
+ST_1 : Operation 16 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_55, i8 0" [../src/sha256.c:103]   --->   Operation 16 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 54)> <Delay = 0.00>
+ST_1 : Operation 17 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 17 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 54)> <Delay = 0.00>
+ST_1 : Operation 18 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_54, i8 0" [../src/sha256.c:103]   --->   Operation 18 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 53)> <Delay = 0.00>
+ST_1 : Operation 19 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 19 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 53)> <Delay = 0.00>
+ST_1 : Operation 20 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_53, i8 0" [../src/sha256.c:103]   --->   Operation 20 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 52)> <Delay = 0.00>
+ST_1 : Operation 21 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 21 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 52)> <Delay = 0.00>
+ST_1 : Operation 22 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_52, i8 0" [../src/sha256.c:103]   --->   Operation 22 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 51)> <Delay = 0.00>
+ST_1 : Operation 23 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 23 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 51)> <Delay = 0.00>
+ST_1 : Operation 24 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_51, i8 0" [../src/sha256.c:103]   --->   Operation 24 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 50)> <Delay = 0.00>
+ST_1 : Operation 25 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 25 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 50)> <Delay = 0.00>
+ST_1 : Operation 26 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_50, i8 0" [../src/sha256.c:103]   --->   Operation 26 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 49)> <Delay = 0.00>
+ST_1 : Operation 27 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 27 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 49)> <Delay = 0.00>
+ST_1 : Operation 28 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_49, i8 0" [../src/sha256.c:103]   --->   Operation 28 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 48)> <Delay = 0.00>
+ST_1 : Operation 29 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 29 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 48)> <Delay = 0.00>
+ST_1 : Operation 30 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_48, i8 0" [../src/sha256.c:103]   --->   Operation 30 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 47)> <Delay = 0.00>
+ST_1 : Operation 31 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 31 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 47)> <Delay = 0.00>
+ST_1 : Operation 32 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_47, i8 0" [../src/sha256.c:103]   --->   Operation 32 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 46)> <Delay = 0.00>
+ST_1 : Operation 33 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 33 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 46)> <Delay = 0.00>
+ST_1 : Operation 34 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_46, i8 0" [../src/sha256.c:103]   --->   Operation 34 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 45)> <Delay = 0.00>
+ST_1 : Operation 35 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 35 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 45)> <Delay = 0.00>
+ST_1 : Operation 36 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_45, i8 0" [../src/sha256.c:103]   --->   Operation 36 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 44)> <Delay = 0.00>
+ST_1 : Operation 37 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 37 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 44)> <Delay = 0.00>
+ST_1 : Operation 38 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_44, i8 0" [../src/sha256.c:103]   --->   Operation 38 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 43)> <Delay = 0.00>
+ST_1 : Operation 39 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 39 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 43)> <Delay = 0.00>
+ST_1 : Operation 40 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_43, i8 0" [../src/sha256.c:103]   --->   Operation 40 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 42)> <Delay = 0.00>
+ST_1 : Operation 41 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 41 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 42)> <Delay = 0.00>
+ST_1 : Operation 42 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_42, i8 0" [../src/sha256.c:103]   --->   Operation 42 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 41)> <Delay = 0.00>
+ST_1 : Operation 43 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 43 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 41)> <Delay = 0.00>
+ST_1 : Operation 44 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_41, i8 0" [../src/sha256.c:103]   --->   Operation 44 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 40)> <Delay = 0.00>
+ST_1 : Operation 45 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 45 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 40)> <Delay = 0.00>
+ST_1 : Operation 46 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_40, i8 0" [../src/sha256.c:103]   --->   Operation 46 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 39)> <Delay = 0.00>
+ST_1 : Operation 47 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 47 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 39)> <Delay = 0.00>
+ST_1 : Operation 48 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_39, i8 0" [../src/sha256.c:103]   --->   Operation 48 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 38)> <Delay = 0.00>
+ST_1 : Operation 49 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 49 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 38)> <Delay = 0.00>
+ST_1 : Operation 50 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_38, i8 0" [../src/sha256.c:103]   --->   Operation 50 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 37)> <Delay = 0.00>
+ST_1 : Operation 51 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 51 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 37)> <Delay = 0.00>
+ST_1 : Operation 52 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_37, i8 0" [../src/sha256.c:103]   --->   Operation 52 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 36)> <Delay = 0.00>
+ST_1 : Operation 53 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 53 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 36)> <Delay = 0.00>
+ST_1 : Operation 54 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_36, i8 0" [../src/sha256.c:103]   --->   Operation 54 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 35)> <Delay = 0.00>
+ST_1 : Operation 55 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 55 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 35)> <Delay = 0.00>
+ST_1 : Operation 56 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_35, i8 0" [../src/sha256.c:103]   --->   Operation 56 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 34)> <Delay = 0.00>
+ST_1 : Operation 57 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 57 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 34)> <Delay = 0.00>
+ST_1 : Operation 58 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_34, i8 0" [../src/sha256.c:103]   --->   Operation 58 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 33)> <Delay = 0.00>
+ST_1 : Operation 59 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 59 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 33)> <Delay = 0.00>
+ST_1 : Operation 60 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_33, i8 0" [../src/sha256.c:103]   --->   Operation 60 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 32)> <Delay = 0.00>
+ST_1 : Operation 61 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 61 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 32)> <Delay = 0.00>
+ST_1 : Operation 62 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_32, i8 0" [../src/sha256.c:103]   --->   Operation 62 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 31)> <Delay = 0.00>
+ST_1 : Operation 63 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 63 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 31)> <Delay = 0.00>
+ST_1 : Operation 64 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_31, i8 0" [../src/sha256.c:103]   --->   Operation 64 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 30)> <Delay = 0.00>
+ST_1 : Operation 65 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 65 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 30)> <Delay = 0.00>
+ST_1 : Operation 66 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_30, i8 0" [../src/sha256.c:103]   --->   Operation 66 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 29)> <Delay = 0.00>
+ST_1 : Operation 67 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 67 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 29)> <Delay = 0.00>
+ST_1 : Operation 68 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_29, i8 0" [../src/sha256.c:103]   --->   Operation 68 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 28)> <Delay = 0.00>
+ST_1 : Operation 69 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 69 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 28)> <Delay = 0.00>
+ST_1 : Operation 70 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_28, i8 0" [../src/sha256.c:103]   --->   Operation 70 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 27)> <Delay = 0.00>
+ST_1 : Operation 71 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 71 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 27)> <Delay = 0.00>
+ST_1 : Operation 72 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_27, i8 0" [../src/sha256.c:103]   --->   Operation 72 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 26)> <Delay = 0.00>
+ST_1 : Operation 73 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 73 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 26)> <Delay = 0.00>
+ST_1 : Operation 74 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_26, i8 0" [../src/sha256.c:103]   --->   Operation 74 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 25)> <Delay = 0.00>
+ST_1 : Operation 75 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 75 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 25)> <Delay = 0.00>
+ST_1 : Operation 76 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_25, i8 0" [../src/sha256.c:103]   --->   Operation 76 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 24)> <Delay = 0.00>
+ST_1 : Operation 77 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 77 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 24)> <Delay = 0.00>
+ST_1 : Operation 78 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_24, i8 0" [../src/sha256.c:103]   --->   Operation 78 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 23)> <Delay = 0.00>
+ST_1 : Operation 79 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 79 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 23)> <Delay = 0.00>
+ST_1 : Operation 80 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_23, i8 0" [../src/sha256.c:103]   --->   Operation 80 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 22)> <Delay = 0.00>
+ST_1 : Operation 81 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 81 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 22)> <Delay = 0.00>
+ST_1 : Operation 82 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_22, i8 0" [../src/sha256.c:103]   --->   Operation 82 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 21)> <Delay = 0.00>
+ST_1 : Operation 83 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 83 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 21)> <Delay = 0.00>
+ST_1 : Operation 84 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_21, i8 0" [../src/sha256.c:103]   --->   Operation 84 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 20)> <Delay = 0.00>
+ST_1 : Operation 85 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 85 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 20)> <Delay = 0.00>
+ST_1 : Operation 86 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_20, i8 0" [../src/sha256.c:103]   --->   Operation 86 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 19)> <Delay = 0.00>
+ST_1 : Operation 87 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 87 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 19)> <Delay = 0.00>
+ST_1 : Operation 88 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_19, i8 0" [../src/sha256.c:103]   --->   Operation 88 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 18)> <Delay = 0.00>
+ST_1 : Operation 89 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 89 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 18)> <Delay = 0.00>
+ST_1 : Operation 90 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_18, i8 0" [../src/sha256.c:103]   --->   Operation 90 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 17)> <Delay = 0.00>
+ST_1 : Operation 91 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 91 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 17)> <Delay = 0.00>
+ST_1 : Operation 92 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_17, i8 0" [../src/sha256.c:103]   --->   Operation 92 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 16)> <Delay = 0.00>
+ST_1 : Operation 93 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 93 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 16)> <Delay = 0.00>
+ST_1 : Operation 94 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_16, i8 0" [../src/sha256.c:103]   --->   Operation 94 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 15)> <Delay = 0.00>
+ST_1 : Operation 95 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 95 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 15)> <Delay = 0.00>
+ST_1 : Operation 96 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_15, i8 0" [../src/sha256.c:103]   --->   Operation 96 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 14)> <Delay = 0.00>
+ST_1 : Operation 97 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 97 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 14)> <Delay = 0.00>
+ST_1 : Operation 98 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_14, i8 0" [../src/sha256.c:103]   --->   Operation 98 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 13)> <Delay = 0.00>
+ST_1 : Operation 99 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 99 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 13)> <Delay = 0.00>
+ST_1 : Operation 100 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_13, i8 0" [../src/sha256.c:103]   --->   Operation 100 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 12)> <Delay = 0.00>
+ST_1 : Operation 101 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 101 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 12)> <Delay = 0.00>
+ST_1 : Operation 102 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_12, i8 0" [../src/sha256.c:103]   --->   Operation 102 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 11)> <Delay = 0.00>
+ST_1 : Operation 103 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 103 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 11)> <Delay = 0.00>
+ST_1 : Operation 104 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_11, i8 0" [../src/sha256.c:103]   --->   Operation 104 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 10)> <Delay = 0.00>
+ST_1 : Operation 105 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 105 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 10)> <Delay = 0.00>
+ST_1 : Operation 106 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_10, i8 0" [../src/sha256.c:103]   --->   Operation 106 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 9)> <Delay = 0.00>
+ST_1 : Operation 107 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 107 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 9)> <Delay = 0.00>
+ST_1 : Operation 108 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_9, i8 0" [../src/sha256.c:103]   --->   Operation 108 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 8)> <Delay = 0.00>
+ST_1 : Operation 109 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 109 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 8)> <Delay = 0.00>
+ST_1 : Operation 110 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_8, i8 0" [../src/sha256.c:103]   --->   Operation 110 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 7)> <Delay = 0.00>
+ST_1 : Operation 111 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 111 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 7)> <Delay = 0.00>
+ST_1 : Operation 112 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_7, i8 0" [../src/sha256.c:103]   --->   Operation 112 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 6)> <Delay = 0.00>
+ST_1 : Operation 113 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 113 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 6)> <Delay = 0.00>
+ST_1 : Operation 114 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_6, i8 0" [../src/sha256.c:103]   --->   Operation 114 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 5)> <Delay = 0.00>
+ST_1 : Operation 115 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 115 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 5)> <Delay = 0.00>
+ST_1 : Operation 116 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_5, i8 0" [../src/sha256.c:103]   --->   Operation 116 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 4)> <Delay = 0.00>
+ST_1 : Operation 117 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 117 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 4)> <Delay = 0.00>
+ST_1 : Operation 118 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_4, i8 0" [../src/sha256.c:103]   --->   Operation 118 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 3)> <Delay = 0.00>
+ST_1 : Operation 119 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 119 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 3)> <Delay = 0.00>
+ST_1 : Operation 120 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_3, i8 0" [../src/sha256.c:103]   --->   Operation 120 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 2)> <Delay = 0.00>
+ST_1 : Operation 121 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 121 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 2)> <Delay = 0.00>
+ST_1 : Operation 122 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_2, i8 0" [../src/sha256.c:103]   --->   Operation 122 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 1)> <Delay = 0.00>
+ST_1 : Operation 123 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 123 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 1)> <Delay = 0.00>
+ST_1 : Operation 124 [1/1] (0.00ns)   --->   "%write_ln103 = write void @_ssdm_op_Write.ap_auto.i8P0A, i8 %in_data_1, i8 0" [../src/sha256.c:103]   --->   Operation 124 'write' 'write_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 0)> <Delay = 0.00>
+ST_1 : Operation 125 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 125 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load == 0)> <Delay = 0.00>
+ST_1 : Operation 126 [1/1] (0.00ns)   --->   "%br_ln103 = br void %arrayidx4105.exit" [../src/sha256.c:103]   --->   Operation 126 'br' 'br_ln103' <Predicate = (!icmp_ln103 & indvars_iv_in_load != 0 & indvars_iv_in_load != 1 & indvars_iv_in_load != 2 & indvars_iv_in_load != 3 & indvars_iv_in_load != 4 & indvars_iv_in_load != 5 & indvars_iv_in_load != 6 & indvars_iv_in_load != 7 & indvars_iv_in_load != 8 & indvars_iv_in_load != 9 & indvars_iv_in_load != 10 & indvars_iv_in_load != 11 & indvars_iv_in_load != 12 & indvars_iv_in_load != 13 & indvars_iv_in_load != 14 & indvars_iv_in_load != 15 & indvars_iv_in_load != 16 & indvars_iv_in_load != 17 & indvars_iv_in_load != 18 & indvars_iv_in_load != 19 & indvars_iv_in_load != 20 & indvars_iv_in_load != 21 & indvars_iv_in_load != 22 & indvars_iv_in_load != 23 & indvars_iv_in_load != 24 & indvars_iv_in_load != 25 & indvars_iv_in_load != 26 & indvars_iv_in_load != 27 & indvars_iv_in_load != 28 & indvars_iv_in_load != 29 & indvars_iv_in_load != 30 & indvars_iv_in_load != 31 & indvars_iv_in_load != 32 & indvars_iv_in_load != 33 & indvars_iv_in_load != 34 & indvars_iv_in_load != 35 & indvars_iv_in_load != 36 & indvars_iv_in_load != 37 & indvars_iv_in_load != 38 & indvars_iv_in_load != 39 & indvars_iv_in_load != 40 & indvars_iv_in_load != 41 & indvars_iv_in_load != 42 & indvars_iv_in_load != 43 & indvars_iv_in_load != 44 & indvars_iv_in_load != 45 & indvars_iv_in_load != 46 & indvars_iv_in_load != 47 & indvars_iv_in_load != 48 & indvars_iv_in_load != 49 & indvars_iv_in_load != 50 & indvars_iv_in_load != 51 & indvars_iv_in_load != 52 & indvars_iv_in_load != 53 & indvars_iv_in_load != 54 & indvars_iv_in_load != 61 & indvars_iv_in_load != 56 & indvars_iv_in_load != 57 & indvars_iv_in_load != 58 & indvars_iv_in_load != 59 & indvars_iv_in_load != 60)> <Delay = 0.00>
+ST_1 : Operation 127 [1/1] (1.58ns)   --->   "%store_ln103 = store i7 %i, i7 %indvars_iv_in" [../src/sha256.c:103]   --->   Operation 127 'store' 'store_ln103' <Predicate = (!icmp_ln103)> <Delay = 1.58>
+ST_1 : Operation 128 [1/1] (0.00ns)   --->   "%br_ln103 = br void %while.body" [../src/sha256.c:103]   --->   Operation 128 'br' 'br_ln103' <Predicate = (!icmp_ln103)> <Delay = 0.00>
+ST_1 : Operation 129 [1/1] (1.58ns)   --->   "%ret_ln0 = ret"   --->   Operation 129 'ret' 'ret_ln0' <Predicate = (icmp_ln103)> <Delay = 1.58>
+
+
+============================================================
++ Verbose Summary: Timing violations
+============================================================
+Target clock period: 10.000ns, clock uncertainty: 2.700ns.
+
+ <State 1>: 5.046ns
+The critical path consists of the following:
+	'store' operation 0 bit ('store_ln0') of variable 'zext_ln102_cast' on local variable 'indvars_iv_in' [60]  (1.588 ns)
+	'load' operation 7 bit ('indvars_iv_in_load', ../src/sha256.c:103) on local variable 'indvars_iv_in' [63]  (0.000 ns)
+	'icmp' operation 1 bit ('icmp_ln103', ../src/sha256.c:103) [64]  (1.870 ns)
+	'store' operation 0 bit ('store_ln103', ../src/sha256.c:103) of variable 'i', ../src/sha256.c:103 on local variable 'indvars_iv_in' [239]  (1.588 ns)
+
+
+============================================================
++ Verbose Summary: Binding
+============================================================
+N/A
+* FSMD analyzer results:
+  - Output states:
+ - Input state : 
+  - Chain level:
+	State 1
+
+
+============================================================
++ Verbose Summary: Datapath Resource usage 
+============================================================
+N/A

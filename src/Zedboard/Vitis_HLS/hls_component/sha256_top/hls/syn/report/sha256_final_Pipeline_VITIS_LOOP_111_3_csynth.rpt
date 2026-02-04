@@ -1,0 +1,244 @@
+
+
+================================================================
+== Vitis HLS Report for 'sha256_final_Pipeline_VITIS_LOOP_111_3'
+================================================================
+* Date:           Mon Jun  9 16:12:58 2025
+
+* Version:        2024.2 (Build 5238294 on Nov  8 2024)
+* Project:        sha256_top
+* Solution:       hls (Vivado IP Flow Target)
+* Product family: zynq
+* Target device:  xc7z020-clg484-1
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing: 
+    * Summary: 
+    +--------+----------+----------+------------+
+    |  Clock |  Target  | Estimated| Uncertainty|
+    +--------+----------+----------+------------+
+    |ap_clk  |  10.00 ns|  5.001 ns|     2.70 ns|
+    +--------+----------+----------+------------+
+
++ Latency: 
+    * Summary: 
+    +---------+---------+----------+----------+-----+-----+------------------------------------------------+
+    |  Latency (cycles) |  Latency (absolute) |  Interval |                    Pipeline                    |
+    |   min   |   max   |    min   |    max   | min | max |                      Type                      |
+    +---------+---------+----------+----------+-----+-----+------------------------------------------------+
+    |       58|       58|  0.580 us|  0.580 us|   57|   57|  loop auto-rewind stp (delay=0 clock cycles(s))|
+    +---------+---------+----------+----------+-----+-----+------------------------------------------------+
+
+    + Detail: 
+        * Instance: 
+        N/A
+
+        * Loop: 
+        +--------------------+---------+---------+----------+-----------+-----------+------+----------+
+        |                    |  Latency (cycles) | Iteration|  Initiation Interval  | Trip |          |
+        |      Loop Name     |   min   |   max   |  Latency |  achieved |   target  | Count| Pipelined|
+        +--------------------+---------+---------+----------+-----------+-----------+------+----------+
+        |- VITIS_LOOP_111_3  |       56|       56|         1|          1|          1|    56|       yes|
+        +--------------------+---------+---------+----------+-----------+-----------+------+----------+
+
+
+
+================================================================
+== Utilization Estimates
+================================================================
+* Summary: 
++-----------------+---------+-----+--------+-------+-----+
+|       Name      | BRAM_18K| DSP |   FF   |  LUT  | URAM|
++-----------------+---------+-----+--------+-------+-----+
+|DSP              |        -|    -|       -|      -|    -|
+|Expression       |        -|    -|       0|     28|    -|
+|FIFO             |        -|    -|       -|      -|    -|
+|Instance         |        -|    -|       -|      -|    -|
+|Memory           |        -|    -|       -|      -|    -|
+|Multiplexer      |        -|    -|       0|     27|    -|
+|Register         |        -|    -|       8|      -|    -|
++-----------------+---------+-----+--------+-------+-----+
+|Total            |        0|    0|       8|     55|    0|
++-----------------+---------+-----+--------+-------+-----+
+|Available        |      280|  220|  106400|  53200|    0|
++-----------------+---------+-----+--------+-------+-----+
+|Utilization (%)  |        0|    0|      ~0|     ~0|    0|
++-----------------+---------+-----+--------+-------+-----+
+
++ Detail: 
+    * Instance: 
+    N/A
+
+    * DSP: 
+    N/A
+
+    * Memory: 
+    N/A
+
+    * FIFO: 
+    N/A
+
+    * Expression: 
+    +----------------------+----------+----+---+----+------------+------------+
+    |     Variable Name    | Operation| DSP| FF| LUT| Bitwidth P0| Bitwidth P1|
+    +----------------------+----------+----+---+----+------------+------------+
+    |add_ln111_fu_712_p2   |         +|   0|  0|  14|           6|           1|
+    |icmp_ln111_fu_706_p2  |      icmp|   0|  0|  14|           6|           5|
+    +----------------------+----------+----+---+----+------------+------------+
+    |Total                 |          |   0|  0|  28|          12|           6|
+    +----------------------+----------+----+---+----+------------+------------+
+
+    * Multiplexer: 
+    +----------------------+----+-----------+-----+-----------+
+    |         Name         | LUT| Input Size| Bits| Total Bits|
+    +----------------------+----+-----------+-----+-----------+
+    |ap_done_int           |   9|          2|    1|          2|
+    |ap_sig_allocacmp_j_1  |   9|          2|    6|         12|
+    |j_fu_246              |   9|          2|    6|         12|
+    +----------------------+----+-----------+-----+-----------+
+    |Total                 |  27|          6|   13|         26|
+    +----------------------+----+-----------+-----+-----------+
+
+    * Register: 
+    +-------------+---+----+-----+-----------+
+    |     Name    | FF| LUT| Bits| Const Bits|
+    +-------------+---+----+-----+-----------+
+    |ap_CS_fsm    |  1|   0|    1|          0|
+    |ap_done_reg  |  1|   0|    1|          0|
+    |j_fu_246     |  6|   0|    6|          0|
+    +-------------+---+----+-----+-----------+
+    |Total        |  8|   0|    8|          0|
+    +-------------+---+----+-----+-----------+
+
+
+
+================================================================
+== Interface
+================================================================
+* Summary: 
++-------------------+-----+-----+------------+----------------------------------------+--------------+
+|     RTL Ports     | Dir | Bits|  Protocol  |              Source Object             |    C Type    |
++-------------------+-----+-----+------------+----------------------------------------+--------------+
+|ap_clk             |   in|    1|  ap_ctrl_hs|  sha256_final_Pipeline_VITIS_LOOP_111_3|  return value|
+|ap_rst             |   in|    1|  ap_ctrl_hs|  sha256_final_Pipeline_VITIS_LOOP_111_3|  return value|
+|ap_start           |   in|    1|  ap_ctrl_hs|  sha256_final_Pipeline_VITIS_LOOP_111_3|  return value|
+|ap_done            |  out|    1|  ap_ctrl_hs|  sha256_final_Pipeline_VITIS_LOOP_111_3|  return value|
+|ap_idle            |  out|    1|  ap_ctrl_hs|  sha256_final_Pipeline_VITIS_LOOP_111_3|  return value|
+|ap_ready           |  out|    1|  ap_ctrl_hs|  sha256_final_Pipeline_VITIS_LOOP_111_3|  return value|
+|in_data_0          |  out|    8|      ap_vld|                               in_data_0|       pointer|
+|in_data_0_ap_vld   |  out|    1|      ap_vld|                               in_data_0|       pointer|
+|in_data_55         |  out|    8|      ap_vld|                              in_data_55|       pointer|
+|in_data_55_ap_vld  |  out|    1|      ap_vld|                              in_data_55|       pointer|
+|in_data_54         |  out|    8|      ap_vld|                              in_data_54|       pointer|
+|in_data_54_ap_vld  |  out|    1|      ap_vld|                              in_data_54|       pointer|
+|in_data_53         |  out|    8|      ap_vld|                              in_data_53|       pointer|
+|in_data_53_ap_vld  |  out|    1|      ap_vld|                              in_data_53|       pointer|
+|in_data_52         |  out|    8|      ap_vld|                              in_data_52|       pointer|
+|in_data_52_ap_vld  |  out|    1|      ap_vld|                              in_data_52|       pointer|
+|in_data_51         |  out|    8|      ap_vld|                              in_data_51|       pointer|
+|in_data_51_ap_vld  |  out|    1|      ap_vld|                              in_data_51|       pointer|
+|in_data_50         |  out|    8|      ap_vld|                              in_data_50|       pointer|
+|in_data_50_ap_vld  |  out|    1|      ap_vld|                              in_data_50|       pointer|
+|in_data_49         |  out|    8|      ap_vld|                              in_data_49|       pointer|
+|in_data_49_ap_vld  |  out|    1|      ap_vld|                              in_data_49|       pointer|
+|in_data_48         |  out|    8|      ap_vld|                              in_data_48|       pointer|
+|in_data_48_ap_vld  |  out|    1|      ap_vld|                              in_data_48|       pointer|
+|in_data_47         |  out|    8|      ap_vld|                              in_data_47|       pointer|
+|in_data_47_ap_vld  |  out|    1|      ap_vld|                              in_data_47|       pointer|
+|in_data_46         |  out|    8|      ap_vld|                              in_data_46|       pointer|
+|in_data_46_ap_vld  |  out|    1|      ap_vld|                              in_data_46|       pointer|
+|in_data_45         |  out|    8|      ap_vld|                              in_data_45|       pointer|
+|in_data_45_ap_vld  |  out|    1|      ap_vld|                              in_data_45|       pointer|
+|in_data_44         |  out|    8|      ap_vld|                              in_data_44|       pointer|
+|in_data_44_ap_vld  |  out|    1|      ap_vld|                              in_data_44|       pointer|
+|in_data_43         |  out|    8|      ap_vld|                              in_data_43|       pointer|
+|in_data_43_ap_vld  |  out|    1|      ap_vld|                              in_data_43|       pointer|
+|in_data_42         |  out|    8|      ap_vld|                              in_data_42|       pointer|
+|in_data_42_ap_vld  |  out|    1|      ap_vld|                              in_data_42|       pointer|
+|in_data_41         |  out|    8|      ap_vld|                              in_data_41|       pointer|
+|in_data_41_ap_vld  |  out|    1|      ap_vld|                              in_data_41|       pointer|
+|in_data_40         |  out|    8|      ap_vld|                              in_data_40|       pointer|
+|in_data_40_ap_vld  |  out|    1|      ap_vld|                              in_data_40|       pointer|
+|in_data_39         |  out|    8|      ap_vld|                              in_data_39|       pointer|
+|in_data_39_ap_vld  |  out|    1|      ap_vld|                              in_data_39|       pointer|
+|in_data_38         |  out|    8|      ap_vld|                              in_data_38|       pointer|
+|in_data_38_ap_vld  |  out|    1|      ap_vld|                              in_data_38|       pointer|
+|in_data_37         |  out|    8|      ap_vld|                              in_data_37|       pointer|
+|in_data_37_ap_vld  |  out|    1|      ap_vld|                              in_data_37|       pointer|
+|in_data_36         |  out|    8|      ap_vld|                              in_data_36|       pointer|
+|in_data_36_ap_vld  |  out|    1|      ap_vld|                              in_data_36|       pointer|
+|in_data_35         |  out|    8|      ap_vld|                              in_data_35|       pointer|
+|in_data_35_ap_vld  |  out|    1|      ap_vld|                              in_data_35|       pointer|
+|in_data_34         |  out|    8|      ap_vld|                              in_data_34|       pointer|
+|in_data_34_ap_vld  |  out|    1|      ap_vld|                              in_data_34|       pointer|
+|in_data_33         |  out|    8|      ap_vld|                              in_data_33|       pointer|
+|in_data_33_ap_vld  |  out|    1|      ap_vld|                              in_data_33|       pointer|
+|in_data_32         |  out|    8|      ap_vld|                              in_data_32|       pointer|
+|in_data_32_ap_vld  |  out|    1|      ap_vld|                              in_data_32|       pointer|
+|in_data_31         |  out|    8|      ap_vld|                              in_data_31|       pointer|
+|in_data_31_ap_vld  |  out|    1|      ap_vld|                              in_data_31|       pointer|
+|in_data_30         |  out|    8|      ap_vld|                              in_data_30|       pointer|
+|in_data_30_ap_vld  |  out|    1|      ap_vld|                              in_data_30|       pointer|
+|in_data_29         |  out|    8|      ap_vld|                              in_data_29|       pointer|
+|in_data_29_ap_vld  |  out|    1|      ap_vld|                              in_data_29|       pointer|
+|in_data_28         |  out|    8|      ap_vld|                              in_data_28|       pointer|
+|in_data_28_ap_vld  |  out|    1|      ap_vld|                              in_data_28|       pointer|
+|in_data_27         |  out|    8|      ap_vld|                              in_data_27|       pointer|
+|in_data_27_ap_vld  |  out|    1|      ap_vld|                              in_data_27|       pointer|
+|in_data_26         |  out|    8|      ap_vld|                              in_data_26|       pointer|
+|in_data_26_ap_vld  |  out|    1|      ap_vld|                              in_data_26|       pointer|
+|in_data_25         |  out|    8|      ap_vld|                              in_data_25|       pointer|
+|in_data_25_ap_vld  |  out|    1|      ap_vld|                              in_data_25|       pointer|
+|in_data_24         |  out|    8|      ap_vld|                              in_data_24|       pointer|
+|in_data_24_ap_vld  |  out|    1|      ap_vld|                              in_data_24|       pointer|
+|in_data_23         |  out|    8|      ap_vld|                              in_data_23|       pointer|
+|in_data_23_ap_vld  |  out|    1|      ap_vld|                              in_data_23|       pointer|
+|in_data_22         |  out|    8|      ap_vld|                              in_data_22|       pointer|
+|in_data_22_ap_vld  |  out|    1|      ap_vld|                              in_data_22|       pointer|
+|in_data_21         |  out|    8|      ap_vld|                              in_data_21|       pointer|
+|in_data_21_ap_vld  |  out|    1|      ap_vld|                              in_data_21|       pointer|
+|in_data_20         |  out|    8|      ap_vld|                              in_data_20|       pointer|
+|in_data_20_ap_vld  |  out|    1|      ap_vld|                              in_data_20|       pointer|
+|in_data_19         |  out|    8|      ap_vld|                              in_data_19|       pointer|
+|in_data_19_ap_vld  |  out|    1|      ap_vld|                              in_data_19|       pointer|
+|in_data_18         |  out|    8|      ap_vld|                              in_data_18|       pointer|
+|in_data_18_ap_vld  |  out|    1|      ap_vld|                              in_data_18|       pointer|
+|in_data_17         |  out|    8|      ap_vld|                              in_data_17|       pointer|
+|in_data_17_ap_vld  |  out|    1|      ap_vld|                              in_data_17|       pointer|
+|in_data_16         |  out|    8|      ap_vld|                              in_data_16|       pointer|
+|in_data_16_ap_vld  |  out|    1|      ap_vld|                              in_data_16|       pointer|
+|in_data_15         |  out|    8|      ap_vld|                              in_data_15|       pointer|
+|in_data_15_ap_vld  |  out|    1|      ap_vld|                              in_data_15|       pointer|
+|in_data_14         |  out|    8|      ap_vld|                              in_data_14|       pointer|
+|in_data_14_ap_vld  |  out|    1|      ap_vld|                              in_data_14|       pointer|
+|in_data_13         |  out|    8|      ap_vld|                              in_data_13|       pointer|
+|in_data_13_ap_vld  |  out|    1|      ap_vld|                              in_data_13|       pointer|
+|in_data_12         |  out|    8|      ap_vld|                              in_data_12|       pointer|
+|in_data_12_ap_vld  |  out|    1|      ap_vld|                              in_data_12|       pointer|
+|in_data_11         |  out|    8|      ap_vld|                              in_data_11|       pointer|
+|in_data_11_ap_vld  |  out|    1|      ap_vld|                              in_data_11|       pointer|
+|in_data_10         |  out|    8|      ap_vld|                              in_data_10|       pointer|
+|in_data_10_ap_vld  |  out|    1|      ap_vld|                              in_data_10|       pointer|
+|in_data_9          |  out|    8|      ap_vld|                               in_data_9|       pointer|
+|in_data_9_ap_vld   |  out|    1|      ap_vld|                               in_data_9|       pointer|
+|in_data_8          |  out|    8|      ap_vld|                               in_data_8|       pointer|
+|in_data_8_ap_vld   |  out|    1|      ap_vld|                               in_data_8|       pointer|
+|in_data_7          |  out|    8|      ap_vld|                               in_data_7|       pointer|
+|in_data_7_ap_vld   |  out|    1|      ap_vld|                               in_data_7|       pointer|
+|in_data_6          |  out|    8|      ap_vld|                               in_data_6|       pointer|
+|in_data_6_ap_vld   |  out|    1|      ap_vld|                               in_data_6|       pointer|
+|in_data_5          |  out|    8|      ap_vld|                               in_data_5|       pointer|
+|in_data_5_ap_vld   |  out|    1|      ap_vld|                               in_data_5|       pointer|
+|in_data_4          |  out|    8|      ap_vld|                               in_data_4|       pointer|
+|in_data_4_ap_vld   |  out|    1|      ap_vld|                               in_data_4|       pointer|
+|in_data_3          |  out|    8|      ap_vld|                               in_data_3|       pointer|
+|in_data_3_ap_vld   |  out|    1|      ap_vld|                               in_data_3|       pointer|
+|in_data_2          |  out|    8|      ap_vld|                               in_data_2|       pointer|
+|in_data_2_ap_vld   |  out|    1|      ap_vld|                               in_data_2|       pointer|
+|in_data_1          |  out|    8|      ap_vld|                               in_data_1|       pointer|
+|in_data_1_ap_vld   |  out|    1|      ap_vld|                               in_data_1|       pointer|
++-------------------+-----+-----+------------+----------------------------------------+--------------+
+
