@@ -1,0 +1,32 @@
+{
+  "folders": [
+    {
+      "name": "Double_SHA_256_in_FPGA_HLS_IP",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/RemoteSystemsTempFiles/**": true,
+      "**/Vivado.gen/**": true,
+      "**/Vivado.hw/**": true,
+      "**/Vivado.ip_user_files/**": true,
+      "**/Vivado.runs/**": true,
+      "**/Vivado.sim/**": true,
+      "**/_ide/**": true,
+      "**/Debug/**": true,
+      "**/logs/**": true
+    },
+    "search.exclude": {
+      "**/RemoteSystemsTempFiles/**": true,
+      "**/Vivado.gen/**": true,
+      "**/Vivado.hw/**": true,
+      "**/Vivado.ip_user_files/**": true,
+      "**/Vivado.runs/**": true,
+      "**/Vivado.sim/**": true,
+      "**/_ide/**": true,
+      "**/Debug/**": true,
+      "**/logs/**": true
+    }
+  }
+}
